@@ -48,3 +48,5 @@ elif (event is 'Iniciar'):
     Tablero(Tableros(nivel),nivel)
 print('cambio')
 print('otro print')
+print('cambio3')
+print('Cambioooo33232123132131')
