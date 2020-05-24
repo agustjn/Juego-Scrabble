@@ -46,6 +46,11 @@ if (event is 'Configurar'):
 elif (event is 'Iniciar'):
     nivel='Facil'
     Tablero(Tableros(nivel),nivel)
+<<<<<<< HEAD
 print('cambio')
 print('otro print')
 print('putoelquelee')
+=======
+print('NUEVAAAAA')
+>>>>>>> 07f822bb57d751b91e89803dc8b0569c2be0b2f3
+print('hola como estás')
