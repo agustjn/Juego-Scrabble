@@ -46,3 +46,4 @@ if (event is 'Configurar'):
 elif (event is 'Iniciar'):
     nivel='Facil'
     Tablero(Tableros(nivel),nivel)
+print ('Funca o no funca?')
