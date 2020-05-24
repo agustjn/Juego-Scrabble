@@ -48,6 +48,6 @@ elif (event is 'Iniciar'):
     Tablero(Tableros(nivel),nivel)
 print('DASDSAASDSDADADSAADS')
 print("dasdsadasdadfssaawqewqwqewqrwqwweqeqw")
-print("dasdsadasdadfssaawqewqwqewqrwqwweqeqw")
+print("AAAAAAAAAAAAAAAAA")
 print("dasdsadasdadfssaawqewqwqewqrwqwweqeqw")
 print("dasdsadasdadfssaawqewqwqewqrwqwweqeqw")
