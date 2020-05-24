@@ -46,7 +46,4 @@ if (event is 'Configurar'):
 elif (event is 'Iniciar'):
     nivel='Facil'
     Tablero(Tableros(nivel),nivel)
-print('cambio')
-print('otro print')
-print('cambio3')
-print('Cambioooo33232123132131')
+print('NUEVAAAAA')
