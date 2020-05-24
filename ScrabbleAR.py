@@ -47,3 +47,4 @@ elif (event is 'Iniciar'):
     nivel='Facil'
     Tablero(Tableros(nivel),nivel)
 print('DASDSAASDSDADADSAADS')
+print("dasdsadasdadfssaawqewqwqewqrwqwweqeqw")
