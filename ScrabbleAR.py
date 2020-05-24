@@ -47,3 +47,4 @@ elif (event is 'Iniciar'):
     nivel='Facil'
     Tablero(Tableros(nivel),nivel)
 print ('Funca o no funca?')
+print('Version 2:Funca o no funca?')
