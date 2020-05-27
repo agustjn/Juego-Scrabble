@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 import json
 import time
+from Tableros import TableroFacil,TableroMedio,TableroDificil,TableroPersonalizado
 
 def MenuPrincipal():
     menu = [[sg.Button("Iniciar"),sg.Button("Configurar"),sg.Button("Cargar Partida"),sg.Button("Salir")]
@@ -11,73 +12,84 @@ def MenuPrincipal():
     return event
 
 def Dificultad():
-    dificultad = [[sg.Button('Facil',size=(10,2))],[sg.Button('Medio',size=(10,2))],[sg.Button('Dificil',size=(10,2))]
+    dificultad = [[sg.Button('Facil',size=(10,2))],[sg.Button('Medio',size=(10,2))],[sg.Button('Dificil',size=(10,2))],
+                  [sg.Button('Personalizado',size=(10,2))]
     ]
     window=sg.Window("Dificultad de juego").Layout(dificultad)
     nivel,values=window.Read()
     window.Close()
     return nivel
 
-def Tableros(nivel):
-    if (nivel == 'Facil'):
-        tablero = [[sg.Button("{},{}".format(x,y),size=(5,2),key=str(x)+","+str(y),pad=(0,0)) for x in range(15)]for y in range(15)
-        ]
-        botones=[[sg.Button('Guardar Partida')],[sg.Button('Terminar')]
-        ]
-        layout = [[sg.Column(tablero),sg.Column(botones)]]
-        window=sg.Window("Tablero de juego nivel "+nivel).Layout(layout)
-    elif (nivel == 'Medio'):
-        tablero = [[sg.Button("  ",size=(5,2),key=(x,y),pad=(0,0)) for x in range(15)]for y in range(15)
-        ]
-    elif (nivel == 'Dificil'):
-        tablero = [[sg.Button("  ",size=(5,2),key=(x,y),pad=(0,0)) for x in range(15)]for y in range(15)
-        ]
-    return window
+def MenuPersonalizado():
+    niveles=['Facil','Medio','Dificil']
+    personalizado = [[sg.Text("Nivel"),sg.InputCombo(niveles, size = (10,8),key='Nivel')],
+                     [sg.Text("Tiempo"),sg.InputText(size = (10,8),key='Tiempo')],
+                     [sg.Button('Iniciar')]
 
-def Tablero(window,nivel):#tablero,nivel
-    #window=sg.Window("Tablero de juego nivel "+nivel).Layout(tablero)
-    matriz_tablero={str(x)+","+str(y):'' for x in range(15)for y in range(15)}
-    print(matriz_tablero)
+    ]
+    window=sg.Window("Juego personalizado").Layout(personalizado)
+    event,values=window.Read()
+    return event,values
+def Tablero(window,matriz_tablero,nivel):#tablero,nivel
     while True:
         event,values=window.Read()
-        print(event)
         if (event is None) | (event == 'Terminar'):
             break;
         if (event == 'Guardar Partida'):
-            archivo = open('Tablero.json','w')
-            json.dump(matriz_tablero,archivo)
-            archivo.close()
+            archivo_tablero = open('Tablero.json','w')
+            archivo_tablero_nivel=open('TableroNivel.json','w')
+            json.dump(nivel,archivo_tablero_nivel)
+            json.dump(matriz_tablero,archivo_tablero)
+            archivo_tablero.close()
+            archivo_tablero_nivel.close()
             sg.Popup('Partida Guardada en el archivo')
         if(event == '0,0'):
-            window.Element(event).Update('Z',button_color=('white','red'))
+            window.Element(event).Update('Z',button_color=('black','red'))
             z=window.Element(event).GetText() #GetText() te permite obtener el contenido del boton
-            sg.Popup(event)
-            if (matriz_tablero[event]==''):
-                matriz_tablero[event]=z
+            print(z)
+            if (matriz_tablero[event]['letra']==''):
+                matriz_tablero[event]['letra']=z
 
-    #return matriz_tablero
-def ActualizarCasillas(casillas,window):
-    for casilla,letra in casillas.items():
-        if (letra!=''):
+def ActualizarCasillas(window,matriz_tablero):
+    for casilla,contenido in matriz_tablero.items():
+        if (contenido['letra']!=''):
             window.Finalize()
-            window.Element(casilla).Update(letra)
+            window.Element(casilla).Update(contenido['letra'])
     return window
-def CargarPartida(window):
+def CargarPartida():
     archivo_tablero=open('Tablero.json','r')
-    casillas=json.load(archivo_tablero)
+    archivo_tablero_nivel=open('TableroNivel.json','r')
+    nivel=json.load(archivo_tablero_nivel)
+    if (nivel=='Facil'):
+        window,matriz_tablero,nivel=TableroFacil()
+    elif(nivel=='Medio'):
+        window,matriz_tablero,nivel=TableroMedio()
+    elif(nivel=='Dificil'):
+        window,matriz_tablero,nivel=TableroDificil()
+    matriz_tablero=json.load(archivo_tablero)
+
     archivo_tablero.close()
-    return ActualizarCasillas(casillas,window)
+    archivo_tablero_nivel.close()
+    return ActualizarCasillas(window,matriz_tablero),matriz_tablero,nivel
 
 def Jugar(opcion_menu):
     if (opcion_menu == 'Configurar'):
         nivel=Dificultad()
-        Tablero(Tableros(nivel),nivel)
+        if (nivel=='Facil'):
+            window,matriz_tablero,nivel=TableroFacil()
+        elif(nivel=='Medio'):
+            window,matriz_tablero,nivel=TableroMedio()
+        elif(nivel=='Dificil'):
+            window,matriz_tablero,nivel=TableroDificil()
+        elif(nivel=='Personalizado'):
+            event,values=MenuPersonalizado()
+            window,matriz_tablero,nivel=TableroPersonalizado(values['Nivel'])
+        Tablero(window,matriz_tablero,nivel)
     elif (opcion_menu == 'Iniciar'):
-        nivel='Facil'
-        Tablero(Tableros(nivel),nivel)
+        window,matriz_tablero,nivel=TableroFacil()
+        Tablero(window,matriz_tablero,nivel)
     elif (opcion_menu == 'Cargar Partida'):
-        #CargarPartida()
-        Tablero(CargarPartida(Tableros('Facil')),'Facil')
-        sg.Popup('En mantenimiento')
+        window,matriz_tablero,nivel=CargarPartida()
+        Tablero(window,matriz_tablero,nivel)
 
 Jugar(MenuPrincipal())
