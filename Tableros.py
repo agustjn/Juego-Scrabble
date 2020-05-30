@@ -6,7 +6,7 @@ def TableroFacil():
     botones=[[sg.Button('Guardar Partida')],[sg.Button('Terminar')]
     ]
     layout = [[sg.Column(tablero), sg.Column(botones)]]
-    window=sg.Window("Tablero de juego nivel Facil").Layout(layout)
+    window=sg.Window("Tablero de juego nivel Facil").Layout(layout).Finalize()
     matriz_tablero={str(x)+","+str(y):{'letra':'','color_casilla':''} for x in range(15)for y in range(15)}
     colores={"yellow":["1,1","7,0","13,1","0,7","7,7","14,7","1,13","7,14","13,13"],
              "green":["0,0","14,0","0,14","14,14","6,3","7,4","8,3","3,6","4,7","3,8","11,6","10,7","11,8","6,11","7,12","8,11"],
@@ -15,18 +15,15 @@ def TableroFacil():
             }
     for color, casillas in colores.items():
         for casilla in casillas:
-            window.Finalize()
             window.Element(casilla).Update(button_color=('black',color))
             matriz_tablero[casilla]['color_casilla']=color
     return window,matriz_tablero,'Facil'
 
 def TableroMedio():
-    tablero = [[sg.Button(size=(5,2),button_color=('black','grey'),key=str(x)+","+str(y),pad=(0,0)) for x in range(15)]for y in range(15)
-    ]
-    botones=[[sg.Button('Guardar Partida')],[sg.Button('Terminar')]
-    ]
+    tablero = [[sg.Button(size=(5,2),button_color=('black','grey'),key=str(x)+","+str(y),pad=(0,0)) for x in range(15)]for y in range(15)]
+    botones=[[sg.Button('Guardar Partida')],[sg.Button('Terminar')]]
     layout = [[sg.Column(tablero),sg.Column(botones)]]
-    window=sg.Window("Tablero de juego nivel Medio").Layout(layout)
+    window=sg.Window("Tablero de juego nivel Medio").Layout(layout).Finalize()
     matriz_tablero={str(x)+","+str(y):{'letra':'','color_casilla':''} for x in range(15)for y in range(15)}
     colores={"yellow":["1,1","7,0","13,1","0,7","7,7","14,7","1,13","7,14","13,13"],
              "green":["0,0","14,0","0,14","14,14","6,3","7,4","8,3","3,6","4,7","3,8","11,6","10,7","11,8","6,11","7,12","8,11"],
@@ -35,7 +32,6 @@ def TableroMedio():
             }
     for color, casillas in colores.items():
         for casilla in casillas:
-            window.Finalize()
             window.Element(casilla).Update(button_color=('black',color))
             matriz_tablero[casilla]['color_casilla']=color
     return window,matriz_tablero,"Medio"
