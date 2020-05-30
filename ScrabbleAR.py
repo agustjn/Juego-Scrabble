@@ -3,6 +3,7 @@ import json
 import time
 from Tableros import TableroFacil, TableroMedio, TableroDificil, TableroPersonalizado
 from ScoreControl import ScoreControl as sc
+from LoadGame import CargarPartida,GuardarPartida
 
 def MenuPrincipal():
     menu = [[sg.Button("Iniciar"), sg.Button("Configurar"), sg.Button("Cargar Partida"), sg.Button("Salir")]
@@ -32,46 +33,18 @@ def MenuPersonalizado():
     event, values=window.Read()
     return event, values
 
-def Tablero(window,matriz_tablero,nivel):#tablero,nivel
+def Tablero(window,matriz_tablero,nivel):
     puntos=sc(0)
     while True:
         event, values=window.Read()
         if event in (None, 'Terminar'):
             break;
         if (event == 'Guardar Partida'):
-            archivo_tablero = open('Tablero.json', 'w')
-            archivo_tablero_nivel=open('TableroNivel.json', 'w')
-            json.dump(nivel, archivo_tablero_nivel)
-            json.dump(matriz_tablero, archivo_tablero)
-            archivo_tablero.close()
-            archivo_tablero_nivel.close()
+            GuardarPartida(matriz_tablero,nivel)
             sg.Popup('Partida Guardada en el archivo')
         if event in matriz_tablero:
             puntos.multiplicar(matriz_tablero[event]['color_casilla'])
             print(puntos.get_puntos)
-
-def ActualizarCasillas(window,matriz_tablero):
-    for casilla,contenido in matriz_tablero.items():
-        if (contenido['letra']!=''):
-            window.Finalize()
-            window.Element(casilla).Update(contenido['letra'])
-    return window
-
-def CargarPartida():
-    archivo_tablero=open('Tablero.json', 'r')
-    archivo_tablero_nivel=open('TableroNivel.json', 'r')
-    nivel=json.load(archivo_tablero_nivel)
-    if (nivel=='Facil'):
-        window,matriz_tablero,nivel=TableroFacil()
-    elif(nivel=='Medio'):
-        window,matriz_tablero,nivel=TableroMedio()
-    elif(nivel=='Dificil'):
-        window,matriz_tablero,nivel=TableroDificil()
-    matriz_tablero=json.load(archivo_tablero)
-
-    archivo_tablero.close()
-    archivo_tablero_nivel.close()
-    return ActualizarCasillas(window, matriz_tablero), matriz_tablero, nivel
 
 def Jugar(opcion_menu):
     if (opcion_menu == 'Configurar'):
