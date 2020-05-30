@@ -81,7 +81,7 @@ def TableroDificil():
                     '5,9', '7,9', '9,9',
                     '1,10', '13,10',
                     '3,11', '5,11', '9,11', '11,11',
-                    '1,13', '3,13', '11,13', '13,13']}
+                    '1,13', '3,13', '11,13', '13,13' ]}
     for color, casillas in colores.items():
         for casilla in casillas:
             window.Element(casilla).Update(button_color=('black',color))
