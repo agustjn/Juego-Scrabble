@@ -69,7 +69,7 @@ def TableroPersonalizado(nivel):
     botones=[[sg.Button('Guardar Partida')],[sg.Button('Terminar')]
     ]
     layout = [[sg.Column(tablero),sg.Column(botones)]]
-    window=sg.Window("Tablero de juego nivel "+nivel).Layout(layout)
+    window=sg.Window("Tablero de juego nivel "+nivel).Layout(layout).Finalize()
     matriz_tablero={str(x)+","+str(y):{'letra':'','color_casilla':''} for x in range(15)for y in range(15)}
     if (nivel=='Facil'):
         colores=colores_Facil
@@ -79,7 +79,6 @@ def TableroPersonalizado(nivel):
         colores=colores_Dificil
     for color, casillas in colores.items():
         for casilla in casillas:
-            window.Finalize()
             window.Element(casilla).Update(button_color=('black', color))
             matriz_tablero[casilla]['color_casilla']=color
     return window, matriz_tablero, nivel
