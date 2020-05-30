@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import json
 import time
 from Tableros import TableroFacil, TableroMedio, TableroDificil, TableroPersonalizado
+from ScoreControl import ScoreControl as sc
 
 def MenuPrincipal():
     menu = [[sg.Button("Iniciar"), sg.Button("Configurar"), sg.Button("Cargar Partida"), sg.Button("Salir")]
@@ -32,6 +33,7 @@ def MenuPersonalizado():
     return event, values
 
 def Tablero(window,matriz_tablero,nivel):#tablero,nivel
+    puntos=sc(0)
     while True:
         event, values=window.Read()
         if event in (None, 'Terminar'):
@@ -44,12 +46,9 @@ def Tablero(window,matriz_tablero,nivel):#tablero,nivel
             archivo_tablero.close()
             archivo_tablero_nivel.close()
             sg.Popup('Partida Guardada en el archivo')
-        if(event == '0,0'):
-            window.Element(event).Update('Z',button_color=('black', 'red'))
-            z=window.Element(event).GetText() #GetText() te permite obtener el contenido del boton
-            print(z)
-            if (matriz_tablero[event]['letra']==''):
-                matriz_tablero[event]['letra']=z
+        if event in matriz_tablero:
+            puntos.multiplicar(matriz_tablero[event]['color_casilla'])
+            print(puntos.get_puntos)
 
 def ActualizarCasillas(window,matriz_tablero):
     for casilla,contenido in matriz_tablero.items():
