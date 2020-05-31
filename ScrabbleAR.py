@@ -5,8 +5,9 @@ from Tableros import TableroFacil, TableroMedio, TableroDificil, TableroPersonal
 from ScoreControl import ScoreControl as sc
 from LoadGame import CargarPartida,GuardarPartida
 
+
 def MenuPrincipal():
-    menu = [[sg.Button("Iniciar"), sg.Button("Configurar"), sg.Button("Cargar Partida"), sg.Button("Salir")]
+    menu = [[sg.Button("Iniciar"), sg.Button("Cargar Partida"), sg.Button("Salir")]
     ]
     window=sg.Window("Menu de juego").Layout(menu)
     event,values=window.Read()
@@ -14,7 +15,7 @@ def MenuPrincipal():
     return event
 
 def Dificultad():
-    dificultad = [[sg.Button('Facil', size=(10, 2))], [sg.Button('Medio', size=(10, 2))], [sg.Button('Dificil', size=(10, 2))],
+    dificultad = [[sg.Button('Facil', size=(10, 2))]+ [sg.Button('Medio', size=(10, 2))]+ [sg.Button('Dificil', size=(10, 2))]+
                   [sg.Button('Personalizado', size=(10, 2))]
     ]
     window=sg.Window("Dificultad de juego").Layout(dificultad)
@@ -47,7 +48,7 @@ def Tablero(window,matriz_tablero,nivel):
             print(puntos.get_puntos)
 
 def Jugar(opcion_menu):
-    if (opcion_menu == 'Configurar'):
+    if(opcion_menu == 'Iniciar'):
         nivel=Dificultad()
         if (nivel=='Facil'):
             window, matriz_tablero, nivel=TableroFacil()
@@ -58,9 +59,6 @@ def Jugar(opcion_menu):
         elif(nivel=='Personalizado'):
             event, values=MenuPersonalizado()
             window, matriz_tablero, nivel=TableroPersonalizado(values['Nivel'])
-        Tablero(window, matriz_tablero, nivel)
-    elif (opcion_menu == 'Iniciar'):
-        window, matriz_tablero, nivel=TableroFacil()
         Tablero(window, matriz_tablero, nivel)
     elif (opcion_menu == 'Cargar Partida'):
         window, matriz_tablero, nivel=CargarPartida()
