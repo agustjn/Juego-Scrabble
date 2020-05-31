@@ -12,8 +12,9 @@ class Atril():
 	def get_letras(self):
 		letras=[]
 		for i in range(7):
-			letras.append(choice(bolsa.keys()))
+			letra=choice(bolsa.keys())
+			while bolsa[letra]==0:
+				letra=choice(bolsa.keys())
+			letras.append(letra)
+			bolsa[letra]-=1
 		return letras
-
-	def disminuir(self, letra):
-		bolsa[letra]-=1 if bolsa[letra]!=0
