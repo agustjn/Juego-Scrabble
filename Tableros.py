@@ -16,11 +16,17 @@ colores_Dificil={"yellow":['5,0','11,4','6,6','0,7', '1,7', '13,7', '14,7','8,8'
                 '2,7', '7,7', '12,7','1,8', '13,8','5,9', '7,9', '9,9','1,10', '13,10','3,11', '5,11', '9,11', '11,11',
                 '1,13', '3,13', '11,13', '13,13']}
 def TableroFacil():
-    tablero = [[sg.Button(size=(5,2),button_color=('black', 'grey'),key=str(x)+","+str(y), pad=(0,0)) for x in range(15)]for y in range(15)
+    lista=[]
+    tablero = [[sg.Button(size=(3,1),button_color=('black', 'grey'),key=str(x)+","+str(y), pad=(0,0)) for x in range(15)]for y in range(15)
     ]
-    botones=[[sg.Button('Guardar Partida')],[sg.Button('Terminar')]
+    botones=[[sg.Button('Guardar Partida'),sg.Button('Terminar'),sg.Button('Top 10')]
     ]
-    layout = [[sg.Column(tablero), sg.Column(botones)]]
+    puntos_jugador=[[sg.Text('Jugador')],[sg.Listbox(lista,size=(10,3))]
+    ]
+    puntos_cpu=[[sg.Text('CPU')],[sg.Listbox(lista,size=(10,3))]
+    ]
+    layout = [[sg.Column(tablero), sg.Column(puntos_jugador),sg.Column(puntos_cpu)],[sg.Column(botones)]
+    ]
     window=sg.Window("Tablero de juego nivel Facil").Layout(layout).Finalize()
     matriz_tablero={str(x)+","+str(y):{'letra':'','color_casilla':''} for x in range(15)for y in range(15)}
     colores=colores_Facil
@@ -31,14 +37,21 @@ def TableroFacil():
     return window,matriz_tablero,'Facil'
 
 def TableroMedio():
-    tablero = [[sg.Button(size=(5,2),button_color=('black','grey'),key=str(x)+","+str(y),pad=(0,0)) for x in range(15)]for y in range(15)
+    tablero = [[sg.Button(size=(3,1),button_color=('black','grey'),key=str(x)+","+str(y),pad=(0,0)) for x in range(15)]for y in range(15)
     ]
     botones=[
                [sg.Button('Guardar Partida')],
                [sg.Button('Terminar')]
             ]
+    lista=[]
+    puntos_jugador=[[sg.Text('Jugador')],[sg.Listbox(lista,size=(10,3))]
+    ]
+    puntos_cpu=[[sg.Text('CPU')],[sg.Listbox(lista,size=(10,3))]
+    ]
+    puntos=[[sg.Column(puntos_jugador)],[sg.Column(puntos_cpu)],[sg.Column(botones)]
 
-    layout = [[sg.Column(tablero),sg.Column(botones)]]
+    ]
+    layout = [[sg.Column(tablero),sg.Column(puntos)]]
     window=sg.Window("Tablero de juego nivel Medio").Layout(layout).Finalize()
     matriz_tablero={str(x)+","+str(y):{'letra':'','color_casilla':''} for x in range(15)for y in range(15)}
     colores=colores_Medio
