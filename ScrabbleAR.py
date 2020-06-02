@@ -5,44 +5,16 @@ from Tableros import TableroFacil, TableroMedio, TableroDificil, TableroPersonal
 from ScoreControl import ScoreControl as sc
 from LoadGame import CargarPartida,GuardarPartida
 from Atril import AtrilP
-from Interfaz import InterfazAtril
+from Interfaz import InterfazAtril,MenuPrincipal,Dificultad,MenuPersonalizado
 
-def MenuPrincipal():
-    menu = [[sg.Button("Iniciar"), sg.Button("Cargar Partida"), sg.Button("Salir")]
-    ]
-    window=sg.Window("Menu de juego").Layout(menu)
-    event,values=window.Read()
-    window.Close()
-    return event
-
-def Dificultad():
-    dificultad = [[sg.Button('Facil', size=(10, 2))]+ [sg.Button('Medio', size=(10, 2))]+ [sg.Button('Dificil', size=(10, 2))]+
-                  [sg.Button('Personalizado', size=(10, 2))]
-    ]
-    window=sg.Window("Dificultad de juego").Layout(dificultad)
-    nivel,values=window.Read()
-    window.Close()
-    return nivel
-
-def MenuPersonalizado():
-    niveles=['Facil', 'Medio', 'Dificil']
-    personalizado = [[sg.Text("Nivel"),sg.InputCombo(niveles, size = (10, 8), key='Nivel')],
-                     [sg.Text("Tiempo"),sg.InputText(size = (10, 8), key='Tiempo')],
-                     [sg.Button('Iniciar')]
-
-    ]
-    window=sg.Window("Juego personalizado").Layout(personalizado)
-    event, values=window.Read()
-    return event, values
 
 def Tablero(window,matriz_tablero,nivel):
     puntos=sc(0)
     #jugador=at(0)
     #letras=jugador.get_letras()
-    bolsa_fichas={'A':9, 'B':8, 'C':5, 'D':4, 'E':7, 'F':6, 'G':5, 'H':4, 'I':3,
-			'J':4,'K':3, 'L':4, 'LL':1, 'M':2, 'N':1, 'Ñ':2, 'O':4, 'P':4,
-			'Q':4, 'R':3, 'RR':3, 'S':3, 'T':2, 'U':2, 'V':2, 'W':2, 'X':1,
-			'Y':1, 'Z':1}
+    bolsa_fichas={'A':11,'E':11,'O':8,'S':7,'I':6,'U':6,'N':5,'L':4,'R':4,'T':4,
+	              'C':4,'D':4,'G':2,'M':3,'B':2,'P':2,'F':2,'H':2,'V':2,'Y':1,
+	              'J':2,'K':1,'LL':1,'Ñ':1,'Q':1,'RR':1,'W':1,'X':1,'Z':1}
     letras_juego=[]
     for letra,cantidad in bolsa_fichas.items():
         if(letra not in letras_juego):
@@ -51,10 +23,12 @@ def Tablero(window,matriz_tablero,nivel):
     jugador=AtrilP(mano_jugador,letras_juego)
     jugador.repartirFichas()
     print(jugador._mano_jugador)
+    for i in range(7):
+        window.Element(str(i)+'J').Update(jugador._mano_jugador[i])
     #print(jugador._bolsa_fichas)
-    windowAtril=InterfazAtril(jugador._mano_jugador)
+    #windowAtril=InterfazAtril(jugador._mano_jugador)
     while True:# estructura para manejar el tablero termina al precionar terminar
-        while True: # estructura para leer las letras del atril
+        '''while True: # estructura para leer las letras del atril
             eventAtril,valuesAtril=windowAtril.Read()
             if(eventAtril=='Fin De Turno'):
                 windowAtril.Close()
@@ -62,8 +36,14 @@ def Tablero(window,matriz_tablero,nivel):
             elif (int(eventAtril)>=0) & (int(eventAtril)<=6):
                 l=windowAtril.Element(eventAtril).GetText()
                 event,values=window.Read()
-                window.Element(event).Update(l)
+                window.Element(event).Update(l)'''
         event,values=window.Read()
+        if ('J' in event) &(len(event)==2):
+            letra_turno=window.Element(event).GetText()
+            event,values=window.Read()
+            if(len(event)!=2):
+                matriz_tablero[event]['letra']=letra_turno
+                window.Element(event).Update(letra_turno)
         if event in (None, 'Terminar'):
             break;
         if (event == 'Guardar Partida'):

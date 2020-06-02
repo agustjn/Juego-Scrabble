@@ -39,20 +39,32 @@ def TableroFacil():
 def TableroMedio():
     tablero = [[sg.Button(size=(3,1),button_color=('black','grey'),key=str(x)+","+str(y),pad=(0,0)) for x in range(15)]for y in range(15)
     ]
-    botones=[
-               [sg.Button('Guardar Partida')],
-               [sg.Button('Terminar')]
-            ]
+    botones=[[sg.Button('Guardar Partida')],[sg.Button('Terminar')],[sg.Button('Top 10')]
+    ]
     lista=[]
-    puntos_jugador=[[sg.Text('Jugador')],[sg.Listbox(lista,size=(10,3))]
+    puntos_jugador=[[sg.Text('Jugador')],[sg.Listbox(lista,size=(10,3),key='Puntos_jugador')]
     ]
-    puntos_cpu=[[sg.Text('CPU')],[sg.Listbox(lista,size=(10,3))]
+    puntos_cpu=[[sg.Text('CPU')],[sg.Listbox(lista,size=(10,3),key='Puntos_cpu')]
     ]
-    puntos=[[sg.Column(puntos_jugador)],[sg.Column(puntos_cpu)],[sg.Column(botones)]
+    puntos_botones=[[sg.Column(puntos_jugador)],[sg.Column(puntos_cpu)],[sg.Column(botones)]
 
     ]
-    layout = [[sg.Column(tablero),sg.Column(puntos)]]
-    window=sg.Window("Tablero de juego nivel Medio").Layout(layout).Finalize()
+    letrasC=['','','','','','','']
+    letrasJ=['','','','','','','']
+    letras_jugador=[[sg.Button(letrasJ[x],key=str(x)+'J',size=(3,1),pad=(0,0))]for x in range(7)
+    ]
+    letras_cpu=[[sg.Button(letrasC[x],key=str(x)+'C',size=(3,1),pad=(0,0))]for x in range(7)
+    ]
+    botones_especiales=[[sg.Button('Cambiar \n Fichas')],[sg.Button('Fin De Turno')]
+
+    ]
+    atril_jugador=[[sg.Text('Atril Jugador')],[sg.Column(letras_jugador)],[sg.Column(botones_especiales)]
+    ]
+    atril_cpu=[[sg.Text('Atril CPU')],[sg.Column(letras_cpu)]
+    ]
+
+    layout = [[sg.Column(atril_jugador,key="atril_jugador"),sg.Column(atril_cpu,key="atril_cpu"),sg.Column(tablero),sg.Column(puntos_botones)]]
+    window=sg.Window("Tablero de juego nivel Medio",text_justification="center",margins=(0,0),resizable=True).Layout(layout).Finalize()
     matriz_tablero={str(x)+","+str(y):{'letra':'','color_casilla':''} for x in range(15)for y in range(15)}
     colores=colores_Medio
     for color, casillas in colores.items():

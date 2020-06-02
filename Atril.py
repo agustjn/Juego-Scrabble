@@ -14,16 +14,3 @@ class AtrilP:
 				letra=choice(self._letras_juego)
 			self._mano_jugador.append(letra)
 			AtrilP.bolsa_fichas[letra]-=1
-
-'''
-letras_juego=[]
-for letra,cantidad in bolsa.items():
-    if(letra not in letras_juego):
-        letras_juego.append(letra)
-#print(choice(letras_juego))
-lista=[]
-jugador=AtrilP(lista,bolsa,letras_juego)
-jugador.darFichas()
-print(jugador._mano_jugador)
-print(jugador._bolsa_fichas)
-print(jugador._letras_juego)'''
