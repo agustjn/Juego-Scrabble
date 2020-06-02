@@ -4,39 +4,31 @@ import time
 from Tableros import TableroFacil, TableroMedio, TableroDificil, TableroPersonalizado
 from ScoreControl import ScoreControl as sc
 from LoadGame import CargarPartida,GuardarPartida
-from Atril import AtrilP
+from ModuloAtril import Atril
 from Interfaz import InterfazAtril,MenuPrincipal,Dificultad,MenuPersonalizado
 
 
 def Tablero(window,matriz_tablero,nivel):
     puntos=sc(0)
-    #jugador=at(0)
-    #letras=jugador.get_letras()
-    bolsa_fichas={'A':11,'E':11,'O':8,'S':7,'I':6,'U':6,'N':5,'L':4,'R':4,'T':4,
-	              'C':4,'D':4,'G':2,'M':3,'B':2,'P':2,'F':2,'H':2,'V':2,'Y':1,
-	              'J':2,'K':1,'LL':1,'Ñ':1,'Q':1,'RR':1,'W':1,'X':1,'Z':1}
-    letras_juego=[]
-    for letra,cantidad in bolsa_fichas.items():
-        if(letra not in letras_juego):
-            letras_juego.append(letra)
     mano_jugador=[]
-    jugador=AtrilP(mano_jugador,letras_juego)
+    mano_cpu=[]
+    jugador=Atril(mano_jugador)
+    cpu=Atril(mano_cpu)
     jugador.repartirFichas()
-    print(jugador._mano_jugador)
+    print(jugador.getMano())
+    #jugador.devolverFichas()
+    #print(jugador.getMano())
+    #print('Fichas al jugador',AtrilP.bolsa_fichas)
+    cpu.repartirFichas()
+    #print('Fichas al cpu',AtrilP.bolsa_fichas)
+    #print(jugador.getMano())
     for i in range(7):
-        window.Element(str(i)+'J').Update(jugador._mano_jugador[i])
+        window.Element(str(i)+'J').Update(jugador.getMano()[i])
+    for i in range(7):
+        window.Element(str(i)+'C').Update(cpu.getMano()[i])
     #print(jugador._bolsa_fichas)
     #windowAtril=InterfazAtril(jugador._mano_jugador)
     while True:# estructura para manejar el tablero termina al precionar terminar
-        '''while True: # estructura para leer las letras del atril
-            eventAtril,valuesAtril=windowAtril.Read()
-            if(eventAtril=='Fin De Turno'):
-                windowAtril.Close()
-                break;
-            elif (int(eventAtril)>=0) & (int(eventAtril)<=6):
-                l=windowAtril.Element(eventAtril).GetText()
-                event,values=window.Read()
-                window.Element(event).Update(l)'''
         event,values=window.Read()
         if ('J' in event) &(len(event)==2):
             letra_turno=window.Element(event).GetText()
