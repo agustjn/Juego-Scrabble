@@ -44,3 +44,12 @@ def MenuPersonalizado():
     window = sg.Window('Juego personalizado').Layout(personalizado)
     event, values = window.Read()
     return event, values
+
+def InterfazReglas(nivel):
+    if (nivel=='Facil'):
+        texto='En este nivel se permite cualquier tipo de palabra'
+    elif(nivel=='Medio'):
+        texto='En este nivel se permiten unicamente verbos'
+    elif(nivel=='Dificil'):
+        texto='En este nivel solo se permiten'
+    sg.Popup(nivel,texto)

@@ -3,7 +3,8 @@ from Tableros import *
 
 
 def CargarPartida():
-    juego_tablero = json.load(open('Partida.json', 'r'))
+    archivo_juego=open('Partida.json','r')
+    juego_tablero=json.load(archivo_juego)
     nivel = juego_tablero['Nivel']
     if nivel == 'Facil':
         window, matriz_tablero, nivel = TableroFacil()
@@ -20,5 +21,7 @@ def CargarPartida():
 
 
 def GuardarPartida(matriz_tablero, nivel):
-    juego_tablero = {'Nivel': nivel, 'Posiciones': matriz_tablero}
-    json.dump(juego_tablero, open('Partida.json', 'w'), indent=2)
+    juego_tablero={'Nivel':nivel,'Posiciones':matriz_tablero}
+    archivo_juego=open('Partida.json','w')
+    json.dump(juego_tablero,archivo_juego,indent=2)
+    archivo_juego.close()

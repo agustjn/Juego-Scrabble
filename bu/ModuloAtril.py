@@ -2,11 +2,10 @@ from random import choice
 
 
 class Atril:
-    bolsa_fichas = {'A': 9, 'E': 9, 'O': 8, 'S': 7, 'I': 6, 'U': 6,
-                    'L': 4, 'Z': 1, 'W': 2, 'Q': 2, 'P': 2, 'X': 1,
-                    'R': 4, 'T': 4, 'C': 4, 'D': 4, 'G': 2, 'M': 3,
-                    'F': 2, 'H': 2, 'V': 2, 'Y': 1, 'J': 2, 'K': 2,
-                    'N': 5, 'B': 2, 'Ñ': 2, 'RR': 1, 'LL': 1}
+    bolsa_fichas={'A':11,'E':11,'O':8,'S':7,'I':6,'U':6,'N':5,'L':4,
+                  'R':4,'T':4,'C':4,'D':4,'G':2,'M':3,'B':2,'P':2,'F':2,
+                  'H':2,'V':2,'Y':1,'J':2,'K':1,'LL':1,'Ñ':1,'Q':1,'RR':1,
+                  'W':1,'X':1,'Z':1}
     letras_juego = ['A', 'E', 'O', 'S', 'I', 'U', 'N', 'L', 'Z',
                     'R', 'T', 'C', 'D', 'G', 'M', 'B', 'P', 'X',
                     'F', 'H', 'V', 'Y', 'J', 'K', 'Ñ', 'W', 'Q',
@@ -44,3 +43,9 @@ class Atril:
             if Atril.bolsa_fichas[letra] != 0:
                 return True
         return False
+
+def ActualizarFichas(window,jugador,cpu):
+    for i in range(7):
+        window.Element(str(i)+'J').Update(jugador.getMano()[i])
+    for i in range(7):
+        window.Element(str(i)+'C').Update(cpu.getMano()[i])
