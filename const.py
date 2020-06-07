@@ -1,0 +1,11 @@
+button_size = (13, 1)
+font_size = 24
+drop_size = (13, 1)
+input_size = (13, 1)
+padd_size = (2, 2)
+marg_size = (1, 1)
+text_size = (8, 1)
+text_atril_size = (28, 1)
+board_button_size = (3, 1)
+board_padd_size = (0, 0)
+window_location = (0, 0)
