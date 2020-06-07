@@ -1,5 +1,6 @@
 import json
 from Tableros import *
+from PySimpleGUI import Popup, PopupScrolled
 
 
 def CargarPartida():
@@ -25,3 +26,41 @@ def GuardarPartida(matriz_tablero, nivel):
     archivo_juego=open('Partida.json','w')
     json.dump(juego_tablero,archivo_juego,indent=2)
     archivo_juego.close()
+
+
+def order(elem):
+    # lambda elem: elem['puntaje']
+    return elem['puntaje']
+
+
+def Cargar_TopDiez(data):
+    try:
+        data_topdiez_json = json.load(open('topten.json'))
+        data_topdiez_json.append(data)
+        json.dump(sorted(data_topdiez_json, key=order, reverse=True),
+                  open('topten.json', 'w'), indent=4)
+    except FileNotFoundError:
+        json.dump([data], open('topten.json', 'w'), indent=4)
+    data_topdiez_txt = open('topten.txt', 'w')
+    top_diez = 0
+    for play in json.load(open('topten.json')):
+        data_topdiez_txt.write('Puntaje: {}\nFecha: {}\nNivel: {}\n\n'.format(
+                                play['puntaje'],
+                                play['fecha'],
+                                play['nivel']))
+        top_diez += 1
+        if top_diez == 10:
+            break
+
+
+def Ver_TopDiez():
+    try:
+        PopupScrolled(open('topten.txt').read(),
+                      title='ScrabbleAR',
+                      size=(24, 18),
+                      font=(24))
+    except FileNotFoundError:
+        Popup('Sin records aún',
+              title='ScrabbleAR',
+              custom_text='Aceptar',
+              font=24)

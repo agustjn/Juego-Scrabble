@@ -24,12 +24,14 @@ def Tablero(window, matriz_tablero, nivel):
     while True:
         event, values = window.Read()
         if (event == 'TERMINAR') | (event == None):
-            break;
+            Cargar_TopDiez({'puntaje': puntos.get_puntos,
+                            'fecha': time.strftime('%d/%m/%Y'),
+                            'nivel': nivel})
         elif event == 'POSPONER':
             GuardarPartida(matriz_tablero, nivel)
             sg.Popup('Partida guardada en el archivo')
         elif event == 'TOP 10':
-            sg.Popup('En Mantenimiento')
+            Ver_TopDiez()
         elif event =='REGLAS':
             InterfazReglas(nivel)
         elif(('J' in event) & (len(event) == 2)):
