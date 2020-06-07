@@ -13,6 +13,7 @@ def Tablero(window, matriz_tablero, nivel):
     puntos = sc(0)
     mano_jugador = []
     mano_cpu = []
+    cont=0
     #jugador = Atril(mano_jugador)
     lista_de_posiciones=[]
     jugador=Atril(['H','O','L','A','U','B','E'])
@@ -40,19 +41,44 @@ def Tablero(window, matriz_tablero, nivel):
                 print(len(lista_de_posiciones))
                 if(len(lista_de_posiciones)==0):
                     lista_de_posiciones.append(event)
+                    cont+=1
                     matriz_tablero[event]['letra'] = letra_turno
                     window.Element(event).Update(letra_turno)
                 else:
                     columna=int(lista_de_posiciones[-1].split(',')[0])
+                    print('columna = ',columna)
                     fila=int(lista_de_posiciones[-1].split(',')[1])
-                    if (int(event.split(',')[0])==columna+1)|(int(event.split(',')[1])==fila):
-                        matriz_tablero[event]['letra'] = letra_turno
-                        window.Element(event).Update(letra_turno)
-                        lista_de_posiciones.append(event)
+                    print('fila = ',fila)
+                    if cont==2:
+                        orientacion=verif.checkOrientation(lista_de_posiciones)
+                        cont+=1
+                    elif cont==1:
+                        if ((int(event.split(',')[0])==columna+1)&(int(event.split(',')[1])==fila))|((int(event.split(',')[0])==columna)&(int(event.split(',')[1])==fila+1)) :#|(int(event.split(',')[1])==fila+1):
+                            matriz_tablero[event]['letra'] = letra_turno
+                            window.Element(event).Update(letra_turno)
+                            lista_de_posiciones.append(event)
+                            cont+=1
+                        else:
+                            sg.Popup('Casilla Invalida')
                     else:
-                        sg.Popup('Casilla Invalida')
+                        print('entre en cont = 3')
+                        if (orientacion=='Horizontal'):
+                            print(orientacion)
+                            if(int(event.split(',')[0])==columna+1)&(int(event.split(',')[1])==fila):
+                                matriz_tablero[event]['letra'] = letra_turno
+                                window.Element(event).Update(letra_turno)
+                                lista_de_posiciones.append(event)
+                            else:
+                                sg.Popup('La casilla valida es '+str(columna+1)+','+str(fila))
+                        elif(orientacion=='Vertical'):
+                            print(orientacion)
+                            if(int(event.split(',')[0])==columna)&(int(event.split(',')[1])==fila+1):
+                                matriz_tablero[event]['letra'] = letra_turno
+                                window.Element(event).Update(letra_turno)
+                                lista_de_posiciones.append(event)
+                            else:
+                                sg.Popup('La casilla valida es '+str(columna)+','+str(fila+1))
                 print(lista_de_posiciones)
-
         if event == 'Fin De Turno':
             orientacion=verif.checkOrientation(lista_de_posiciones)
             if (verif.checkOrientation(lista_de_posiciones) == 'Vertical'):

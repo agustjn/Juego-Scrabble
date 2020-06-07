@@ -36,7 +36,7 @@ colores_Dificil = {'yellow': ['5,0', '11,4', '6,6', '0,7', '1,7', '13,7',
 
 
 def TableroFacil():
-    tablero = [[sg.Button(size=(3, 1),  button_color=('black',  'grey'),
+    tablero = [[sg.Button('{},{}'.format(x,y),size=(3, 1),  button_color=('black',  'grey'),
                 key=str(x)+','+str(y),  pad=(0, 0))
                 for x in range(15)]for y in range(15)]
     botones = [[sg.Button('POSPONER',size=(9,1))],
