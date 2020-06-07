@@ -35,18 +35,31 @@ def Tablero(window, matriz_tablero, nivel):
             letra_turno = window.Element(event).GetText()
             event, values = window.Read()
             if len(event) != 2:
-                lista_de_posiciones.append(event)
-                matriz_tablero[event]['letra'] = letra_turno
-                window.Element(event).Update(letra_turno)
+                #casilla_actual=event
+                #print(casilla_actual)
+                print(len(lista_de_posiciones))
+                if(len(lista_de_posiciones)==0):
+                    lista_de_posiciones.append(event)
+                    matriz_tablero[event]['letra'] = letra_turno
+                    window.Element(event).Update(letra_turno)
+                else:
+                    columna=int(lista_de_posiciones[-1].split(',')[0])
+                    fila=int(lista_de_posiciones[-1].split(',')[1])
+                    if (int(event.split(',')[0])==columna+1)|(int(event.split(',')[1])==fila):
+                        matriz_tablero[event]['letra'] = letra_turno
+                        window.Element(event).Update(letra_turno)
+                        lista_de_posiciones.append(event)
+                    else:
+                        sg.Popup('Casilla Invalida')
+                print(lista_de_posiciones)
+
         if event == 'Fin De Turno':
-            print('entre al evento')
             orientacion=verif.checkOrientation(lista_de_posiciones)
-            #if orientacion == 'Vertical':
             if (verif.checkOrientation(lista_de_posiciones) == 'Vertical'):
-                lista_de_posiciones.sort(key=lambda tup: int(tup[0]))  #Ordeno las posiciones por columna
+                lista_de_posiciones.sort(key=lambda tup: tup.split(',')[0])  #Ordeno las posiciones por columna
                 print('La palabra es en sentido vertical')
             else:
-                lista_de_posiciones.sort(key=lambda tup: int(tup[2]))  #Ordeno la lista por fila
+                lista_de_posiciones.sort(key=lambda tup: tup.split(',')[1])
                 print('La palabra es en sentido horizontal')
             word=verif.checkWord(lista_de_posiciones,matriz_tablero)
             print(word)

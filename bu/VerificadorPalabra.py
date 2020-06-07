@@ -4,8 +4,8 @@ import string
 def checkOrientation(list_of_positions):
         firstPosition=list_of_positions[0]
         lastPosition=list_of_positions[-1]
-        firstCol=list_of_positions[0][0]
-        lastCol=list_of_positions[-1][0]
+        firstCol=list_of_positions[0].split(',')[0]
+        lastCol=list_of_positions[-1].split(',')[0]
         if firstCol == lastCol:
             return 'Vertical'
         else:
@@ -15,16 +15,22 @@ def checkWord(list_of_positions,matriz):
          palabraAnalizada=''
          if (checkOrientation(list_of_positions) == 'Horizontal'):
              '''Recorrido de primer columna a ultima columna , la fila es constante'''  #lista=['1,4','2,4','3,4','4,4','5,4']
-             filaEnComun=int(list_of_positions[0][2])
-             firstColumn=int(list_of_positions[0][0])
-             lastColumn=int(list_of_positions[-1][0])
+             filaEnComun=int(list_of_positions[0].split(',')[1])
+             print('Fila en comun',filaEnComun)
+             firstColumn=int(list_of_positions[0].split(',')[0])
+             print('Primera Columna',firstColumn)
+             lastColumn=int(list_of_positions[-1].split(',')[0])
+             print('Ultima Columna',lastColumn)
              for i in range(firstColumn,lastColumn+1):
                  palabraAnalizada+=matriz[str(i)+','+str(filaEnComun)]['letra']
          else:
               '''Recorrido de primer fila a ultima fila, la columa es constante'''  #lista=['3,4','3,5','3,6','3,7','3,8']
-              columnaEnComun=int(list_of_positions[0][0])
-              firstRow=int(list_of_positions[0][2])
-              lastRow=int(list_of_positions[-1][2])
+              columnaEnComun=int(list_of_positions[0].split(',')[0])
+              print('Columna en comun',columnaEnComun)
+              firstRow=int(list_of_positions[0].split(',')[1])
+              print('Primera fila',firstRow)
+              lastRow=int(list_of_positions[-1].split(',')[1])
+              print('Ultima fila',lastRow)
               for i in range(firstRow,lastRow+1):
                   palabraAnalizada+=matriz[str(columnaEnComun)+','+str(i)]['letra']
          return palabraAnalizada
