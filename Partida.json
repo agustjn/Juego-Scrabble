@@ -1,9 +1,9 @@
 {
-  "Nivel": "Dificil",
+  "Nivel": "Medio",
   "Posiciones": {
     "0,0": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "0,1": {
       "letra": "",
@@ -19,7 +19,7 @@
     },
     "0,4": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "0,5": {
       "letra": "",
@@ -31,7 +31,7 @@
     },
     "0,7": {
       "letra": "",
-      "color_casilla": "yellow"
+      "color_casilla": ""
     },
     "0,8": {
       "letra": "",
@@ -43,7 +43,7 @@
     },
     "0,10": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "0,11": {
       "letra": "",
@@ -59,7 +59,7 @@
     },
     "0,14": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "1,0": {
       "letra": "",
@@ -67,7 +67,7 @@
     },
     "1,1": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "1,2": {
       "letra": "",
@@ -79,7 +79,7 @@
     },
     "1,4": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "1,5": {
       "letra": "",
@@ -87,26 +87,26 @@
     },
     "1,6": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "1,7": {
       "letra": "",
-      "color_casilla": "yellow"
+      "color_casilla": "blue"
     },
     "1,8": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "1,9": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": ""
     },
     "1,10": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "1,11": {
-      "letra": "H",
+      "letra": "",
       "color_casilla": ""
     },
     "1,12": {
@@ -115,7 +115,7 @@
     },
     "1,13": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "1,14": {
       "letra": "",
@@ -123,7 +123,7 @@
     },
     "2,0": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": ""
     },
     "2,1": {
       "letra": "",
@@ -131,7 +131,7 @@
     },
     "2,2": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "2,3": {
       "letra": "",
@@ -139,23 +139,23 @@
     },
     "2,4": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "2,5": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": ""
     },
     "2,6": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "red"
     },
     "2,7": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "2,8": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "red"
     },
     "2,9": {
       "letra": "",
@@ -163,15 +163,15 @@
     },
     "2,10": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "2,11": {
-      "letra": "O",
+      "letra": "",
       "color_casilla": ""
     },
     "2,12": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "2,13": {
       "letra": "",
@@ -179,7 +179,7 @@
     },
     "2,14": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": ""
     },
     "3,0": {
       "letra": "",
@@ -187,7 +187,7 @@
     },
     "3,1": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "3,2": {
       "letra": "",
@@ -195,11 +195,11 @@
     },
     "3,3": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "3,4": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": ""
     },
     "3,5": {
       "letra": "",
@@ -211,7 +211,7 @@
     },
     "3,7": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": "red"
     },
     "3,8": {
       "letra": "",
@@ -223,11 +223,11 @@
     },
     "3,10": {
       "letra": "",
-      "color_casilla": "yellow"
+      "color_casilla": ""
     },
     "3,11": {
-      "letra": "L",
-      "color_casilla": "red"
+      "letra": "",
+      "color_casilla": ""
     },
     "3,12": {
       "letra": "",
@@ -235,7 +235,7 @@
     },
     "3,13": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "3,14": {
       "letra": "",
@@ -243,7 +243,7 @@
     },
     "4,0": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "4,1": {
       "letra": "",
@@ -251,7 +251,7 @@
     },
     "4,2": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": "yellow"
     },
     "4,3": {
       "letra": "",
@@ -259,7 +259,7 @@
     },
     "4,4": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "4,5": {
       "letra": "",
@@ -271,7 +271,7 @@
     },
     "4,7": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": ""
     },
     "4,8": {
       "letra": "",
@@ -283,15 +283,15 @@
     },
     "4,10": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "4,11": {
-      "letra": "A",
+      "letra": "",
       "color_casilla": ""
     },
     "4,12": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": "yellow"
     },
     "4,13": {
       "letra": "",
@@ -299,11 +299,11 @@
     },
     "4,14": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "5,0": {
       "letra": "",
-      "color_casilla": "yellow"
+      "color_casilla": ""
     },
     "5,1": {
       "letra": "",
@@ -315,7 +315,7 @@
     },
     "5,3": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "5,4": {
       "letra": "",
@@ -323,7 +323,7 @@
     },
     "5,5": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "5,6": {
       "letra": "",
@@ -331,7 +331,7 @@
     },
     "5,7": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": "blue"
     },
     "5,8": {
       "letra": "",
@@ -339,15 +339,15 @@
     },
     "5,9": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "5,10": {
       "letra": "",
       "color_casilla": ""
     },
     "5,11": {
-      "letra": "B",
-      "color_casilla": "red"
+      "letra": "",
+      "color_casilla": ""
     },
     "5,12": {
       "letra": "",
@@ -359,7 +359,7 @@
     },
     "5,14": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": ""
     },
     "6,0": {
       "letra": "",
@@ -371,7 +371,7 @@
     },
     "6,2": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "red"
     },
     "6,3": {
       "letra": "",
@@ -387,15 +387,15 @@
     },
     "6,6": {
       "letra": "",
-      "color_casilla": "yellow"
+      "color_casilla": "green"
     },
     "6,7": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": ""
     },
     "6,8": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": "green"
     },
     "6,9": {
       "letra": "",
@@ -411,7 +411,7 @@
     },
     "6,12": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "red"
     },
     "6,13": {
       "letra": "",
@@ -423,19 +423,19 @@
     },
     "7,0": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": ""
     },
     "7,1": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "blue"
     },
     "7,2": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": ""
     },
     "7,3": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "red"
     },
     "7,4": {
       "letra": "",
@@ -443,7 +443,7 @@
     },
     "7,5": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": "blue"
     },
     "7,6": {
       "letra": "",
@@ -451,7 +451,7 @@
     },
     "7,7": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": "yellow"
     },
     "7,8": {
       "letra": "",
@@ -459,7 +459,7 @@
     },
     "7,9": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": "blue"
     },
     "7,10": {
       "letra": "",
@@ -467,19 +467,19 @@
     },
     "7,11": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "red"
     },
     "7,12": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": ""
     },
     "7,13": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "blue"
     },
     "7,14": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": ""
     },
     "8,0": {
       "letra": "",
@@ -491,7 +491,7 @@
     },
     "8,2": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "red"
     },
     "8,3": {
       "letra": "",
@@ -507,15 +507,15 @@
     },
     "8,6": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": "green"
     },
     "8,7": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": ""
     },
     "8,8": {
       "letra": "",
-      "color_casilla": "yellow"
+      "color_casilla": "green"
     },
     "8,9": {
       "letra": "",
@@ -531,7 +531,7 @@
     },
     "8,12": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "red"
     },
     "8,13": {
       "letra": "",
@@ -543,7 +543,7 @@
     },
     "9,0": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": ""
     },
     "9,1": {
       "letra": "",
@@ -555,7 +555,7 @@
     },
     "9,3": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "9,4": {
       "letra": "",
@@ -563,7 +563,7 @@
     },
     "9,5": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "9,6": {
       "letra": "",
@@ -571,7 +571,7 @@
     },
     "9,7": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": "blue"
     },
     "9,8": {
       "letra": "",
@@ -579,7 +579,7 @@
     },
     "9,9": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "9,10": {
       "letra": "",
@@ -587,7 +587,7 @@
     },
     "9,11": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "9,12": {
       "letra": "",
@@ -599,11 +599,11 @@
     },
     "9,14": {
       "letra": "",
-      "color_casilla": "yellow"
+      "color_casilla": ""
     },
     "10,0": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "10,1": {
       "letra": "",
@@ -611,7 +611,7 @@
     },
     "10,2": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": "yellow"
     },
     "10,3": {
       "letra": "",
@@ -619,7 +619,7 @@
     },
     "10,4": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "10,5": {
       "letra": "",
@@ -631,7 +631,7 @@
     },
     "10,7": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": ""
     },
     "10,8": {
       "letra": "",
@@ -643,7 +643,7 @@
     },
     "10,10": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "10,11": {
       "letra": "",
@@ -651,7 +651,7 @@
     },
     "10,12": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": "yellow"
     },
     "10,13": {
       "letra": "",
@@ -659,7 +659,7 @@
     },
     "10,14": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "11,0": {
       "letra": "",
@@ -667,7 +667,7 @@
     },
     "11,1": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "11,2": {
       "letra": "",
@@ -675,11 +675,11 @@
     },
     "11,3": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "11,4": {
       "letra": "",
-      "color_casilla": "yellow"
+      "color_casilla": ""
     },
     "11,5": {
       "letra": "",
@@ -691,7 +691,7 @@
     },
     "11,7": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": "red"
     },
     "11,8": {
       "letra": "",
@@ -703,11 +703,11 @@
     },
     "11,10": {
       "letra": "",
-      "color_casilla": "blue"
+      "color_casilla": ""
     },
     "11,11": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "11,12": {
       "letra": "",
@@ -715,7 +715,7 @@
     },
     "11,13": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "11,14": {
       "letra": "",
@@ -723,7 +723,7 @@
     },
     "12,0": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": ""
     },
     "12,1": {
       "letra": "",
@@ -731,7 +731,7 @@
     },
     "12,2": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "12,3": {
       "letra": "",
@@ -739,7 +739,7 @@
     },
     "12,4": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "12,5": {
       "letra": "",
@@ -747,15 +747,15 @@
     },
     "12,6": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "red"
     },
     "12,7": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "12,8": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "red"
     },
     "12,9": {
       "letra": "",
@@ -763,7 +763,7 @@
     },
     "12,10": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "12,11": {
       "letra": "",
@@ -771,7 +771,7 @@
     },
     "12,12": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "12,13": {
       "letra": "",
@@ -779,7 +779,7 @@
     },
     "12,14": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": ""
     },
     "13,0": {
       "letra": "",
@@ -787,7 +787,7 @@
     },
     "13,1": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "13,2": {
       "letra": "",
@@ -799,31 +799,31 @@
     },
     "13,4": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "13,5": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": ""
     },
     "13,6": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "13,7": {
       "letra": "",
-      "color_casilla": "yellow"
+      "color_casilla": "blue"
     },
     "13,8": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "13,9": {
       "letra": "",
-      "color_casilla": "green"
+      "color_casilla": ""
     },
     "13,10": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "13,11": {
       "letra": "",
@@ -835,7 +835,7 @@
     },
     "13,13": {
       "letra": "",
-      "color_casilla": "red"
+      "color_casilla": ""
     },
     "13,14": {
       "letra": "",
@@ -843,7 +843,7 @@
     },
     "14,0": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     },
     "14,1": {
       "letra": "",
@@ -859,7 +859,7 @@
     },
     "14,4": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "14,5": {
       "letra": "",
@@ -871,7 +871,7 @@
     },
     "14,7": {
       "letra": "",
-      "color_casilla": "yellow"
+      "color_casilla": ""
     },
     "14,8": {
       "letra": "",
@@ -883,7 +883,7 @@
     },
     "14,10": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "green"
     },
     "14,11": {
       "letra": "",
@@ -899,7 +899,7 @@
     },
     "14,14": {
       "letra": "",
-      "color_casilla": ""
+      "color_casilla": "yellow"
     }
   }
 }

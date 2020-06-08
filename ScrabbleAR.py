@@ -121,7 +121,10 @@ def Jugar(opcion):
         elif nivel == 'Personalizado':
             event, values = MenuPersonalizado()
             window, matriz_tablero, nivel = TableroPersonalizado(values['Nivel'])
-        Tablero(window, matriz_tablero, nivel)
+        elif nivel== 'Volver':
+            Jugar(MenuPrincipal())
+        if nivel!='Volver':
+            Tablero(window, matriz_tablero, nivel)
     elif opcion == 'Cargar Partida':
         window, matriz_tablero, nivel = CargarPartida()
         Tablero(window, matriz_tablero, nivel)

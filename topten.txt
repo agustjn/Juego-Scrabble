@@ -10,11 +10,31 @@ Puntaje: 0
 Fecha: 07/06/2020
 Nivel: Medio
 
-Puntaje: -3
-Fecha: 07/06/2020
+Puntaje: 0
+Fecha: 08/06/2020
+Nivel: Facil
+
+Puntaje: 0
+Fecha: 08/06/2020
+Nivel: Facil
+
+Puntaje: 0
+Fecha: 08/06/2020
+Nivel: Facil
+
+Puntaje: 0
+Fecha: 08/06/2020
+Nivel: Facil
+
+Puntaje: 0
+Fecha: 08/06/2020
+Nivel: Facil
+
+Puntaje: 0
+Fecha: 08/06/2020
 Nivel: Medio
 
-Puntaje: -6
-Fecha: 07/06/2020
-Nivel: Dificil
+Puntaje: 0
+Fecha: 08/06/2020
+Nivel: Medio
 

@@ -57,10 +57,8 @@ def Ver_TopDiez():
     try:
         PopupScrolled(open('topten.txt').read(),
                       title='ScrabbleAR',
-                      size=(24, 18),
-                      font=(24))
+                      size=(24, 18))
     except FileNotFoundError:
         Popup('Sin records aún',
               title='ScrabbleAR',
-              custom_text='Aceptar',
-              font=24)
+              custom_text='Aceptar')

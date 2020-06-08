@@ -53,18 +53,16 @@ def TableroFacil():
                                justification='center')],
                       [sg.Listbox(lista,
                                   key='Puntos_jugador',
-                                  size=button_size,
-                                  no_scrollbar=True,)]]
+                                  size=button_size)]]
     puntos_cpu = [[sg.Text('Puntaje CPU',
                            size=(13, 1),
                            justification='center')],
                   [sg.Listbox(lista,
                               key='Puntos_cpu',
-                              size=button_size,
-                              no_scrollbar=True,)]]
-    puntos_botones = [[sg.Column(puntos_jugador, justification='center')],
-                      [sg.Column(puntos_cpu, justification='center')],
-                      [sg.Column(botones, justification='center')]]
+                              size=button_size)]]
+    puntos_botones = [[sg.Column(puntos_jugador)],
+                      [sg.Column(puntos_cpu)],
+                      [sg.Column(botones)]]
     letrasC = ['',  '',  '',  '',  '',  '',  '']
     letrasJ = ['',  '',  '',  '',  '',  '',  '']
     letras_jugador = [[sg.Button(letrasJ[x],  key=str(x)+'J',  size=(3, 1),
@@ -76,17 +74,12 @@ def TableroFacil():
                            sg.Button('Fin De Turno',
                                      size=button_size)]]
     atril_jugador = [[sg.Text('Atril Jugador',
-                              size=text_atril_size,
-                              justification='center')],
-                     [sg.Column(letras_jugador,
-                                justification='center')],
-                     [sg.Column(botones_especiales,
-                                justification='center')]]
+                              size=text_atril_size)],
+                     [sg.Column(letras_jugador)],
+                     [sg.Column(botones_especiales)]]
     atril_cpu = [[sg.Text('Atril CPU',
-                          size=text_atril_size,
-                          justification='center')],
-                 [sg.Column(letras_cpu,
-                            justification='center')]]
+                          size=text_atril_size)],
+                 [sg.Column(letras_cpu)]]
     layout = [[sg.Column(tablero),
                sg.Column(puntos_botones)],
               [sg.Column(atril_jugador),
@@ -120,18 +113,16 @@ def TableroMedio():
                                justification='center')],
                       [sg.Listbox(lista,
                                   key='Puntos_jugador',
-                                  size=button_size,
-                                  no_scrollbar=True,)]]
+                                  size=button_size)]]
     puntos_cpu = [[sg.Text('Puntaje CPU',
                            size=(13, 1),
                            justification='center')],
                   [sg.Listbox(lista,
                               key='Puntos_cpu',
-                              size=button_size,
-                              no_scrollbar=True,)]]
-    puntos_botones = [[sg.Column(puntos_jugador, justification='center')],
-                      [sg.Column(puntos_cpu, justification='center')],
-                      [sg.Column(botones, justification='center')]]
+                              size=button_size)]]
+    puntos_botones = [[sg.Column(puntos_jugador)],
+                      [sg.Column(puntos_cpu)],
+                      [sg.Column(botones)]]
     letrasC = ['',  '',  '',  '',  '',  '',  '']
     letrasJ = ['',  '',  '',  '',  '',  '',  '']
     letras_jugador = [[sg.Button(letrasJ[x],  key=str(x)+'J',  size=(3, 1),
@@ -143,17 +134,12 @@ def TableroMedio():
                            sg.Button('Fin De Turno',
                                      size=button_size)]]
     atril_jugador = [[sg.Text('Atril Jugador',
-                              size=text_atril_size,
-                              justification='center')],
-                     [sg.Column(letras_jugador,
-                                justification='center')],
-                     [sg.Column(botones_especiales,
-                                justification='center')]]
+                              size=text_atril_size)],
+                     [sg.Column(letras_jugador)],
+                     [sg.Column(botones_especiales)]]
     atril_cpu = [[sg.Text('Atril CPU',
-                          size=text_atril_size,
-                          justification='center')],
-                 [sg.Column(letras_cpu,
-                            justification='center')]]
+                          size=text_atril_size)],
+                 [sg.Column(letras_cpu)]]
     layout = [[sg.Column(tablero),
                sg.Column(puntos_botones)],
               [sg.Column(atril_jugador),
@@ -187,18 +173,16 @@ def TableroDificil():
                                justification='center')],
                       [sg.Listbox(lista,
                                   key='Puntos_jugador',
-                                  size=button_size,
-                                  no_scrollbar=True,)]]
+                                  size=button_size)]]
     puntos_cpu = [[sg.Text('Puntaje CPU',
                            size=(13, 1),
                            justification='center')],
                   [sg.Listbox(lista,
                               key='Puntos_cpu',
-                              size=button_size,
-                              no_scrollbar=True,)]]
-    puntos_botones = [[sg.Column(puntos_jugador, justification='center')],
-                      [sg.Column(puntos_cpu, justification='center')],
-                      [sg.Column(botones, justification='center')]]
+                              size=button_size)]]
+    puntos_botones = [[sg.Column(puntos_jugador)],
+                      [sg.Column(puntos_cpu)],
+                      [sg.Column(botones)]]
     letrasC = ['',  '',  '',  '',  '',  '',  '']
     letrasJ = ['',  '',  '',  '',  '',  '',  '']
     letras_jugador = [[sg.Button(letrasJ[x],  key=str(x)+'J',  size=(3, 1),
@@ -210,17 +194,12 @@ def TableroDificil():
                            sg.Button('Fin De Turno',
                                      size=button_size)]]
     atril_jugador = [[sg.Text('Atril Jugador',
-                              size=text_atril_size,
-                              justification='center')],
-                     [sg.Column(letras_jugador,
-                                justification='center')],
-                     [sg.Column(botones_especiales,
-                                justification='center')]]
+                              size=text_atril_size)],
+                     [sg.Column(letras_jugador)],
+                     [sg.Column(botones_especiales)]]
     atril_cpu = [[sg.Text('Atril CPU',
-                          size=text_atril_size,
-                          justification='center')],
-                 [sg.Column(letras_cpu,
-                            justification='center')]]
+                          size=text_atril_size)],
+                 [sg.Column(letras_cpu)]]
     layout = [[sg.Column(tablero),
                sg.Column(puntos_botones)],
               [sg.Column(atril_jugador),

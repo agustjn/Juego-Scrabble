@@ -43,8 +43,7 @@ def Dificultad():
                    sg.Button('Personalizado',
                              size=button_size)]]
     window_elements = [[sg.Column(dificultad)],
-                       [sg.Column([[sg.Button('Volver', size=button_size)]],
-                                  justification='center')]]
+                       [sg.Column([[sg.Button('Volver', size=button_size)]])]]
     window = sg.Window('Dificultad de juego',
                        margins=marg_size,
                        element_padding=padd_size,
@@ -64,18 +63,15 @@ def MenuPersonalizado():
                      [sg.Text('Tiempo',
                               size=text_size),
                       sg.InputText(size=input_size,
-                                   key='Tiempo')]]
-    window_elements = [[sg.Column(personalizado,
-                                  justification='center')],
-                       [sg.Column([[sg.Button('Iniciar', size=button_size)]],
-                                  justification='center')]]
+                                   key='Tiempo')],
+                                   [sg.Button('Iniciar')]]
+    window_elements = [[sg.Column(personalizado)]]
     window = sg.Window('Juego personalizado',
                        margins=marg_size,
                        element_padding=padd_size,
                        font=font_size).Layout(window_elements)
     event, values = window.Read()
     return event, values
-
 
 def InterfazReglas(nivel):
     if (nivel == 'Facil'):
