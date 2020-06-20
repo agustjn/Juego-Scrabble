@@ -390,7 +390,7 @@
       "color_casilla": "green"
     },
     "6,7": {
-      "letra": "",
+      "letra": "H",
       "color_casilla": ""
     },
     "6,8": {
@@ -450,7 +450,7 @@
       "color_casilla": ""
     },
     "7,7": {
-      "letra": "",
+      "letra": "O",
       "color_casilla": "yellow"
     },
     "7,8": {
@@ -510,7 +510,7 @@
       "color_casilla": "green"
     },
     "8,7": {
-      "letra": "",
+      "letra": "L",
       "color_casilla": ""
     },
     "8,8": {
@@ -570,7 +570,7 @@
       "color_casilla": ""
     },
     "9,7": {
-      "letra": "",
+      "letra": "A",
       "color_casilla": "blue"
     },
     "9,8": {

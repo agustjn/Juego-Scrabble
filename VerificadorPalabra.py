@@ -1,4 +1,4 @@
-from pattern.es import verbs, tag, spelling, lexicon
+from pattern.es import verbs, tag, spelling, lexicon,parse,split
 import string
 
 def checkOrientation(list_of_positions):
@@ -42,6 +42,53 @@ def verifyWord(word):
         print('La palabra {} no existe'.format(word))
     else:
         print('La palabra {} existe!'.format(word))
+
+def Validar_Palabra_CPU(mano_cpu,nivel):
+    if nivel=='Facil':
+        todo=True
+    elif nivel=='Medio':
+        adj=True
+        vb=True
+        todo=False
+    elif nivel=='Dificil':
+        adj=True
+        vb=False
+        todo=False
+    palabra_cpu=''
+    ok=False
+    for palabra in lexicon.keys():
+        if (len(palabra)>=4)&(len(palabra)<=7)&(ord(palabra[0])>=97)&(ord(palabra[0])<=122) & (palabra in spelling.keys()):
+            if todo:
+                cont=0
+                for letra in palabra:
+                    if (palabra.count(letra) <= mano_cpu.count(letra.upper())):
+                        cont+=1
+                    if len(palabra)==cont:
+                        palabra_cpu=palabra
+                        ok=True
+                        break
+                if ok:
+                    break
+            else:
+                datos_palabra=parse(palabra).split()
+                for datos in datos_palabra:
+                    for pos in datos:
+                        if (((pos[1]=='JJ')&(adj))|((pos[1]=='VB')&(vb)))&(len(pos[0])>=4):
+                            cont=0
+                            for letra in pos[0]:
+                                if (pos[0].count(letra) <= mano_cpu.count(letra.upper())):
+                                    cont+=1
+                                if len(pos[0])==cont:
+                                    palabra_cpu=pos[0]
+                                    ok=True
+                                    break
+                            if ok:
+                                break
+                        if ok:
+                            break
+                if ok:
+                    break
+    return palabra_cpu.upper()
 
 '''def clasificar(palabra):
 	t = tag(palabra, tokenize=True, encoding='utf-8')[0][1] # si fueran varias palabras devuelve una lista de pares (palabra, tag)
