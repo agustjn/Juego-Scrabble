@@ -60,6 +60,13 @@ class Archivos():
         self.escribir_txt(top_diez_txt_format(top_diez), top_diez_txt, 'w')
         try:
             startfile(top_diez_txt)
+            # import os, sys, subprocess
+            #     def open_file(top_diez_txt):
+            #         if sys.platform == "win32":
+            #             os.startfile(top_diez_txt)
+            #         else:
+            #             opener ="open" if sys.platform == "darwin" else "xdg-open"
+            #             subprocess.call([opener, top_diez_txt])
         except FileNotFoundError:
             return False
         return True
