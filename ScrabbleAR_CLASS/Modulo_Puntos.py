@@ -4,7 +4,7 @@ from const import puntos_dificil
 from const import puntos_por_color
 
 
-class Puntos:
+class Puntaje:
     _dificultad = ''
 
     def __init__(self, puntaje_inicial):
