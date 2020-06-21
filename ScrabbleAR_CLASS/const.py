@@ -9,6 +9,25 @@ def top_diez_txt_format(data):
         nuevo_top_diez.append('Puntos: {}\nFecha: {}\nDificultad: {}\n\n'.format(top['puntaje'], top['fecha'], top['dificultad']))
     return nuevo_top_diez
 
+def detectEvent(evento):
+    x=evento[0]
+    y=evento[1]
+    if (x=='jugador') | (x=='bot') | (x==int):
+        return True
+    else:
+        return False
+
+def manipularEvento(evento):
+    x=evento[0]
+    y=evento[1]
+    if(type(x)==int): #SI CLICKIE EN LA MATRIZ
+        return 'event_in_matriz'
+    else:
+        return 'event_in_atril'
+
+
+
+
 
 # ~~~~~~~~~~~~~~~ Archivos ~~~~~~~~~~~~~~~
 # JSON ~~~~~~~~~~~~~~~

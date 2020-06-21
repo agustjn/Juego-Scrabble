@@ -251,9 +251,11 @@ class Interfaz():
 
     # Función para solo actualizar parámetros de tipo valor,
     # keys = {Clave del elemento i: Valor a actualizar del elemento i}.
-    def update(self, keys):
-        for key in keys:
-            self._window[key].Update(keys[key])
+    #def update(self,keys):
+    #    for key in keys:
+    #        update[keys[key]]
+    def actualizarBtn(self,pos,item):
+        self._window[pos].Update(item)
 
     # Para cada tipo de color, inserta la imagen respectiva
     # en cada botón. Inserta la imagen 'gris' según los
@@ -262,33 +264,47 @@ class Interfaz():
         coordenadas_no_gris = []
         for coor in colores['rojo']:
             coordenadas_no_gris.append(coor)
-            self._window[coor].Update(image_filename=boton_rojo)
+            self._window[coor].Update() #image_filename=boton_rojo
         for coor in colores['verde']:
             coordenadas_no_gris.append(coor)
-            self._window[coor].Update(image_filename=boton_verde)
+            self._window[coor].Update() #image_filename=boton_verde
         for coor in colores['azul']:
             coordenadas_no_gris.append(coor)
-            self._window[coor].Update(image_filename=boton_azul)
+            self._window[coor].Update()    #         image_filename=boton_azul
         for coor in colores['amarillo']:
             coordenadas_no_gris.append(coor)
-            self._window[coor].Update(image_filename=boton_amarillo)
+            self._window[coor].Update()   # image_filename=boton_amarillo
         for coordenadas in llaves_tablero:
             for coor in coordenadas:
                 if coor not in coordenadas_no_gris:
-                    self._window[coor].Update(image_filename=boton_gris)
+                    self._window[coor].Update()    #image_filename=boton_gris
 
     # _parametros_tablero = {'dificultad': '',
     #                        'matriz': {(x, y): 'caracter'}}
     # Carga los colores según la dificultad desde 'colorear'.
     # Traduce la matriz de llaves tipo string a tuplas de enteros.
-    def cargar_parametros(self, parametros_juego):
+    '''def cargar_parametros(self, parametros_juego):
         self.colorear(color_botones[parametros_juego['dificultad']])
         matriz_formateada = {}
         for key in parametros_juego['matriz']:
             matriz_formateada[(int(key.strip('[ ]').split(', ')[0]), int(key.strip('[ ]').split(', ')[1]))] = parametros_juego['matriz'][key]
         self.update(matriz_formateada)
         self.update({'puntos_jugador': parametros_juego['puntos_jugador'],
-                     'puntos_bot': parametros_juego['puntos_bot']})
+                     'puntos_bot': parametros_juego['puntos_bot']})'''
+
+    def cargar_parametros(self,atril,player):  #atril={'E':9,'H':3...}
+        i=0
+        for item in atril:
+            try:
+               self._window[player,i].Update(item)
+               i=i+1
+            except AttributeError:
+               self._window[player,i].Update(item)
+               i=i+1
+               print('Entre en la excepcion')
+
+
+
 
     # Devuelve los parametros actuales en formato JSON para cargarse.
     def guardar_parametros(self, dificultad):
