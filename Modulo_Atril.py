@@ -2,6 +2,8 @@ from random import choice
 
 
 class Atril:
+    ''' Esta clase se encarga de realizar todas las operaciones entre las manos
+        de los jugadores y la bolsa de fichas '''
     bolsa_fichas = {'A': 9, 'E': 9, 'O': 8, 'S': 7, 'I': 6, 'U': 6, 'N': 5,
                     'R': 4, 'T': 4, 'C': 4, 'D': 4, 'G': 2, 'M': 3, 'B': 2,
                     'H': 2, 'V': 2, 'Y': 2, 'J': 2, 'K': 1, 'Ñ': 1, 'Q': 1,
@@ -48,6 +50,6 @@ class Atril:
 
 def ActualizarFichas(window, jugador, cpu):
     for i in range(7):
-        window.Element(str(i)+'J').Update(jugador.getMano()[i])
+        window.Element(('Jugador',i)).Update(jugador.getMano()[i])
     for i in range(7):
-        window.Element(str(i)+'C').Update(cpu.getMano()[i])
+        window.Element(('Cpu',i)).Update(cpu.getMano()[i])

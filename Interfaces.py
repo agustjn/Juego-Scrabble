@@ -2,24 +2,12 @@ import PySimpleGUI as sg
 import random
 from const import *
 
-
-def InterfazAtril(letras_jugador):
-    letras = [[sg.Button(letras_jugador[x], key=str(x), size=(5, 3))]
-              for x in range(7)]
-    botones_especiales = [[sg.Button('Cambiar Fichas', size=button_size)],
-                          [sg.Button('Fin De Turno', size=button_size)]]
-    layout = [[sg.Column(letras)],
-              [sg.Column(botones_especiales)]]
-    window = sg.Window('Atril',
-                       margins=marg_size,
-                       element_padding=padd_size,
-                       font=font_size).Layout(layout)
-    return window
-
-
 def MenuPrincipal():
+    ''' Esta funcion despliega el menu principal antes de iniciar el juego el
+        cual permite escoger que se desea hacer entre iniciar una nueva partida
+        o cargar una partida ya existente (solo se permite 1)'''
     menu = [[sg.Button('Iniciar',
-                       size=(27, 2))],
+                       size=(29, 2))],
             [sg.Button('Cargar Partida',
                        size=button_size),
              sg.Button('Salir',
@@ -34,6 +22,9 @@ def MenuPrincipal():
 
 
 def Dificultad():
+    '''Esta funcion despliega la seleccion de nivel el cual desee el usuario
+       que tambien cuenta con una configuracion personalizada que permite cambiar
+       otros aspectos del juego'''
     dificultad = [[sg.Button('Facil',
                              size=button_size),
                    sg.Button('Medio',
@@ -54,6 +45,8 @@ def Dificultad():
 
 
 def MenuPersonalizado():
+    ''' Esta funcion despliega las configuraciones personalizadas permitidas
+        para el usuario '''
     niveles = ['Facil', 'Medio', 'Dificil']
     personalizado = [[sg.Text('Nivel',
                               size=text_size),
@@ -71,9 +64,13 @@ def MenuPersonalizado():
                        element_padding=padd_size,
                        font=font_size).Layout(window_elements)
     event, values = window.Read()
+    if event == None:
+        window.Close()
     return event, values
 
 def InterfazReglas(nivel):
+    ''' Esta funcion despliega una ventana que muestra en pantalla las reglas
+        segun el nivel que el usuario selecciono previamente'''
     if (nivel == 'Facil'):
         texto = 'En este nivel se permite cualquier tipo de palabra'
     elif(nivel == 'Medio'):

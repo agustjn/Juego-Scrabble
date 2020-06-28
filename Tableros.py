@@ -1,6 +1,8 @@
 from ElementosTableros import *
 from const import colores_Facil,colores_Medio,colores_Dificil
 def TableroFacil():
+    ''' Esta funcion consiste en generar el tablero de juego nivel facil con sus
+        casillas predeterminadas'''
     tablero = Tablero()
     botones = Botones()
     puntos_jugador = Puntos_jugador()
@@ -18,6 +20,8 @@ def TableroFacil():
     return window,  matriz_tablero,  'Facil'
 
 def TableroMedio():
+    ''' Esta funcion consiste en generar el tablero de juego nivel medio con sus
+        casillas predeterminadas'''
     tablero = Tablero()
     botones = Botones()
     puntos_jugador = Puntos_jugador()
@@ -35,6 +39,8 @@ def TableroMedio():
     return window,  matriz_tablero,  'Medio'
 
 def TableroDificil():
+    ''' Esta funcion consiste en generar el tablero de juego nivel dificil con sus
+        casillas predeterminadas'''
     tablero = Tablero()
     botones = Botones()
     puntos_jugador = Puntos_jugador()
@@ -53,6 +59,9 @@ def TableroDificil():
 
 
 def TableroPersonalizado(nivel):
+    ''' Esta funcion consiste en generar el tablero de juego segun que
+        configuracion especifica haya escogido el usuario retornando el tablero
+        especifico con sus casillas predeterminadas'''
     if nivel == 'Facil':
         window, matriz_tablero, nivel = TableroFacil()
     elif nivel == 'Medio':
