@@ -25,3 +25,9 @@ El nivel "Personalizado" permite al usuario configurar ciertos aspectos del jueg
 
 Al Presionar cualquiera de los niveles comienza el juego eligiendo de manera
 aleatoria quien va a ser el primer jugador en jugar.
+
+Para formar una palabra en el caso del jugador se debe de presionar una letra
+del atril del jugador y posteriormente presionar una casilla del tablero para así
+colocar la letra hasta conseguir una palabra, el atril del jugador cuenta con 2
+botones que le permiten cambiar sus fichas y finalizar el turno enviando la
+palabra a evaluar
