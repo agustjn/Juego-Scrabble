@@ -110,7 +110,7 @@
       "color_casilla": ""
     },
     "[1, 12]": {
-      "letra": "H",
+      "letra": "",
       "color_casilla": ""
     },
     "[1, 13]": {
@@ -170,7 +170,7 @@
       "color_casilla": ""
     },
     "[2, 12]": {
-      "letra": "O",
+      "letra": "H",
       "color_casilla": ""
     },
     "[2, 13]": {
@@ -230,7 +230,7 @@
       "color_casilla": "red"
     },
     "[3, 12]": {
-      "letra": "L",
+      "letra": "",
       "color_casilla": ""
     },
     "[3, 13]": {
@@ -290,7 +290,7 @@
       "color_casilla": ""
     },
     "[4, 12]": {
-      "letra": "A",
+      "letra": "",
       "color_casilla": ""
     },
     "[4, 13]": {

@@ -13,6 +13,8 @@ from Restricciones_Jugador import *
 from Logica_CPU import *
 
 def Turno():
+    ''' Esta Funcion se encarga de escoger de manera aleatoria  que jugador va
+        a empezar a jugar'''
     jugadores=['jugador','cpu']
     if (choice(jugadores)=='jugador'):
         return True,False
@@ -23,14 +25,13 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
     ''' Esta Funcion es en donde se ejecutan todas las operaciones que permiten
         la interaccion con el tablero y las manos de los jugadores entre otras
         cosas'''
-
     puntos = sc(0)
     mano_jugador = []
     mano_cpu = []
     cont = 0
-    jg=True
-    cp=False
-    #jg,cp=Turno()
+    #jg=True
+    #cp=False
+    jg,cp=Turno()
     #print('Turno jugador = ',jg,' Turno cpu = ',cp)
     # jugador = Atril(mano_jugador)
     lista_de_posiciones = []
@@ -60,18 +61,14 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
                 Ver_TopDiez()
             elif event == 'REGLAS':
                 InterfazReglas(nivel)
-            elif 'Jugador' in event: #(len(event) == 2):
+            elif 'Jugador' in event:
                 letra_turno = window.Element(event).GetText()
                 print('LETRA TURNO = ',letra_turno)
                 event, values = window.Read()
                 print('EVENTO = ',event , 'LEN = ',len(event))
                 if 'Jugador' not in event:
-                    # casilla_actual=event
-                    # print(casilla_actual)
-                    #print(len(lista_de_posiciones))
                     if(len(lista_de_posiciones) == 0):
                         lista_de_posiciones,cont,matriz_tablero=Primera_Letra(lista_de_posiciones,cont,event,letra_turno,matriz_tablero,window)
-                        #casillas_cpu.append(int(event.split()[0])+1)
                         casillas_invalidas.append(event)
                         columna = event[0]
                         fila = event[1]
@@ -103,7 +100,7 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
             if event in matriz_tablero:
                 puntos.multiplicar(matriz_tablero[event]['color_casilla'])
                 print(puntos.get_puntos)
-        else:
+        else: # turno del CPU todavia con errores
             window.Element('Turno').Update('CPU')
             mano_cpu=['C','O','R','R','E','R','o']
             casilla_cpu=choice(list(matriz_tablero.keys()))
@@ -128,33 +125,9 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
                         else:
                             print('La letra no se puede colocar')
                             casilla_cpu=choice(list(matriz_tablero.keys()))
-                    '''
-                    if Evaluar_Posiciones(window,x,y,0,palabra_cpu,matriz_tablero)=='Horizontal':
-                        Colocar_Letras(window,lista_palabra_cpu,casilla_cpu[0],casilla_cpu[1],0,palabra_cpu)
-                        es_valida=True
-                    elif Evaluar_Posiciones(window,x,y,1,palabra_cpu,matriz_tablero)=='Vertical':
-                        Colocar_Letras(window,lista_palabra_cpu,casilla_cpu[0],casilla_cpu[1],1,palabra_cpu)
-                        es_valida=True
-                    else:
-                        print('La letra no se puede colocar')
-                        casilla_cpu=choice(list(matriz_tablero.keys()))'''
-                '''if (matriz_tablero[(7,7)]['letra']==''):
-                    col=5
-                    fila=7
-                else:
-                    print('algo')
-                lista_palabra_cpu=[]
-                for letra in palabra_cpu:
-                    lista_palabra_cpu.append(letra)
-                print(lista_palabra_cpu)
-                #lista_palabra_cpu=[]
-                for i in range(len(lista_palabra_cpu)):
-                    window.Element((col,fila)).Update(lista_palabra_cpu[i])
-                    col+=1'''
             else:
                 print('No tengo palabra')
             print('Palabra valida encontrada = ',palabra_cpu)
-            #algo2=input('Este es el turno del cpu Ingrese algo para confirmar')
             jg=True
             cp=False
 
