@@ -1,44 +1,95 @@
 import PySimpleGUI as sg
-def Primera_Letra(lista_de_posiciones,cont,event,letra_turno,matriz_tablero,window):
-    lista_de_posiciones.append(event)
-    cont += 1
-    print('entre')
-    matriz_tablero[event]['letra'] = letra_turno
-    window.Element(event).Update(letra_turno)
-    return lista_de_posiciones,cont,matriz_tablero
+from VerificadorPalabra import checkOrientation
 
-def Segunda_Letra(lista_de_posiciones,cont,event,columna,fila,letra_turno,matriz_tablero,window):
-    if ((event[0] == columna+1) & (
-         event[1] == fila)) | (
-        (event[0] == columna) & (
-         event[1] == fila+1)):
-        lista_de_posiciones.append(event)
-        matriz_tablero[event]['letra'] = letra_turno
-        window.Element(event).Update(letra_turno)
-
-        cont += 1
+def Primera_Letra(listas,pos_en_tablero,letra_turno,matriz_tablero,window,key_letra,jugador):
+    if window.Element(pos_en_tablero).GetText()=='':
+        if (pos_en_tablero!=(7,7)) and (window.Element((7,7)).GetText()==''):
+            sg.Popup("Debe iniciar en la casilla central")
+        else:
+            listas['pos_en_tablero'].append(pos_en_tablero)
+            listas['letras_en_tablero'].append(letra_turno)
+            listas['pos_en_atril'].append(key_letra)
+            listas['casillas'].append(matriz_tablero[pos_en_tablero]['color_casilla'])
+            listas['puntos_por_letra'].append(jugador.bolsa_fichas[letra_turno]['puntaje'])
+            window.Element(pos_en_tablero).Update(letra_turno)
+            window.Element(key_letra).Update('')
+            jugador.actualizarCasillaAtril(key_letra[1])
+            matriz_tablero[pos_en_tablero]['letra'] = letra_turno
     else:
-        sg.Popup('Trate con la casilla de abajo o la derecha')
-    return lista_de_posiciones,cont,matriz_tablero
+        sg.Popup("Esa casilla contiene una letra")
+    return listas,matriz_tablero
 
-def Letras_Horizontal(lista_de_posiciones,event,columna,fila,letra_turno,matriz_tablero,window):
-    if(event[0] == columna+1) & (
-       event[1] == fila):
-        matriz_tablero[event]['letra'] = letra_turno
-        window.Element(event).Update(letra_turno)
-        lista_de_posiciones.append(event)
+def Segunda_Letra(listas,pos_en_tablero,letra_turno,matriz_tablero,window,key_letra,jugador):
+    orientacion=''
+    columna = listas['pos_en_tablero'][-1][0]
+    fila = listas['pos_en_tablero'][-1][1]
+    print(pos_en_tablero,'columna = ', columna,' fila = ', fila)
+    if window.Element(pos_en_tablero).GetText()=='':
+        if ((pos_en_tablero[0] == columna+1) and (pos_en_tablero[1] == fila)) or(
+           (pos_en_tablero[0] == columna) and (pos_en_tablero[1] == fila+1)):
+            listas['pos_en_tablero'].append(pos_en_tablero)
+            listas['letras_en_tablero'].append(letra_turno)
+            listas['pos_en_atril'].append(key_letra)
+            listas['casillas'].append(matriz_tablero[pos_en_tablero]['color_casilla'])
+            listas['puntos_por_letra'].append(jugador.bolsa_fichas[letra_turno]['puntaje'])
+            window.Element(pos_en_tablero).Update(letra_turno)
+            window.Element(key_letra).Update('')
+            jugador.actualizarCasillaAtril(key_letra[1])
+            matriz_tablero[pos_en_tablero]['letra'] = letra_turno
+            orientacion=checkOrientation(listas['pos_en_tablero'])
+            print('Segunda letra orientacion = '+orientacion)
+        else:
+            sg.Popup('Trate con la casilla de la derecha o la de abajo')
     else:
-        sg.Popup('La casilla valida es '+str(
-                 columna+1)+','+str(fila))
-    return lista_de_posiciones,matriz_tablero
+        sg.Popup("Esa casilla contiene una letra")
+    return listas,matriz_tablero,orientacion
 
-def Letras_Vertical(lista_de_posiciones,event,columna,fila,letra_turno,matriz_tablero,window):
-    if(event[0] == columna) & (
-       event[1] == fila+1):
-        matriz_tablero[event]['letra'] = letra_turno
-        window.Element(event).Update(letra_turno)
-        lista_de_posiciones.append(event)
+def Letras_Horizontal(listas,pos_en_tablero,letra_turno,matriz_tablero,window,key_letra,jugador):
+    columna = listas['pos_en_tablero'][-1][0]
+    fila = listas['pos_en_tablero'][-1][1]
+    print('columna = ', columna,' fila = ', fila)
+    if window.Element(pos_en_tablero).GetText()=='':
+        if(pos_en_tablero[0] == columna+1) and (pos_en_tablero[1] == fila):
+            listas['pos_en_tablero'].append(pos_en_tablero)
+            listas['letras_en_tablero'].append(letra_turno)
+            listas['pos_en_atril'].append(key_letra)
+            listas['casillas'].append(matriz_tablero[pos_en_tablero]['color_casilla'])
+            listas['puntos_por_letra'].append(jugador.bolsa_fichas[letra_turno]['puntaje'])
+            window.Element(pos_en_tablero).Update(letra_turno)
+            window.Element(key_letra).Update('')
+            jugador.actualizarCasillaAtril(key_letra[1])
+            matriz_tablero[pos_en_tablero]['letra'] = letra_turno
+        else:
+            sg.Popup('Trate con la casilla de la derecha')
     else:
-        sg.Popup('La casilla valida es '+str(
-                 columna)+','+str(fila+1))
-    return lista_de_posiciones,matriz_tablero
+        sg.Popup("Esa casilla contiene una letra")
+    return listas,matriz_tablero
+
+def Letras_Vertical(listas,pos_en_tablero,letra_turno,matriz_tablero,window,key_letra,jugador):
+    columna = listas['pos_en_tablero'][-1][0]
+    fila = listas['pos_en_tablero'][-1][1]
+    print('columna = ', columna,' fila = ', fila)
+    if window.Element(pos_en_tablero).GetText()=='':
+        if(pos_en_tablero[0] == columna) and (pos_en_tablero[1] == fila+1):
+           listas['pos_en_tablero'].append(pos_en_tablero)
+           listas['letras_en_tablero'].append(letra_turno)
+           listas['pos_en_atril'].append(key_letra)
+           listas['casillas'].append(matriz_tablero[pos_en_tablero]['color_casilla'])
+           listas['puntos_por_letra'].append(jugador.bolsa_fichas[letra_turno]['puntaje'])
+           window.Element(pos_en_tablero).Update(letra_turno)
+           window.Element(key_letra).Update('')
+           jugador.actualizarCasillaAtril(key_letra[1])
+           matriz_tablero[pos_en_tablero]['letra'] = letra_turno
+        else:
+            sg.Popup('Trate con la casilla de abajo')
+    else:
+        sg.Popup("Esa casilla contiene una letra")
+    return listas,matriz_tablero
+
+def Palabra_Invalida(listas,matriz_tablero,window):
+    for i in range(len(listas['pos_en_atril'])):
+        window.Element(listas['pos_en_atril'][i]).Update(
+        listas['letras_en_tablero'][i])
+        window.Element(listas['pos_en_tablero'][i]).Update('')
+        matriz_tablero[listas['pos_en_tablero'][i]]['letra']=''
+    return matriz_tablero

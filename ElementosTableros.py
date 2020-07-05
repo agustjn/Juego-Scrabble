@@ -28,7 +28,7 @@ def Puntos_jugador():
     puntos_jugador = [[sg.Text('Puntaje Jugador',
                                size=(13, 1),
                                justification='center')],
-                      [sg.Listbox('',key='Puntos_jugador',
+                      [sg.Text('',key='Puntos_jugador',
                                   size=button_size)]]
     return puntos_jugador
 
@@ -38,7 +38,7 @@ def Puntos_cpu():
     puntos_cpu = [[sg.Text('Puntaje CPU',
                            size=(13, 1),
                            justification='center')],
-                  [sg.Listbox('',key='Puntos_cpu',
+                  [sg.Text('',key='Puntos_cpu',
                               size=button_size)]]
     return puntos_cpu
 

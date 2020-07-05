@@ -965,6 +965,11 @@
         "nivel": "Facil"
     },
     {
+        "puntaje": -5,
+        "fecha": "05/07/2020",
+        "nivel": "Facil"
+    },
+    {
         "puntaje": -6,
         "fecha": "07/06/2020",
         "nivel": "Dificil"

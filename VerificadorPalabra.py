@@ -40,8 +40,10 @@ def checkWord(list_of_positions,matriz):
 def verifyWord(word):
     if not(word.lower() in spelling) or not(word.lower() in lexicon):
         print('La palabra {} no existe'.format(word))
+        return False
     else:
         print('La palabra {} existe!'.format(word))
+        return True
 
 def Validar_Palabra_CPU(mano_cpu,nivel):
     if nivel=='Facil':
@@ -57,7 +59,7 @@ def Validar_Palabra_CPU(mano_cpu,nivel):
     palabra_cpu=''
     ok=False
     for palabra in lexicon.keys():
-        if (len(palabra)>=4)&(len(palabra)<=7)&(ord(palabra[0])>=97)&(ord(palabra[0])<=122) & (palabra in spelling.keys()):
+        if (len(palabra)>=3)&(len(palabra)<=7)&(ord(palabra[0])>=97)&(ord(palabra[0])<=122) & (palabra in spelling.keys()):
             if todo:
                 cont=0
                 for letra in palabra:

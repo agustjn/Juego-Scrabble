@@ -7,11 +7,11 @@ from Tableros import *
 from Load_Game import *
 from Interfaces import *
 from const import *
-import VerificadorPalabra as verif
+from VerificadorPalabra import *
 from random import *
 from Restricciones_Jugador import *
 from Logica_CPU import *
-
+#NOTA CAMBIAR LOS NOMBRES DE TODOS LOS MODULOS A MINISCULA MENOS EL PRINCIPAL SCRABBLE AR
 def Turno():
     ''' Esta Funcion se encarga de escoger de manera aleatoria  que jugador va
         a empezar a jugar'''
@@ -20,6 +20,20 @@ def Turno():
         return True,False
     else:
         return False,True
+def Reiniciar_Listas(listas):# resetea las listas
+    listas['pos_en_tablero']=[]
+    listas['letras_en_tablero']=[]
+    listas['pos_en_atril']=[]
+    listas['casillas']=[]
+    listas['puntos_por_letra']=[]
+    return listas
+def Actualizar_Puntos(objeto,player,casillas,puntos_por_letra,window):#Actualizador de puntos
+    for i in range(len(casillas)):
+        objeto.sumar(casillas[i],puntos_por_letra[i])
+    if player =='jugador':
+        window.Element('Puntos_jugador').Update(objeto.get_puntos())
+    else:
+        window.Element('Puntos_cpu').Update(objeto.get_puntos())
 
 def Comenzar_Juego(window, matriz_tablero, nivel,partida):
     ''' Esta Funcion es en donde se ejecutan todas las operaciones que permiten
@@ -29,26 +43,31 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
     mano_jugador = []
     mano_cpu = []
     cont = 0
-    #jg=True
-    #cp=False
-    jg,cp=Turno()
+    jg=True
+    cp=False
+    #jg,cp=Turno()
     #print('Turno jugador = ',jg,' Turno cpu = ',cp)
-    # jugador = Atril(mano_jugador)
-    lista_de_posiciones = []
+
+    listas= {'pos_en_tablero':[],'letras_en_tablero':[],'pos_en_atril':[],
+             'casillas':[],'puntos_por_letra':[]}
     lista_de_posiciones_cpu=[]
     lista_palabra_cpu=[]
-    casillas_invalidas=[]
     casillas_cpu=[]
     #print(matriz_tablero)
-    jugador = Atril(['H', 'O', 'L', 'A', 'U', 'B', 'E'])
-    cpu = Atril(mano_cpu)
-    jugador.repartirFichas()
-    cpu.repartirFichas()
-    ActualizarFichas(window, jugador, cpu)
+    jugador = Atril(['H', 'O', 'L', 'A', 'U', 'B', 'E'],0)
+    #jugador = Atril(mano_jugador,0)
+    cpu=Atril(['C','O','R','R','E','R','O'],0)
+    #cpu = Atril(mano_cpu,0)
+    #jugador.repartirFichas()
+    #cpu.repartirFichas()
+    print('MANO JUGADOR = ',jugador.getMano())
+    print('MANO CPU = ',cpu.getMano())
+    Actualizar_Atril_Jugador(window, jugador)
+    Actualizar_Atril_Cpu(window, cpu)
     while True:
         if (jg)&(not cp):
             window.Element('Turno').Update('Jg')
-            event, values = window.Read()
+            event, values = window.Read() # primer read para los botones y el atril del jugador
             if event in (None, 'TERMINAR'):
                 Cargar_TopDiez({'puntaje': puntos.get_puntos,
                                 'fecha': time.strftime('%d/%m/%Y'),
@@ -61,75 +80,104 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
                 Ver_TopDiez()
             elif event == 'REGLAS':
                 InterfazReglas(nivel)
-            elif 'Jugador' in event:
-                letra_turno = window.Element(event).GetText()
-                print('LETRA TURNO = ',letra_turno)
-                event, values = window.Read()
-                print('EVENTO = ',event , 'LEN = ',len(event))
-                if 'Jugador' not in event:
-                    if(len(lista_de_posiciones) == 0):
-                        lista_de_posiciones,cont,matriz_tablero=Primera_Letra(lista_de_posiciones,cont,event,letra_turno,matriz_tablero,window)
-                        casillas_invalidas.append(event)
-                        columna = event[0]
-                        fila = event[1]
-                        print('columna = ', columna,' fila = ', fila)
+            elif event == 'Fin De Turno':
+                if len(listas['pos_en_tablero'])!=0:
+                    word = checkWord(listas['pos_en_tablero'], matriz_tablero)
+                    if not verifyWord(word):
+                        matriz_tablero=Palabra_Invalida(listas,matriz_tablero,
+                                                        window)
+                        sg.Popup('Palabra invalida pierdes el turno')
                     else:
-                        if cont==1:
-                            lista_de_posiciones,cont,matriz_tablero=Segunda_Letra(lista_de_posiciones,cont,event,columna,fila,letra_turno,matriz_tablero,window)
-                        elif cont == 2:
-                            columna = lista_de_posiciones[-1][0]
-                            fila = lista_de_posiciones[-1][1]
-                            print('columna = ', columna,' fila = ', fila)
-                            orientacion = verif.checkOrientation(lista_de_posiciones)
-                            print(orientacion)
-                            if (orientacion == 'Horizontal'):
-                                lista_de_posiciones,matriz_tablero=Letras_Horizontal(lista_de_posiciones,event,columna,fila,letra_turno,matriz_tablero,window)
-                            elif(orientacion == 'Vertical'):
-                                lista_de_posiciones,matriz_tablero=Letras_Vertical(lista_de_posiciones,event,columna,fila,letra_turno,matriz_tablero,window)
+                        Actualizar_Puntos(jugador,'jugador',listas['casillas'],
+                                          listas['puntos_por_letra'],window)
+                    listas=Reiniciar_Listas(listas)
 
-                    print(lista_de_posiciones)
-            if event == 'Fin De Turno':
-                word = verif.checkWord(lista_de_posiciones, matriz_tablero)
-                print(word)
-                verif.verifyWord(word)
-                lista_de_posiciones = []
-                print(lista_de_posiciones)
-                cont=0
+                    print(word)
+                    print(verifyWord(word))
+                else:
+                    sg.Popup('Finalizaste el turno del jugador sin colocar una ficha')
                 jg=False
                 cp=True
-            if event in matriz_tablero:
-                puntos.multiplicar(matriz_tablero[event]['color_casilla'])
-                print(puntos.get_puntos)
+            elif event=='Cambiar Fichas':
+                jugador.devolverFichas()
+                Actualizar_Atril_Jugador(window, jugador)
+                #print(Atril.bolsa_fichas)
+                #print(Atril.letras_bolsa)
+            elif 'Jugador' in event:
+                letra_turno = window.Element(event).GetText()
+                key_letra = event
+                print('LETRA TURNO = ',letra_turno)
+                event, values = window.Read() # segundo read para colocar la letra en la casilla del tablero
+                print('EVENTO = ',event)
+                if event not in ('Cambiar Fichas','Fin De Turno','TOP 10','POSPONER','REGLAS','TERMINAR',None):
+                    print('ENTRE!!!!!!!!!',event)
+                    if len(listas['pos_en_tablero'])==0:# primera letra en el tablero
+                        listas,matriz_tablero=Primera_Letra(listas,event,letra_turno,
+                        matriz_tablero,window,key_letra,jugador)
+                    elif len(listas['pos_en_tablero'])==1: # segunda letra en el tablero
+                        listas,matriz_tablero,orientacion=Segunda_Letra(listas,
+                        event,letra_turno,matriz_tablero,window,key_letra,jugador)
+                    else:# siguientes letras a colocar segun la orientacion
+                        if orientacion == 'Horizontal': #Letras a poner en horizontal
+                            listas,matriz_tablero=Letras_Horizontal(listas,event,
+                            letra_turno,matriz_tablero,window,key_letra,jugador)
+                        else:#Letras a poner en vertical
+                            listas,matriz_tablero=Letras_Vertical(listas,event,
+                            letra_turno,matriz_tablero,window,key_letra,jugador)
+                    print(listas['pos_en_tablero'])
+                    print(listas['pos_en_atril'])
+                    print(listas['letras_en_tablero'])
+                    print(listas['casillas'])
+                    print(listas['puntos_por_letra'])
         else: # turno del CPU todavia con errores
             window.Element('Turno').Update('CPU')
-            mano_cpu=['C','O','R','R','E','R','o']
-            casilla_cpu=choice(list(matriz_tablero.keys()))
-            es_valida=False
-            print('Casilla random ',casilla_cpu)
-            palabra_cpu=verif.Validar_Palabra_CPU(mano_cpu,nivel)
-            while not es_valida:
-                x=casilla_cpu[0]
-                y=casilla_cpu[1]
-                print('Texto boton = ',window.Element((0,0)).GetText())
-                if palabra_cpu!='':
-                    linea=Evaluar_Posiciones(window,x,y,0,palabra_cpu,matriz_tablero)
-                    print(linea)
-                    if linea == 'Horizontal':
-                        Colocar_Letras(window,lista_palabra_cpu,casilla_cpu[0],casilla_cpu[1],0,palabra_cpu)
-                        es_valida=True
-                    else:
-                        linea=Evaluar_Posiciones(window,x,y,1,palabra_cpu,matriz_tablero)
-                        if linea == 'Vertical':
-                            Colocar_Letras(window,lista_palabra_cpu,casilla_cpu[0],casilla_cpu[1],1,palabra_cpu)
-                            es_valida=True
-                        else:
-                            print('La letra no se puede colocar')
-                            casilla_cpu=choice(list(matriz_tablero.keys()))
+            palabra_cpu=Validar_Palabra_CPU(cpu.getMano(),nivel)
+            print('PALABRA CPU =',palabra_cpu)
+            if palabra_cpu=='':#esto quiere decir que la palabra es invalida
+                if cont==1: #esto quiere decir que la maquina paso un turno para cambiar fichas
+                    cpu.devolverFichas()
+                    Actualizar_Atril_Cpu(window,cpu)
+                elif cont>=3:
+                    sg.Popup('La Cpu ha perdido paso 3 veces seguidas el turno')
+                cont+=1
+                print('No tengo palabra valida')
             else:
-                print('No tengo palabra')
-            print('Palabra valida encontrada = ',palabra_cpu)
+                cont=0
+                if window.Element((7,7)).GetText()=='':
+                    casilla_cpu=(7,7)
+                else:
+                    casilla_cpu=choice(list(matriz_tablero.keys()))
+                linea=Evaluar_Posicion(window,casilla_cpu,palabra_cpu,
+                                       matriz_tablero)
+                print('Casilla random ',casilla_cpu)
+                while linea == 'No Valido':
+                    print(linea)
+                    casilla_cpu=choice(list(matriz_tablero.keys()))
+                    print(casilla_cpu)
+                    linea=Evaluar_Posicion(window,casilla_cpu,palabra_cpu,
+                                           matriz_tablero)
+                if linea == 'Horizontal':
+                    matriz_tablero=Colocar_Letras(window,lista_palabra_cpu,
+                                                 casilla_cpu,'Horizontal',
+                                                 palabra_cpu,matriz_tablero,
+                                                 cpu,listas)
+                else:
+                    matriz_tablero=Colocar_Letras(window,lista_palabra_cpu,
+                                                 casilla_cpu,'Vertical',
+                                                 palabra_cpu,matriz_tablero,
+                                                 cpu,listas)
+                print('Palabra valida encontrada = ',palabra_cpu)
+                print(listas['pos_en_tablero'])
+                print(listas['pos_en_atril'])
+                print(listas['letras_en_tablero'])
+                print(listas['casillas'])
+                print(listas['puntos_por_letra'])
+                Actualizar_Puntos(cpu,'cpu',listas['casillas'],
+                                  listas['puntos_por_letra'],window)
+            listas=Reiniciar_Listas(listas)
             jg=True
             cp=False
+
 
 def Jugar(opcion):
     ''' Esta funcion trata de la configuracion del juego en donde se presentan
