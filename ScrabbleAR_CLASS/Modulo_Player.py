@@ -7,7 +7,6 @@ class Jugador():
                         'RR': 1, 'LL': 1}
 
     def __init__(self):
-            self._letras_bolsa=self.bolsa_fichas
             self._letras_atril=self.repartirFichas()
             self._puntos=0
 
@@ -15,18 +14,18 @@ class Jugador():
         return self._letras_atril  # RETORNA LA LISTA DEL ATRIL ACTUAL
 
     def getBolsa(self):
-        return self._letras_bolsa  #RETORNA UN DICCIONARIO DE LAS LETRAS Y CANTIDAD DE LETRAS EN LA BOLSA
+        return self.bolsa_fichas  #RETORNA UN DICCIONARIO DE LAS LETRAS Y CANTIDAD DE LETRAS EN LA BOLSA
 
     '''FUNCION PARCHE DE REPARTIR FICHAS
     def randomLetter(self):
-        letter = random.choice(list(self._letras_bolsa.items()))
-        if ((self._letras_bolsa[letter][0]==0) | letter[0] in self._letras_atril.keys()):
-                while((self._letras_bolsa[letter[1]] == 0) | (letter[0] in atrilIncompleto.keys())):  #MIENTRAS LA LETRA X = 0 | SI LA LETRA YA EXISTE
-                    letter = random.choice(list(self._letras_bolsa.keys()))       # random.choice(list(d.keys()))
+        letter = random.choice(list(self.bolsa_fichas.items()))
+        if ((bolsa_fichas[letter][0]==0) | letter[0] in self._letras_atril.keys()):
+                while((self.bolsa_fichas[letter[1]] == 0) | (letter[0] in atrilIncompleto.keys())):  #MIENTRAS LA LETRA X = 0 | SI LA LETRA YA EXISTE
+                    letter = random.choice(list(self.bolsa_fichas.keys()))       # random.choice(list(d.keys()))
         return letter'''
 
     def controlLetra(self,letra):
-        if ((self._letras_bolsa[letra] == 0) | (letra in self._letras_atril)):
+        if ((self.bolsa_fichas[letra] == 0) | (letra in self._letras_atril)):
             return False
         else:
             return True
@@ -34,24 +33,24 @@ class Jugador():
 
     def repartirFichas(self):
            self._letras_atril=[]
-           letter = random.choice(list(self._letras_bolsa.items())) #letter = ('X',CANT) / #letter[1]=CANT / #letter[0]='X'
+           letter = random.choice(list(self.bolsa_fichas.items())) #letter = ('X',CANT) / #letter[1]=CANT / #letter[0]='X'
            if self.controlLetra(letter[0])==True:
                self._letras_atril.append(letter[0])
            else:
                while self.controlLetra(letter[0]) == False:
-                   letter = random.choice(list(self._letras_bolsa.items()))
+                   letter = random.choice(list(self.bolsa_fichas.items()))
                self._letras_atril.append(letter[0])
            for i in range(6):
-               letter = random.choice(list(self._letras_bolsa.items()))
+               letter = random.choice(list(self.bolsa_fichas.items()))
                if self.controlLetra(letter[0])==True:
                    self._letras_atril.append(letter[0])
                else:
                    while self.controlLetra(letter[0]) == False:
-                         letter = random.choice(list(self._letras_bolsa.items()))
+                         letter = random.choice(list(self.bolsa_fichas.items()))
                    self._letras_atril.append(letter[0])
            return self._letras_atril
 
 
 
     def descontarLetra(self,letter):
-        self._letras_bolsa[letter]-= 1
+        self.bolsa_fichas[letter]-= 1

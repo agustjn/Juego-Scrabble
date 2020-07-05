@@ -45,8 +45,8 @@ class Main():
 
     def juego(self):
         self._interfaz.set_tablero_window()
-        print(self._jugador1._letras_atril)
-        print(self._bot._letras_atril)
+        self._jugador1._letras_atril=['H','O','L','A','C','A','T']
+        #self._interfaz.update()
         #self._interfaz._window['bot',0].Update('F') UPDATE DE LA VENTANA
         self._interfaz.cargar_parametros(self._jugador1._letras_atril,'jugador')
         self._interfaz.cargar_parametros(self._bot._letras_atril,'bot')
@@ -54,22 +54,30 @@ class Main():
         #self._interfaz.definir_puntaje(self._parametros_tablero['dificultad'])
         while True:
             event, values = self._interfaz.get_window().Read()
-            print('EVENT: ',event,' - VALUES: ',values)
+            #print('EVENT: ',event,' - VALUES: ',values)
             if detectEvent(event) == True:   #HICE UN EVENTO EN LA MATRIZ O EN EL ATRIL
                 item=self._interfaz._window[event].GetText()   #devuelve '' si seleccione matriz, devuelve 'Letra' si selecciona atril
                 where=manipularEvento(event)   #devuelve si event_in_matriz o si event_in_atril
                 if(where=='event_in_atril'):
-                    print('Seleccione un evento en el atril')
                     self._jugador1.descontarLetra(item)
                     event, values = self._interfaz.get_window().Read()  #ESPERO QUE SELECCIONE MATRIZ
                     where=manipularEvento(event)
-                    print('EVENT: ',event,' - VALUES: ',values)
                 if (where=='event_in_matriz'):
-                    print('Seleccione un evento en la matriz')
                     self._matriz.actualizarMatriz(item,event)
                     self._interfaz.actualizarBtn(event,item)
+                    #self._interfaz.update({'P':[(5,9),(5,10),(5,11)]})
             if event in ('salir', None):
                 break
+            if event is 'fin_de_turno':
+                    print(self._matriz._lista_letras)
+                    ok=self._matriz.enviarPalabra()
+                    if ok==True:
+                        print('HI')
+                        #puntosDePalabra=self._matriz.devolverPuntaje()
+                        #self._jugador1._puntos+=puntosDePalabra
+                        #print(self._jugador1._puntos)
+
+
             if event is 'guardar_partida':
                 self._archivos.escribir_json(self._interfaz.guardar_parametros(self._parametros_tablero['dificultad']), juego_guardado_json, 'w')
                 self._interfaz.mensaje('PARTIDA GUARDADA')

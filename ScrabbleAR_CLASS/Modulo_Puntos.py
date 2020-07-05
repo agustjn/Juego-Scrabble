@@ -2,13 +2,14 @@ from const import puntos_facil
 from const import puntos_medio
 from const import puntos_dificil
 from const import puntos_por_color
+import random
 
 
 class Puntaje:
     _dificultad = ''
 
     def __init__(self, puntaje_inicial):
-        self._puntos = puntaje_inicial
+        self._puntos = 0
 
     def get_puntos(self):
         return (self.puntos)

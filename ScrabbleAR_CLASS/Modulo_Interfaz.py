@@ -251,9 +251,10 @@ class Interfaz():
 
     # Función para solo actualizar parámetros de tipo valor,
     # keys = {Clave del elemento i: Valor a actualizar del elemento i}.
-    #def update(self,keys):
-    #    for key in keys:
-    #        update[keys[key]]
+    def update(self,keys):
+       for key in keys:
+            self._window[keys[key][0]].Update(key)
+
     def actualizarBtn(self,pos,item):
         self._window[pos].Update(item)
 
@@ -326,3 +327,5 @@ class Interfaz():
 
     def definir_puntaje(self, dificultad):
         self.update(puntos_por_color[dificultad]['jugador'])
+
+inter = Interfaz()
