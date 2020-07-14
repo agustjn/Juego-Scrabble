@@ -1,19 +1,19 @@
 import json
-from Tableros import *
+from modulo_interfaz import TableroFacil,TableroMedio,TableroDificil
 from PySimpleGUI import Popup, PopupScrolled
 
 
 def CargarPartida():
     ''' Esta funcion se encarga de cargar una partida existente '''
     try:
-        archivo_juego = open('Partida.json', 'r')
+        archivo_juego = open('partida.json', 'r')
         juego_tablero = json.load(archivo_juego)
         nivel = juego_tablero['Nivel']
-        if nivel == 'Facil':
+        if nivel == 'FACIL':
             window, matriz_tablero, nivel = TableroFacil()
-        elif nivel == 'Medio':
+        elif nivel == 'MEDIO':
             window, matriz_tablero, nivel = TableroMedio()
-        elif nivel == 'Dificil':
+        elif nivel == 'DIFICIL':
             window, matriz_tablero, nivel = TableroDificil()
         archivo_juego.close()
         nueva_matriz={}
@@ -41,7 +41,7 @@ def GuardarPartida(matriz_tablero, nivel):
         nueva_matriz[json.dumps(key)]=matriz_tablero[key]
     juego_tablero = {'Nivel': nivel, 'Posiciones': nueva_matriz}
 
-    archivo_juego = open('Partida.json', 'w')
+    archivo_juego = open('partida.json', 'w')
     json.dump(juego_tablero, archivo_juego, indent=2)
     archivo_juego.close()
 
