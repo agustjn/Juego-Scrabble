@@ -1260,6 +1260,11 @@
         "nivel": "FACIL"
     },
     {
+        "puntaje": 0,
+        "fecha": "14/07/2020",
+        "nivel": "FACIL"
+    },
+    {
         "puntaje": -1,
         "fecha": "08/06/2020",
         "nivel": "Dificil"
