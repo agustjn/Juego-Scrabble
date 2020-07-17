@@ -1,6 +1,7 @@
 from pattern.es import verbs, tag, spelling, lexicon, parse, split
 from mod_puntos import Puntaje
 from const import const_Update
+import PySimpleGUI as sg
 
 
 class Interfaz(Puntaje):
@@ -69,3 +70,38 @@ class Interfaz(Puntaje):
 
     def set_dificultad(self):
         self._set_dificultad(self._parametros.get_dificultad())
+
+    def check_orientation(self,palabra):
+        lista_posiciones=list(palabra.keys())
+        firstPosition=lista_posiciones[0]
+        lastPosition=lista_posiciones[-1]
+        firstCol=lista_posiciones[0][0]
+        lastCol=lista_posiciones[-1][0]
+        if firstCol == lastCol:
+            return 'Vertical'
+        else:
+            return 'Horizontal'
+
+
+    def evaluar_posicion(self,window,event,palabra):
+        lista_posiciones=list(palabra.keys())
+        if not palabra:
+            '''Si el diccionario es vacio'''
+            pass
+        else:
+            orientacion=self.check_orientation(palabra)
+            '''Si la posicion (x,y) que recibí esta fuera del rango,
+               borro la letra de _palabra y actualizo el boton de la matriz '''
+            if orientacion=='Horizontal':
+
+                if event[1] != lista_posiciones[0][1]:
+                    print('EVENTO[1]', event[1])
+                    print('LIST[0][1] ' , lista_posiciones[0][1])
+                    sg.popup('Error de colocacion de letra')
+                    self._parametros.del_ficha_palabra(event)
+                    window.Element(event).Update('')
+            else:
+                if event[0] != lista_posiciones[0][0]:
+                    sg.popup('Error de colocacion de letra')
+                    self._parametros.del_ficha_palabra(event)
+                    window.Element(event).Update('')

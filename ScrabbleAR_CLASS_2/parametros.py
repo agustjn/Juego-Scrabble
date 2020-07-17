@@ -1,6 +1,6 @@
 from copy import deepcopy
 from random import choice
-from const import bolsa
+from const import bolsa,const_Update
 from json import dumps
 
 
@@ -11,14 +11,14 @@ class Parametros:
         COMO NO HAY PUNTEROS, PUEDE USARSE UNA CLASE COMO REFERENCIA.
         POR ESO HAY VARIAS REFERENCIAS SOBRE "Parametros".'''
     def __init__(self):
-        self._p_jugador = 0
-        self._p_bot = 0
-        self._a_jugador = {}
-        self._a_bot = {}
-        self._partida_g = False
-        self._fichas = 100
-        self._ficha = {'': ''}
-        self._dificultad = ''
+        self._p_jugador = 0     #PUNTOS DEL JUGADOR
+        self._p_bot = 0         #PUNTOS DEL BOT
+        self._a_jugador = {}        #ATRIL jugador
+        self._a_bot = {}            #ATRIL BOT
+        self._partida_g = False     #EXISTE PARTIDA
+        self._fichas = 100          #FICHAS DEL INICIO
+        self._ficha = {'': ''}      #FICHA ACTUAL
+        self._dificultad = ''       #DIFICULTAD DE LA PARTIDA
         self._turno = choice([True, False])
         self._tiempo_p_t = 20
         self._s = self._tiempo_p_t
@@ -203,6 +203,16 @@ class Parametros:
     def sacar_ficha_matriz(self, key):
         ''' SACA UNA FICHA DE LA MATRIZ SEGÚN LA LLAVE PASADA POR PARÁMETRO.'''
         self._matriz.pop(key)
+
+    def actualizar_atril(self,window,atril,player): #player='jugador' o 'bot'
+        ''' GENERA LETRAS NUEVAS PARA EL ATRIL EN CASO QUE LOS BOTONES
+            DE LA INTERFAZ ESTEN VACIOS'''
+        for boton in atril:
+            if player == 'jugador':
+                if window[boton].GetText() == '':
+                     letra_nueva=self.letra_random()
+                     const_Update(window,{boton:letra_nueva})
+
 
 # ESTE ES EL FORMATO PARA GUARDAR Y CARGAR PARTIDA:
 # parametros = {'jugador': {'puntos': 0, 'atril': {}},

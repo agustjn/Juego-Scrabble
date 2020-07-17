@@ -12,7 +12,7 @@ class Puntaje:
     def _calcular_palabra(self, quien, palabra):
         ''' CALCULA Y DEVUELVE EL PUNTAJE DE LA PALABRA ENTRANTE
             SEGÚN EL COLOR DEL BOTÓN Y LA PUNTUACIÓN DE LA LETRA.'''
-        if palabra == '':
+        if palabra is None:     
             return 0
         puntos, color = 0, ''
         if quien == 'jugador':
@@ -23,7 +23,7 @@ class Puntaje:
                         break
                 puntos += self._sumar_jugador(color, bolsa[palabra[key]]['puntaje'])
             return puntos
-        else:
+        elif quien == 'bot':
             for key in palabra:
                 for colores in color_botones[self._dificultad]:
                     if key in color_botones[self._dificultad][colores]:

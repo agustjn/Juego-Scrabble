@@ -15,6 +15,8 @@ class Turno:
 
     def fin_de_turno(self):
         ''' CAMBIA EL TURNO Y REINICIA EL TIEMPO.'''
+        for pos,letter in self._parametros._palabra.items():
+            self._parametros.dec_letra_bolsa(letter,1)  #Elimino las letras de la variable _bolsa_fichas
         self._parametros.set_turno(not self._parametros.get_turno())
         self._parametros.set_segundos(self._parametros.get_tiempo_por_turno())
         self._MS = 900

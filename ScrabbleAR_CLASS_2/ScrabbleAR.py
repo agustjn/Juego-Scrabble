@@ -72,10 +72,15 @@ class Main(Interfaz):
                                                self._parametros.get_dificultad())
 
     def juego(self):
+        self._parametros._a_jugador={('jugador',0):'H',('jugador',1):'O',('jugador',2):'L',('jugador',3):'A',('jugador',4):'F',('jugador',5):'G',('jugador',6):'I'}
+        const_Update(self._window,self._parametros._a_jugador)
+        '''print('ATRIL',atril_jugador)
+        print('VARIABLE',self._parametros._a_jugador)'''
+        #print(self._parametros._a_jugador)
         while True:
             event, values = self._window.Read(timeout=100)
-            self._turno.conteo(self._window)
-            const_Update(self._window, {'tiempo': self._parametros.get_segundos()})
+            #self._turno.conteo(self._window)
+            #const_Update(self._window, {'tiempo': self._parametros.get_segundos()})
             if event in ('terminar', None):
                 self.fin()
                 break
@@ -87,22 +92,26 @@ class Main(Interfaz):
             if self._parametros.get_turno():
                 # TURNO DEL USUARIO:
                 if ((event is 'fin_de_turno') or (self._parametros.get_segundos() == 0)):
-                    self._turno.fin_de_turno()
                     self.calcular_palabra(self._window, 'jugador')
+                    self._turno.fin_de_turno()
+                    print(self.check_orientation(self._parametros._palabra))
                     self._parametros.borrar_palabra()
+                    self._parametros.actualizar_atril(self._window,atril_jugador,'jugador')
                 if event in atril_jugador:
                     self._parametros.set_ficha({event: self._window.Element(event).GetText()})
                 if ((event in matriz) & (self._parametros.get_letra_ficha() != '')):
                     self.mover_ficha(self._window, event)
+                    self.evaluar_posicion(self._window,event,self._parametros._palabra)
                 if event is 'cambiar_fichas':
                     self.repartir_fichas(self._parametros.get_atril_jugador(), self._window)
-            else:
+            #else:
+            #    print('TURNO DEL BOT')
                 # TURNO DEL BOT:
                 # if self._parametros.get_segundos() == 0:
                 #     self._turno.fin_de_turno()
                 #     self.calcular_palabra(self._window, 'bot')
                 #     self._parametros.borrar_palabra()
-                self._turno.fin_de_turno()
+            #    self._turno.fin_de_turno()
 
     def run(self):
         if self.menu():
