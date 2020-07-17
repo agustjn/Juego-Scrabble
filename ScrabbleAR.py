@@ -1,16 +1,14 @@
 import json
 import time
 import PySimpleGUI as sg
-from ScoreControl import ScoreControl as sc
-from Modulo_Atril import *
-from Tableros import *
-from Load_Game import *
-from Interfaces import *
 from const import *
-from VerificadorPalabra import *
 from random import *
-from Restricciones_Jugador import *
-from Logica_CPU import *
+from modulo_interfaz import MenuPrincipal,Dificultad,MenuPersonalizado,InterfazReglas,TableroFacil,TableroMedio,TableroDificil,TableroPersonalizado
+from modulo_atril import Atril,Actualizar_Atril_Jugador,Actualizar_Atril_Cpu,Actualizar_Puntos
+from modulo_archivos import CargarPartida,GuardarPartida,Cargar_TopDiez,Ver_TopDiez
+from modulo_verificacion import checkOrientation,checkWord,verifyWord,Validar_Palabra_CPU
+from modulo_restricciones import Primera_Letra,Segunda_Letra,Letras_Horizontal,Letras_Vertical,Palabra_Invalida,Evaluar_Posicion,Colocar_Letras
+
 #NOTA CAMBIAR LOS NOMBRES DE TODOS LOS MODULOS A MINISCULA MENOS EL PRINCIPAL SCRABBLE AR
 def Turno():
     ''' Esta Funcion se encarga de escoger de manera aleatoria  que jugador va
@@ -20,6 +18,7 @@ def Turno():
         return True,False
     else:
         return False,True
+
 def Reiniciar_Listas(listas):# resetea las listas
     listas['pos_en_tablero']=[]
     listas['letras_en_tablero']=[]
@@ -27,49 +26,48 @@ def Reiniciar_Listas(listas):# resetea las listas
     listas['casillas']=[]
     listas['puntos_por_letra']=[]
     return listas
-def Actualizar_Puntos(objeto,player,casillas,puntos_por_letra,window):#Actualizador de puntos
-    for i in range(len(casillas)):
-        objeto.sumar(casillas[i],puntos_por_letra[i])
-    if player =='jugador':
-        window.Element('Puntos_jugador').Update(objeto.get_puntos())
-    else:
-        window.Element('Puntos_cpu').Update(objeto.get_puntos())
 
-def Comenzar_Juego(window, matriz_tablero, nivel,partida):
+
+
+def Inicio(window, matriz_tablero, nivel,partida):# esta funcion se encarga de configurar la partida antes de iniciar
+    if not partida: # si se inicio una nueva partida entonces comienza con su configuracion predeterminada
+        '''jugador=Atril([],0,nivel)
+        cpu=Atril([],0,nivel)
+        jugador.repartirFichas()
+        cpu.repartirFichas()'''
+        historial=[]
+        jugador = Atril(['H', 'O', 'L', 'A', 'U', 'B', 'E'],0,nivel)
+        cpu=Atril(['C','O','R','R','E','R','O'],0,nivel)
+        #turno_jugador,turno_cpu=Turno()
+        turno_jugador,turno_cpu=True,False
+        listas= {'pos_en_tablero':[],'letras_en_tablero':[],'pos_en_atril':[],
+                 'casillas':[],'puntos_por_letra':[]}
+        print('MANO JUGADOR = ',jugador.getMano())
+        print('MANO CPU = ',cpu.getMano())
+        Actualizar_Atril_Jugador(window, jugador)
+        Actualizar_Atril_Cpu(window, cpu)
+        Comenzar_Juego(window,matriz_tablero,nivel,jugador,cpu,turno_jugador,turno_cpu,listas,historial)
+    else: # si se cargo una partida guardada se inicia desde esa partida
+        jugador=Atril([],0,nivel)
+        cpu=Atril([],0,nivel)
+        historial=[]
+        jugador.repartirFichas()
+        cpu.repartirFichas()
+        turno_jugador,turno_cpu=True,False
+        listas= {'pos_en_tablero':[],'letras_en_tablero':[],'pos_en_atril':[],
+                 'casillas':[],'puntos_por_letra':[]}
+        Comenzar_Juego(window,matriz_tablero,nivel,jugador,cpu,turno_jugador,turno_cpu,listas,historial)
+
+def Comenzar_Juego(window, matriz_tablero, nivel,jugador,cpu,turno_jugador,turno_cpu,listas,historial):
     ''' Esta Funcion es en donde se ejecutan todas las operaciones que permiten
         la interaccion con el tablero y las manos de los jugadores entre otras
         cosas'''
-    puntos = sc(0)
-    mano_jugador = []
-    mano_cpu = []
-    cont = 0
-    jg=True
-    cp=False
-    #jg,cp=Turno()
-    #print('Turno jugador = ',jg,' Turno cpu = ',cp)
-
-    listas= {'pos_en_tablero':[],'letras_en_tablero':[],'pos_en_atril':[],
-             'casillas':[],'puntos_por_letra':[]}
-    lista_de_posiciones_cpu=[]
-    lista_palabra_cpu=[]
-    casillas_cpu=[]
-    #print(matriz_tablero)
-    jugador = Atril(['H', 'O', 'L', 'A', 'U', 'B', 'E'],0)
-    #jugador = Atril(mano_jugador,0)
-    cpu=Atril(['C','O','R','R','E','R','O'],0)
-    #cpu = Atril(mano_cpu,0)
-    #jugador.repartirFichas()
-    #cpu.repartirFichas()
-    print('MANO JUGADOR = ',jugador.getMano())
-    print('MANO CPU = ',cpu.getMano())
-    Actualizar_Atril_Jugador(window, jugador)
-    Actualizar_Atril_Cpu(window, cpu)
     while True:
-        if (jg)&(not cp):
+        if (turno_jugador) & (not turno_cpu):
             window.Element('Turno').Update('Jg')
             event, values = window.Read() # primer read para los botones y el atril del jugador
             if event in (None, 'TERMINAR'):
-                Cargar_TopDiez({'puntaje': puntos.get_puntos,
+                Cargar_TopDiez({'puntaje': 0,
                                 'fecha': time.strftime('%d/%m/%Y'),
                                 'nivel': nivel})
                 break
@@ -81,7 +79,7 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
             elif event == 'REGLAS':
                 InterfazReglas(nivel)
             elif event == 'Fin De Turno':
-                if len(listas['pos_en_tablero'])!=0:
+                if len(listas['pos_en_tablero'])!=0:# si el jugador coloco almenos 1 letra se evalua
                     word = checkWord(listas['pos_en_tablero'], matriz_tablero)
                     if not verifyWord(word):
                         matriz_tablero=Palabra_Invalida(listas,matriz_tablero,
@@ -89,18 +87,22 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
                         sg.Popup('Palabra invalida pierdes el turno')
                     else:
                         Actualizar_Puntos(jugador,'jugador',listas['casillas'],
-                                          listas['puntos_por_letra'],window)
+                                          listas['puntos_por_letra'],window,historial,word,nivel)
+                        window.Element('Palabras').Update(historial)
                     listas=Reiniciar_Listas(listas)
 
                     print(word)
                     print(verifyWord(word))
-                else:
+                else: # en caso de que no coloco una letra y dio fin de turno envia un mensaje
                     sg.Popup('Finalizaste el turno del jugador sin colocar una ficha')
-                jg=False
-                cp=True
-            elif event=='Cambiar Fichas':
+                turno_jugador=False
+                turno_cpu=True
+            elif event=='Cambiar Fichas':#FALTA AGREGAR QUE SI EL JUGADOR CAMBIA LAS FICHAS PIERDE EL TURNO
                 jugador.devolverFichas()
                 Actualizar_Atril_Jugador(window, jugador)
+                turno_jugador=False
+                turno_cpu=True
+                sg.Popup('Cambiaste tus fichas pierdes el turno')
                 #print(Atril.bolsa_fichas)
                 #print(Atril.letras_bolsa)
             elif 'Jugador' in event:
@@ -129,7 +131,7 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
                     print(listas['letras_en_tablero'])
                     print(listas['casillas'])
                     print(listas['puntos_por_letra'])
-        else: # turno del CPU todavia con errores
+        else: # variables en uso para la cpu: palabra_cpu, casilla_cpu, objeto cpu, window, linea
             window.Element('Turno').Update('CPU')
             palabra_cpu=Validar_Palabra_CPU(cpu.getMano(),nivel)
             print('PALABRA CPU =',palabra_cpu)
@@ -157,13 +159,11 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
                     linea=Evaluar_Posicion(window,casilla_cpu,palabra_cpu,
                                            matriz_tablero)
                 if linea == 'Horizontal':
-                    matriz_tablero=Colocar_Letras(window,lista_palabra_cpu,
-                                                 casilla_cpu,'Horizontal',
+                    matriz_tablero=Colocar_Letras(window,casilla_cpu,'Horizontal',
                                                  palabra_cpu,matriz_tablero,
                                                  cpu,listas)
                 else:
-                    matriz_tablero=Colocar_Letras(window,lista_palabra_cpu,
-                                                 casilla_cpu,'Vertical',
+                    matriz_tablero=Colocar_Letras(window,casilla_cpu,'Vertical',
                                                  palabra_cpu,matriz_tablero,
                                                  cpu,listas)
                 print('Palabra valida encontrada = ',palabra_cpu)
@@ -173,10 +173,11 @@ def Comenzar_Juego(window, matriz_tablero, nivel,partida):
                 print(listas['casillas'])
                 print(listas['puntos_por_letra'])
                 Actualizar_Puntos(cpu,'cpu',listas['casillas'],
-                                  listas['puntos_por_letra'],window)
+                                  listas['puntos_por_letra'],window,historial,palabra_cpu,nivel)
+                window.Element('Palabras').Update(historial)
             listas=Reiniciar_Listas(listas)
-            jg=True
-            cp=False
+            turno_jugador=True
+            turno_cpu=False
 
 
 def Jugar(opcion):
@@ -188,13 +189,13 @@ def Jugar(opcion):
     if opcion == 'Iniciar':
         nivel = Dificultad()
         ok=True
-        if nivel == 'Facil':
+        if nivel == 'FACIL':
             window, matriz_tablero, nivel = TableroFacil()
-        elif nivel == 'Medio':
+        elif nivel == 'MEDIO':
             window, matriz_tablero, nivel = TableroMedio()
-        elif nivel == 'Dificil':
+        elif nivel == 'DIFICIL':
             window, matriz_tablero, nivel = TableroDificil()
-        elif nivel == 'Personalizado':
+        elif nivel == 'PERSONALIZADO':
             event, values = MenuPersonalizado()
             if event!=None:
                 window, matriz_tablero, nivel = TableroPersonalizado(values['Nivel'])
@@ -203,11 +204,11 @@ def Jugar(opcion):
         elif nivel== 'Volver':
             Jugar(MenuPrincipal())
         if ((nivel!='Volver')&(nivel!=None)&(ok)):
-            Comenzar_Juego(window, matriz_tablero, nivel,False)
+            Inicio(window, matriz_tablero, nivel,False)
     elif opcion == 'Cargar Partida':
         window, matriz_tablero, nivel,partida = CargarPartida()
         if (partida):
-            Comenzar_Juego(window, matriz_tablero, nivel,partida)
+            Inicio(window, matriz_tablero, nivel,partida)
 
 
 Jugar(MenuPrincipal())
