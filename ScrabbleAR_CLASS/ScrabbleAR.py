@@ -1,92 +1,123 @@
-from PySimpleGUI import Window, Popup, Frame, Column, Button, Drop, Spin, Text
-from Modulo_Archivos import Archivos
-from Modulo_Interfaz import Interfaz
-from Modulo_Puntos import Puntaje
-from Modulo_Player import Jugador#,Bot #FALTA CLASE BO
+from mod_archivos import Archivos, partida_json
+from mod_interfaz import Interfaz
+from parametros import Parametros
+from mod_popups import Popups
+from mod_turno import Turno
+from layout import *
 from const import *
-from Modulo_Matriz import Matriz
+import json
 
 
-class Main():
+class Main(Interfaz):
+
     def __init__(self):
-        self._archivos = Archivos(enlaces_json)
-        self._interfaz = Interfaz()
-        self._parametros_tablero = parametros
-        self._jugador1 = Jugador()
-        self._bot = Jugador()#Bot() #Clase que deriva a la clase Jugador()
-        self._matriz=Matriz()
-
-    def run(self):
-        if self.menu():
-            self.juego()
+        self._parametros = Parametros()
+        Interfaz.__init__(self, self._parametros)
+        self._turno = Turno(self._parametros)
+        self._popups = Popups()
+        self._archivos = Archivos()
+        self._window = window_menu
+        self._ficha = ''
 
     def menu(self):
-        self._interfaz.set_menu_window()
         while True:
-            event, values = self._interfaz.get_window().Read()
-
+            event, values = self._window.Read()
             if event in ('salir', None):
                 return False
             if event in ('FÁCIL', 'MEDIO', 'DIFICIL', 'personalizado'):
                 if event is 'personalizado':
-                    self._parametros_tablero['dificultad'] = values['dificultad_personalizada']
+                    self._parametros.set_dificultad(values['dificultad'])
+                    self._parametros.set_tiempo_por_turno(values['tiempo_por_turno'])
+                    self._parametros.set_segundos(values['tiempo_por_turno'])
                 else:
-                    self._parametros_tablero['dificultad'] = event
+                    self._parametros.set_dificultad(event)
                 break
             if event is 'cargar_partida':
-                self._parametros_tablero = self._archivos.leer_json(juego_guardado_json)
-                if not self._parametros_tablero:
-                    self._interfaz.mensaje('NO HAY PARTIDA GUARDADA')
-                    self._parametros_tablero = parametros
+                partida = self._archivos.leer_json(partida_json)
+                if not partida:
+                    self._popups.popup('NO HAY PARTIDA GUARDADA')
                 else:
+                    self._parametros.cargar_parametros(partida)
                     break
-        self._interfaz.cerrar()
         return True
 
+    def inicio(self):
+        # Carga la partida guardada si se quizo desde el menú,
+        # sino, solo carga los parametros generales.
+        self._window = window_juego.Finalize()
+        if self._parametros.get_hay_partida():
+            const_Update(self._window,
+                         {'puntos_jugador': self._parametros.get_puntos_jugador(),
+                          'puntos_bot': self._parametros.get_puntos_bot()},
+                         self._parametros.get_atril_jugador(),
+                         self._parametros.get_atril_bot(),
+                         self._parametros.get_matriz())
+        else:
+            self.repartir_fichas(self._parametros.get_atril_jugador(), self._window)
+            self.repartir_fichas(self._parametros.get_atril_bot(), self._window)
+        const_Update(self._window,
+                     {'reglas': reglas(self._parametros.get_dificultad(),
+                                       self._parametros.get_tiempo_por_turno()),
+                      'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())},
+                     color_botones[self._parametros.get_dificultad()],
+                     puntos_botones[self._parametros.get_dificultad()]['jugador'])
+        Interfaz.set_dificultad(self)
+
+    def fin(self):
+        if (self._parametros.get_puntos_jugador() > self._parametros.get_puntos_bot()):
+            self._archivos.cargar_records_json(self._parametros.get_puntos_jugador(),
+                                               self._parametros.get_dificultad())
+
     def juego(self):
-        self._interfaz.set_tablero_window()
-        self._jugador1._letras_atril=['H','O','L','A','C','A','T']
-        #self._interfaz.update()
-        #self._interfaz._window['bot',0].Update('F') UPDATE DE LA VENTANA
-        self._interfaz.cargar_parametros(self._jugador1._letras_atril,'jugador')
-        self._interfaz.cargar_parametros(self._bot._letras_atril,'bot')
-        #self._matriz=Matriz()
-        #self._interfaz.definir_puntaje(self._parametros_tablero['dificultad'])
+        self.inicio()
+        if self._parametros.get_matriz():
+            self._parametros.set_primer_turno()
         while True:
-            event, values = self._interfaz.get_window().Read()
-            #print('EVENT: ',event,' - VALUES: ',values)
-            if detectEvent(event) == True:   #HICE UN EVENTO EN LA MATRIZ O EN EL ATRIL
-                item=self._interfaz._window[event].GetText()   #devuelve '' si seleccione matriz, devuelve 'Letra' si selecciona atril
-                where=manipularEvento(event)   #devuelve si event_in_matriz o si event_in_atril
-                if(where=='event_in_atril'):
-                    self._jugador1.descontarLetra(item)
-                    event, values = self._interfaz.get_window().Read()  #ESPERO QUE SELECCIONE MATRIZ
-                    where=manipularEvento(event)
-                if (where=='event_in_matriz'):
-                    self._matriz.actualizarMatriz(item,event)
-                    self._interfaz.actualizarBtn(event,item)
-                    #self._interfaz.update({'P':[(5,9),(5,10),(5,11)]})
-            if event in ('salir', None):
+            event, values = self._window.Read(timeout=100)
+            self._turno.conteo(self._window)
+            const_Update(self._window, {'tiempo': self._parametros.get_segundos()})
+            if event in ('terminar', None):
+                self.fin()
                 break
-            if event is 'fin_de_turno':
-                    print(self._matriz._lista_letras)
-                    ok=self._matriz.enviarPalabra()
-                    if ok==True:
-                        print('HI')
-                        #puntosDePalabra=self._matriz.devolverPuntaje()
-                        #self._jugador1._puntos+=puntosDePalabra
-                        #print(self._jugador1._puntos)
-
-
             if event is 'guardar_partida':
-                self._archivos.escribir_json(self._interfaz.guardar_parametros(self._parametros_tablero['dificultad']), juego_guardado_json, 'w')
-                self._interfaz.mensaje('PARTIDA GUARDADA')
+                self._popups.popup('PARTIDA GUARDADA')
+                self._archivos.escribir_json(self._parametros.guardar_parametros(), partida_json, 'w')
             if event is 'top_diez':
-                if not self._archivos.ver_top_diez():
-                    self._interfaz.mensaje('NO HAY RECORDS')
-        self._archivos.cargar_record(self._parametros_tablero['dificultad'])
-        self._interfaz.cerrar()
+                self._popups.popup_scrolled(self._archivos.cargar_records_txt())
+            if self._parametros.get_turno():
+                # TURNO DEL USUARIO:
+                if ((event is 'fin_de_turno') or (self._parametros.get_segundos() == 0)):
+                    self._turno.fin_de_turno()
+                    if not self.primer_turno():
+                        if self._parametros.get_palabra():
+                            self.calcular_palabra(self._window, 'jugador')
+                            self._parametros.borrar_palabra()
+                    elif self._parametros.get_matriz():
+                        self.devolver_fichas(self._window, 'jugador')
+                if event in atril_jugador:
+                    self._parametros.set_ficha({event: self._window.Element(event).GetText()})
+                if ((event in matriz) & (self._parametros.get_letra_ficha() != '')):
+                    self.mover_ficha(self._window, event)
+                if event is 'cambiar_fichas' and not self._parametros.get_palabra():
+                    self.repartir_fichas(self._parametros.get_atril_jugador(), self._window)
+            else:
+                # TURNO DEL BOT:
+                # if self._parametros.get_segundos() == 0:
+                #   self._turno.fin_de_turno()
+                #   if not self.primer_turno():
+                #       if self._parametros.get_palabra():
+                #           self.calcular_palabra(self._window, 'bot')
+                #           self._parametros.borrar_palabra()
+                # elif self._parametros.get_matriz():
+                #   self.devolver_fichas(self._window, 'bot')
+                self._turno.fin_de_turno()
+
+    def run(self):
+        if self.menu():
+            self._window.Close()
+            self.juego()
+        self._window.Close()
 
 
-ScrabbleAR = Main()
-ScrabbleAR.run()
+main = Main()
+main.run()
