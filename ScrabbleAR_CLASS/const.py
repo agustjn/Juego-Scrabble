@@ -83,7 +83,7 @@ bolsa = {'A': {'cantidad': 9, 'puntaje': 1}, 'E': {'cantidad': 9, 'puntaje': 1},
 #
 # ~~~~~~~~~~ FUNCIONES
 #
-def reglas(dificultad, tiempo):
+def reglas(dificultad, tiempo): # SE IMPRIMEN LAS RESPECTIVAS REGLAS SEGÚN LA DIFICULTAD. EL TIEMPO ES OPCIONAL SEGÚN LO INGRESADO DESDE EL MENÚ (PREDETERMINADAMENTE ENTRAN 20 SEGUNDOS)
     if dificultad == 'FÁCIL':
         return '     DIFICULTAD:\n           '+dificultad+'.\n      PALABRAS\n    HABILITADAS:\n          TODAS\n     TIEMPO POR\n       TURNO: '+str(tiempo)+'\n      SEGUNDOS'
     else:
@@ -91,12 +91,12 @@ def reglas(dificultad, tiempo):
 
 
 def const_Update(window, *args):
-    for keys in args:
-        if keys:
-            if type(list(keys.values())[0]) is not list:
-                for key in keys:
-                    window.Element(key).Update(keys[key])
+    for keys in args: # PARA CADA VARIABLE DENTRO DE LOS ARGUMENTOS
+        if keys:  # SI ESTA NÓ ESTÁ VACÍA
+            if type(list(keys.values())[0]) is not list:  # SI NO SE HABLA DE LISTAS COMO VALOR EN EL DICCIONARIO (LOS COLORES)
+                for key in keys:  # PARA CADA LLAVE EN EL DICCIONARIO
+                    window.Element(key).Update(keys[key]) # SE ACTUALIZA LA VENTANA CON EL VALOR DE ESA LLAVE
             else:
                 for i in keys:
                     for j in keys[i]:
-                        window.Element(j).update(button_color=i)
+                        window.Element(j).Update(button_color=i)  # ESTA ACTUALIZACIÓN SOLO SIRVE PARA ASIGNAR COLORES

@@ -11,20 +11,20 @@ class Parametros:
         COMO NO HAY PUNTEROS, PUEDE USARSE UNA CLASE COMO REFERENCIA.
         POR ESO HAY VARIAS REFERENCIAS SOBRE "Parametros".'''
     def __init__(self):
-        self._p_jugador = 0
-        self._p_bot = 0
-        self._a_jugador = {}
-        self._a_bot = {}
-        self._partida_g = False
-        self._fichas = 100
-        self._ficha = {'': ''}
-        self._dificultad = ''
-        self._turno = choice([True, False])
-        self._tiempo_p_t = 20
-        self._s = self._tiempo_p_t
-        self._matriz = {}
-        self._palabra = {}
-        self._bolsa_fichas = deepcopy(bolsa)
+        self._p_jugador = 0     #PUNTOS DEL JUGADOR
+        self._p_bot = 0         #PUNTOS DEL BOT
+        self._a_jugador = {}        #ATRIL jugador
+        self._a_bot = {}            #ATRIL BOT
+        self._partida_g = False     #EXISTE PARTIDA
+        self._fichas = 100          #FICHAS DEL INICIO
+        self._ficha = {'': ''}      #FICHA ACTUAL
+        self._dificultad = ''       #DIFICULTAD DE LA PARTIDA
+        self._turno = choice([True, False]) # TURNO RANDOM
+        self._tiempo_p_t = 20   # TIEMPO POR TURNO
+        self._s = self._tiempo_p_t  # SEGUNDOS
+        self._matriz = {}   # MATRIZ INICIAL
+        self._palabra = {}  # PALABRA POR RONDA
+        self._bolsa_fichas = deepcopy(bolsa)    # COPIA PROFUNDA DE LA BOLSA, DESLIGAMIENTO DE CUALQUIER PUNTERO
         self._primer_turno = True
 
     def set_puntos_jugador(self, puntos):
@@ -120,33 +120,33 @@ class Parametros:
     def borrar_palabra(self):
         self.set_palabra({})
 
-    def add_puntos_jugador(self, puntos):
+    def add_puntos_jugador(self, puntos):   # SUMA EL PUNTAJE ACTUAL MAS EL PASADO POR PARAMETRO
         ''' RECIBE UNA CANTIDAD ESPECÍFICA DE PUNTOS PARA SUMAR'''
         self._p_jugador += puntos
 
-    def add_puntos_bot(self, puntos):
+    def add_puntos_bot(self, puntos):   # SUMA EL PUNTAJE ACTUAL MAS EL PASADO POR PARAMETRO
         ''' RECIBE UNA CANTIDAD ESPECÍFICA DE PUNTOS PARA SUMAR'''
         self._p_bot += puntos
 
-    def add_ficha_palabra(self, ficha):
+    def add_ficha_palabra(self, ficha): # AGREGA UNA FICHA A LA PALABRA (UNA FICHA ES UNA LLAVE, VALOR DONDE LA LLAVE ES LA POSICIÓN DE LA LETRA Y EL VALOR LA LETRA)
         ''' AGREGA UNA FICHA "{LLAVE: LETRA}" A LA PALABRA.
             NO ES NECESARIO AGREGAR UNA LLAVE O LETRA SOLA.'''
         self._palabra.update(ficha)
 
-    def del_ficha_palabra(self, ficha):
+    def del_ficha_palabra(self, ficha): # ELIMINA LA FICHA DE LA PALABRA PASADA POR PARAMETRO DONDE LA FICHA ES UNA LLAVE, VALOR
         ''' RECIBE UNA FICHA "{LLAVE: LETRA}" A ELIMINAR DE LA PALABRA'''
         self._palabra.pop(ficha)
 
-    def add_letra_bolsa(self, letra, cant=1):
+    def add_letra_bolsa(self, letra, cant=1):   # SUMA 1 O LA CANTIDAD PASADA POR PARAMETRO A LA LETRA ESPECIFICADA
         ''' AUMENTA EN 1 O LA CANTIDAD PASADA POR PARÁMETRO A LA LETRA ESPECIFICADA'''
         self._bolsa_fichas[letra]['cantidad'] += cant
 
-    def dec_letra_bolsa(self, letra, cant=1):
+    def dec_letra_bolsa(self, letra, cant=1):   # DECREMENTA EN 1 O LA CANTIDAD PASADA POR PARAMETRO DE LA LETRA ESPECIFICADA
         ''' DECREMENTA EN 1 O LA CANTIDAD PASADA POR PARÁMETRO A LA LETRA ESPECIFICADA'''
         if self._bolsa_fichas[letra]['cantidad'] != 0 and letra != '':
             self._bolsa_fichas[letra]['cantidad'] -= cant
 
-    def letra_random(self):
+    def letra_random(self): # DEVUELVE UNA LETRA RANDOM SIEMPRE Y CUANDO ÉSTA EXISTA Y HAYAN LETRAS EN LA BOLSA
         ''' DEVUELTE UNA LETRA RANDOM DE LA BOLSA. SI NO HAY MÁS
             LETRAS EN LA BOLSA, DEVUELVE UN STRING NULO ""'''
         if self._fichas == 0:
@@ -156,57 +156,57 @@ class Parametros:
             letra = choice(list(self._bolsa_fichas.keys()))
         return letra
 
-    def add_fichas(self, cant=1):
+    def add_fichas(self, cant=1):   # AUMENTA EN 1 O LA CANIDAD PASADA POR PARÁMETRO LA CANTIDAD DE FICHAS TOTALES EN LA BOLSA
         ''' AUMENTA EN 1 O LA CANTIDAD PASADA POR PARÁMETRO LAS FICHAS EN LA BOLSA'''
         self._fichas += cant
 
-    def dec_fichas(self, cant=-1):
+    def dec_fichas(self, cant=-1):  # AUMENTA EN 1 O LA CANTIDAD PASADA POR PARÁMETRO LA CANTIDAD TOTAL DE FICHAS EN LA BOLSA
         ''' DECREMENTA EN 1 O LA CANTIDAD PASADA POR PARÁMETRO LAS FICHAS EN LA BOLSA'''
         if self._fichas != 0:
             self._fichas -= cant
 
-    def set_key_ficha(self, key):
+    def set_key_ficha(self, key):   # SETEA LA POSICIÓN ESPECÍFICADA EN LA FICHA ACTUAL
         ''' CAMBIA LA LLAVE DE LA LETRA SELECCIONADA (EN MANO) POR EL PARÁMETRO'''
         letra = list(self._ficha.values())[0]
         self._ficha.clear()
         self._ficha[key] = letra
 
-    def get_key_ficha(self):
+    def get_key_ficha(self):    # DEVUELVE LA POSICIÓNDE LA FICHA ACTUAL
         ''' DEVUELVE LA LLAVE DE LA FICHA SELECCIONADA (EN MANO)'''
         return list(self.get_ficha().keys())[0]
 
-    def set_letra_ficha(self, letra):
+    def set_letra_ficha(self, letra):   # SETEA LA LETRA ESPECIFICADA EN LA FICHA ACTUAL
         ''' CAMBIA LA LETRA DE LA FICHA SELECCIONADA (EN MANO) POR EL PARÁMETRO'''
         self._ficha[list(self._ficha.keys())[0]] = letra
 
-    def get_letra_ficha(self):
+    def get_letra_ficha(self):  # DEVUELVE LA LETRA SELECCIONADA ACTUALMENTE
         ''' DEVUELVE LA LETRA DE LA FICHA SELECCIONADA (EN MANO)'''
         return list(self.get_ficha().values())[0]
 
-    def agregar_ficha_atril_jugador(self, ficha=None):
+    def agregar_ficha_atril_jugador(self, ficha=None):  # AGREGA LA FICHA SELECCIONADA ACTUALMENTE O LA PASADA POR PARAMETRO
         ''' AGREGA UNA FICHA "{LLAVE: LETRA}" AL ATRIL'''
         self._a_jugador.update(self._ficha if ficha == None else ficha)
 
-    def sacar_ficha_atril_jugador(self):
+    def sacar_ficha_atril_jugador(self):    # SACA LA FICHA SLECCIONADA ACTUALMENTE
         ''' SACA LA FICHA SELECCIONADA (EN MANO) DEL ATRIL.'''
         if self.get_letra_ficha() != '':
             self._a_jugador.pop(self.get_key_ficha())
 
-    def agregar_ficha_atril_bot(self, ficha=None):
+    def agregar_ficha_atril_bot(self, ficha=None):  # AGREGA LA FICHA SELECCIONADA ACTUALMENTE O LA PASADA POR PARAMETRO
         ''' AGREGA UNA FICHA "{LLAVE: LETRA}" AL ATRIL.'''
         self._a_bot.update(self._ficha if ficha == None else ficha)
 
-    def sacar_ficha_atril_bot(self):
+    def sacar_ficha_atril_bot(self):    # SACA LA FICHA SLECCIONADA ACTUALMENTE
         ''' SACA LA FICHA SELECCIONADA (EN MANO) DEL ATRIL.'''
         if self.get_letra_ficha() != '':
             self._a_bot.pop(self.get_key_ficha())
 
-    def agregar_ficha_matriz(self, key, letra=None):
+    def agregar_ficha_matriz(self, key, letra=None):    # AGREGA LA FICHA A LA MATRIZ
         ''' AGREGA UNA FICHA "LLAVE, LETRA" A LA MATRIZ.
             SIRVE PARA AGREGA RAPIDAMENTE LA FICHA SELECCIONADA (EN MANO).'''
         self._matriz.update({key: self.get_letra_ficha() if letra == None else letra})
 
-    def sacar_ficha_matriz(self, key):
+    def sacar_ficha_matriz(self, key):  # SACA LA FICHA DE LA MATRIZ
         ''' SACA UNA FICHA DE LA MATRIZ SEGÚN LA LLAVE PASADA POR PARÁMETRO.'''
         self._matriz.pop(key)
 
@@ -219,31 +219,31 @@ class Parametros:
 #               'turno': choice([True, False]),
 #               'tiempos': {'tiempo_por_turno': 20, 'segundos': 20},
 #               'matriz': {}}
-    def guardar_parametros(self):
+    def guardar_parametros(self):   # GUARDA TODOS LOS PARAMETROS ACTUALES DE LA PARTIDA, ES DECIR, LAS VARIABLES SETEADAS HASTA EL MOMENTO DE CLICKEAR EN 'POSPONER'
         return {'jugador':
                 {'puntos': self.get_puntos_jugador(),
-                 'atril': {dumps(key): value for key, value in self.get_atril_jugador().items()}},
+                 'atril': {dumps(key): value for key, value in self.get_atril_jugador().items()}},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
                 'bot':
                 {'puntos': self.get_puntos_bot(),
-                 'atril': {dumps(key): value for key, value in self.get_atril_bot().items()}},
+                 'atril': {dumps(key): value for key, value in self.get_atril_bot().items()}},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
                 'fichas': self.get_fichas(),
                 'dificultad': self.get_dificultad(),
                 'turno': self.get_turno(),
                 'tiempos':
                 {'tiempo_por_turno': self.get_tiempo_por_turno(),
                  'segundos': self.get_segundos()},
-                'matriz': {dumps(key): value for key, value in self.get_matriz().items()},
+                'matriz': {dumps(key): value for key, value in self.get_matriz().items()},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
                 'bolsa_fichas': self.get_bolsa()}
 
-    def cargar_parametros(self, partida):
+    def cargar_parametros(self, partida):   # CARGA TODOS LOS PARÁMETROS SEGÚN LA PARTIDA GUARDADA, SEGÚN 'partida' QUE CONTIENE EL FORMATO ACLARADO EN LA LÍNEA 213
         self.set_hay_partida()
-        self.set_atril_jugador({(str(key.strip('[ ]').split(', ')[0].strip('"')),
+        self.set_atril_jugador({(str(key.strip('[ ]').split(', ')[0].strip('"')),   # CARGA LOS DICCIONARIOS FORMATEADOS EN JSON Y LOS DESFORMATEA PARA PODER CARGAR LA VENTANA
                                  int(key.strip('[ ]').split(', ')[1])):
                                 value for key, value in partida['jugador']['atril'].items()})
-        self.set_atril_bot({(str(key.strip('[ ]').split(', ')[0].strip('"')),
+        self.set_atril_bot({(str(key.strip('[ ]').split(', ')[0].strip('"')),   # CARGA LOS DICCIONARIOS FORMATEADOS EN JSON Y LOS DESFORMATEA PARA PODER CARGAR LA VENTANA
                              int(key.strip('[ ]').split(', ')[1])):
                             value for key, value in partida['bot']['atril'].items()})
-        self.set_matriz({(int(key.strip('[ ]').split(', ')[0]),
+        self.set_matriz({(int(key.strip('[ ]').split(', ')[0]), # CARGA LOS DICCIONARIOS FORMATEADOS EN JSON Y LOS DESFORMATEA PARA PODER CARGAR LA VENTANA
                           int(key.strip('[ ]').split(', ')[1])):
                          value for key, value in partida['matriz'].items()})
         self.set_puntos_jugador(partida['jugador']['puntos'])

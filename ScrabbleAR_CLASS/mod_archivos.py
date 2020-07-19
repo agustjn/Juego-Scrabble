@@ -9,7 +9,9 @@ records_txt = 'archivos/records.txt'
 class Archivos():
 
     def __init__(self):
-        ''' CREA LOS ARCHIVOS A USAR DURANTE EL PROGRAMA'''
+        ''' CREA LOS ARCHIVOS A USAR DURANTE EL PROGRAMA.
+            LA SENTENCIA 'with' CIERRA EL ARCHIVO AUTOMATICAMENTE
+            AL FINALIZAR SU CICLO.'''
         try:
             with open(partida_json, 'x') as a:
                 dump([], a)
@@ -46,22 +48,23 @@ class Archivos():
 
     def cargar_records_json(self, puntos, dificultad):
         ''' ORDENA EL TOP 10 EXISTENTE CON EL RECORD ENTRANTE Y LOS CARGA'''
-        records = self.leer_json(records_json)
+        records = self.leer_json(records_json)  # CARGA LOS RECORDS ACTUALES
         records.append({'puntos': puntos,
                         'fecha': strftime('%d/%m/%Y'),
                         'dificultad': dificultad})
-        if len(records) == 11:
-            records.remove(records[-1])
-        self.escribir_json(records, records_json, 'w')
+        records.sort(key=lambda i: i['puntos']) # ORDENA LOS RECORDS SEGÚN EL PUNTAJE
+        if len(records) == 11:  # SOLO CARGA HASTA 10 (TOP 10) RECORDS
+            records.remove(records[-1]) # REMUEVE EL ÚLTIMO SEGÚN EL ÓRDEN
+        self.escribir_json(records, records_json, 'w')  # LOS REESCRIBE
 
     def cargar_records_txt(self):
         ''' DEVUELVE LOS RECORDS EN FORMATO DE TEXTO'''
-        records = self.leer_json(records_json)
-        if not records:
+        records = self.leer_json(records_json)  # CARGA LOS RECORDS
+        if not records: # SI NO HAY RECORDS
             return 'NO HAY RECORDS'
-        for record in records:
+        for record in records:  # POR CADA RECORD, SE LO ESCRIBE EN UN .txt
             self.escribir_txt('Puntos: {}\nFecha: {}\nDificultad: {}\n\n'.
                               format(record['puntos'],
                                      record['fecha'],
                                      record['dificultad']), records_txt, 'a')
-        return self.leer_txt(records_txt)
+        return self.leer_txt(records_txt)   # SE DEVUELVE LO ESCRITO EN ESE .txt

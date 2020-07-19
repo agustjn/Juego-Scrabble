@@ -61,11 +61,10 @@ layout_menu = [[Frame(layout=columna_menu,
                [Button(button_text='',
                        key='salir',
                        image_filename=boton_salir)]]
-window_menu = Window(layout=layout_menu,
-                     title='ScrabbleAR',
+window_menu = Window(title='ScrabbleAR',
                      font=font_size,
                      margins=margins_size,
-                     background_color=window_color)
+                     background_color=window_color).Layout(layout_menu)
 
 
 # ~~~~~~~~~~~~~~~ Elementos del juego ~~~~~~~~~~~~~~~
@@ -116,7 +115,8 @@ puntos = [[Text(text='MIS PUNTOS: ',
                 key='puntos_bot',
                 size=text_puntos_size,
                 background_color=window_color)]]
-frame_reglas = [[Frame(layout=[[Column(layout=[[Text(key='reglas',
+frame_reglas = [[Frame(layout=[[Column(layout=[[Text(text='',
+                                                     key='reglas',
                                                      size=rules_size,
                                                      background_color=window_color)]],
                                        background_color=window_color)],
@@ -166,7 +166,8 @@ columna_de_juego_derecha = [[Column(layout=puntos,
                                     background_color=window_color)],
                             [Text(text='         T I E M P O: ',
                                   background_color=window_color),
-                             Text(key='tiempo',
+                             Text(text='',
+                                  key='tiempo',
                                   size=text_segundos_size,
                                   background_color=window_color)],
                             [Column(layout=botones_de_opcion_juego,
@@ -177,8 +178,7 @@ layout_juego = [[Column(layout=tablero,
                         background_color=window_color)],
                 [Column(layout=frame_letras,
                         background_color=window_color)]]
-window_juego = Window(layout=layout_juego,
-                      title='ScrabbleAR',
+window_juego = Window(title='ScrabbleAR',
                       font=font_size,
                       margins=margins_size,
-                      background_color=window_color)
+                      background_color=window_color).Layout(layout_juego)
