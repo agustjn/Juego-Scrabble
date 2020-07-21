@@ -1265,6 +1265,36 @@
         "nivel": "FACIL"
     },
     {
+        "puntaje": 0,
+        "fecha": "20/07/2020",
+        "nivel": "MEDIO"
+    },
+    {
+        "puntaje": 0,
+        "fecha": "21/07/2020",
+        "nivel": "FACIL"
+    },
+    {
+        "puntaje": 0,
+        "fecha": "21/07/2020",
+        "nivel": "MEDIO"
+    },
+    {
+        "puntaje": 0,
+        "fecha": "21/07/2020",
+        "nivel": "MEDIO"
+    },
+    {
+        "puntaje": 0,
+        "fecha": "21/07/2020",
+        "nivel": "DIFICIL"
+    },
+    {
+        "puntaje": 0,
+        "fecha": "21/07/2020",
+        "nivel": "DIFICIL"
+    },
+    {
         "puntaje": -1,
         "fecha": "08/06/2020",
         "nivel": "Dificil"

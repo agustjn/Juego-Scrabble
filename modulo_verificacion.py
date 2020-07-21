@@ -46,6 +46,7 @@ def verifyWord(word):
         return True
 
 def Validar_Palabra_CPU(mano_cpu,nivel):
+    print(mano_cpu)
     if nivel=='FACIL':
         todo=True
     elif nivel=='MEDIO':
