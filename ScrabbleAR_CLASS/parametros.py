@@ -28,6 +28,7 @@ class Parametros:
         self._bolsa_fichas = deepcopy(bolsa)    # COPIA PROFUNDA DE LA BOLSA, DESLIGAMIENTO DE CUALQUIER PUNTERO
         self._primer_turno = True
         self._cambiar_fichas = 0    # CANTIDAD DE CAMBIO DE FICHAS REALIZADO DURANTE LA PARTIDA
+        self._palabra_bot = None    # PALABRA GENERADA DEL BOT
 
     def set_puntos_jugador(self, puntos):
         self._p_jugador = puntos
@@ -209,17 +210,19 @@ class Parametros:
 
     def sacar_ficha_atril_jugador(self):    # SACA LA FICHA SLECCIONADA ACTUALMENTE
         ''' SACA LA FICHA SELECCIONADA (EN MANO) DEL ATRIL.'''
-        if self.get_letra_ficha() != '':
-            self._a_jugador.pop(self.get_key_ficha())
+        self._a_jugador[self.get_key_ficha()]=''
+
+        #if self.get_letra_ficha() != '':
+        #    self._a_jugador.pop(self.get_key_ficha())
 
     def agregar_ficha_atril_bot(self, ficha=None):  # AGREGA LA FICHA SELECCIONADA ACTUALMENTE O LA PASADA POR PARAMETRO
         ''' AGREGA UNA FICHA "{LLAVE: LETRA}" AL ATRIL.'''
         self._a_bot.update(self._ficha if ficha == None else ficha)
 
-    def sacar_ficha_atril_bot(self):    # SACA LA FICHA SLECCIONADA ACTUALMENTE
+    def sacar_ficha_atril_bot(self,ficha):    # SACA LA FICHA SLECCIONADA ACTUALMENTE
         ''' SACA LA FICHA SELECCIONADA (EN MANO) DEL ATRIL.'''
-        if self.get_letra_ficha() != '':
-            self._a_bot.pop(self.get_key_ficha())
+        self._a_bot.pop(ficha)
+
 
     def agregar_ficha_matriz(self, key, letra=None):    # AGREGA LA FICHA A LA MATRIZ
         ''' AGREGA UNA FICHA "LLAVE, LETRA" A LA MATRIZ.
@@ -230,21 +233,13 @@ class Parametros:
         ''' SACA UNA FICHA DE LA MATRIZ SEGÚN LA LLAVE PASADA POR PARÁMETRO.'''
         self._matriz.pop(key)
 
-    def actualizar_atril(self, window, player): # player = 'jugador' o 'bot'
+    def actualizar_atril(self,window,player): #player='jugador' o 'bot'
         ''' GENERA LETRAS NUEVAS PARA EL ATRIL EN CASO QUE LOS BOTONES
             DE LA INTERFAZ ESTEN VACIOS'''
-        # for boton in getattr(self._parametros, 'get_atril_'+player)():
-            # if window[boton].GetText() == '':
-                # const_Update(window, {boton: self.letra_random()})
-        const_Update(window, {key: self.letra_random() if getattr(self._parametros, 'get_atril_'+player)()[key] == '' for key in getattr(const, 'atril_'+quien)})
-
-    def actualizar_atril(self, window, player): #player='jugador' o 'bot'
-        ''' GENERA LETRAS NUEVAS PARA EL ATRIL EN CASO QUE LOS BOTONES
-            DE LA INTERFAZ ESTEN VACIOS'''
-        for boton in getattr(const, 'atril_'+player):
-            if window[boton].GetText() == '':
-                ficha_nueva = {boton: self.letra_random()}
-                const_Update(window, ficha_nueva)
+        for boton in getattr(const,'atril_'+player):
+                if window[boton].GetText() == '':
+                     letra_nueva=self.letra_random()
+                     const.const_Update(window,{boton:letra_nueva})
 
 # ESTE ES EL FORMATO PARA GUARDAR Y CARGAR PARTIDA:
 # parametros = {'jugador': {'puntos': 0, 'atril': {}},
@@ -257,16 +252,16 @@ class Parametros:
 #               'matriz': {}}
     def guardar_parametros(self):   # GUARDA TODOS LOS PARAMETROS ACTUALES DE LA PARTIDA, ES DECIR, LAS VARIABLES SETEADAS HASTA EL MOMENTO DE CLICKEAR EN 'POSPONER'
         return {'jugador':
-                {'puntos': self.get_puntos_jugador(),
-                 'atril': {dumps(key): value for key, value in self.get_atril_jugador().items()}},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
+                    {'puntos': self.get_puntos_jugador(),
+                    'atril': {dumps(key): value for key, value in self.get_atril_jugador().items()}},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
                 'bot':
-                {'puntos': self.get_puntos_bot(),
-                 'atril': {dumps(key): value for key, value in self.get_atril_bot().items()}},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
+                    {'puntos': self.get_puntos_bot(),
+                    'atril': {dumps(key): value for key, value in self.get_atril_bot().items()}},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
                 'fichas': self.get_fichas(),
                 'dificultad': self.get_dificultad(),
                 'turno': self.get_turno(),
                 'tiempos':
-                {'tiempo_por_turno': self.get_tiempo_por_turno(),
+                    {'tiempo_por_turno': self.get_tiempo_por_turno(),
                  'segundos': self.get_segundos()},
                 'matriz': {dumps(key): value for key, value in self.get_matriz().items()},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
                 'bolsa_fichas': self.get_bolsa(),

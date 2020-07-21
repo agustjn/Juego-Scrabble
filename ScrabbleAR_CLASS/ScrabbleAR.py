@@ -5,6 +5,7 @@ from mod_popups import Popups
 from mod_turno import Turno
 from layout import *
 from const import *
+import mod_cpu as cpu
 import json
 
 
@@ -17,7 +18,6 @@ class Main(Interfaz):
         self._popups = Popups()
         self._archivos = Archivos()
         self._window = window_menu
-        self._ficha = ''
 
     def menu(self):
         while True:
@@ -86,9 +86,9 @@ class Main(Interfaz):
                 # TURNO DEL USUARIO:
                 if ((event is 'fin_de_turno') or (self._parametros.get_segundos() == 0)):   # SI CLICKEA EN FIN DE TURNO O SE LE TERMINA EL TIEMPO
                     if self._parametros.get_palabra():  # SI _palabra CONTIENE ELEMENTOS (SI PUSO LETRAS)
-                        if not self.primer_turno(): # ESTA FUNCION DETERMINA SI PERMANECEMOS EN EL PRIMER TURNO O NO. SI LA VARIABLE _primer_turno ES False NO ESTAMOS EN EL PRIMER TURNO, SI ES True, SI. SI _primer_turno ES False, LA FUNCIÓN REGULA SI SE PUSO O NO UNA LETRA EN E CENTRO PARA TERMINAR EL PRIMER TURNO O NO   
+                        if not self.primer_turno(): # ESTA FUNCION DETERMINA SI PERMANECEMOS EN EL PRIMER TURNO O NO. SI LA VARIABLE _primer_turno ES False NO ESTAMOS EN EL PRIMER TURNO, SI ES True, SI. SI _primer_turno ES False, LA FUNCIÓN REGULA SI SE PUSO O NO UNA LETRA EN E CENTRO PARA TERMINAR EL PRIMER TURNO O NO
                             self.calcular_palabra(self._window, 'jugador')  # CALCULA LA PALABRA
-                            self.actualizar_atril('jugador')
+                            self._parametros.actualizar_atril(self._window,'jugador')
                             self._turno.fin_de_turno()  # CAMBIA EL TURNO Y BORRA LAS LETRAS USADAS DE LA BOLSA
                         else: # SI ESTAMOS EN EL PRIMER TURNO
                             self.devolver_fichas(self._window, 'jugador')   # DEVUELVE LAS FICHAS PUESTAS EN LA MATRIZ HACIA EL ATRIL PORQUE SE UBICARON INCORRECTAMENTE
@@ -110,6 +110,11 @@ class Main(Interfaz):
                         self._popups.popup('NO SE PUEDEN CAMBIAR FICHAS SI YA\nPUSO ALGUNA DURANTE EL TURNO')   # SI '_palabra' CONTIENE FICHAS, ES DECIR, PUSO ALGUNA LETRA, NO PUEDE CAMBIARLAS HASTA SU SIGUIENTE TURNO
             else:
                 # TURNO DEL BOT:
+                self._parametros._palabra_bot=[]
+                cpu.create_word(self._parametros._a_bot.values(),self._parametros._dificultad,self._parametros)
+                print('PALABRA DEL BOT: ',self._parametros._palabra_bot)
+                cpu.colocar_palabra_bot(self._parametros._palabra_bot,self._window,self._parametros)
+                self._parametros.actualizar_atril(self._window,'bot')
                 # if self._parametros.get_segundos() == 0:
                 #   self._turno.fin_de_turno()
                 #   if not self.primer_turno():
