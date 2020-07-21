@@ -2,11 +2,12 @@ from PySimpleGUI import Window, Frame, Column, Button, Drop, Spin, Text
 
 
 #
-# LLAVES (KEYS) DEL TABLERO Y LOS ATRILES
+# LLAVES (KEYS) DEL TABLERO, LOS ATRILES Y EL HISTORIAL DE PUNTUACIONES
 #
 matriz = [(x, y) for x in range(15) for y in range(15)]
 atril_jugador = [('jugador', y) for y in range(7)]
 atril_bot = [('bot', y) for y in range(7)]
+historial = [('puntuacion', i) for i in range(50)]
 
 #
 # COLOR DE LOS BOTONES SEGÚN LA DIFICULTAD
@@ -85,18 +86,18 @@ bolsa = {'A': {'cantidad': 9, 'puntaje': 1}, 'E': {'cantidad': 9, 'puntaje': 1},
 #
 def reglas(dificultad, tiempo): # SE IMPRIMEN LAS RESPECTIVAS REGLAS SEGÚN LA DIFICULTAD. EL TIEMPO ES OPCIONAL SEGÚN LO INGRESADO DESDE EL MENÚ (PREDETERMINADAMENTE ENTRAN 20 SEGUNDOS)
     if dificultad == 'FÁCIL':
-        return '     DIFICULTAD:\n           '+dificultad+'.\n      PALABRAS\n    HABILITADAS:\n          TODAS\n     TIEMPO POR\n       TURNO: '+str(tiempo)+'\n      SEGUNDOS'
+        return '     DIFICULTAD:\n           '+dificultad+'.\n      PALABRAS\n    HABILITADAS:\n          TODAS.\n     TIEMPO POR\n       TURNO: '+str(tiempo)+'\n      SEGUNDOS'
     else:
-        return '    DIFICULTAD:\n         '+dificultad+'.\n      PALABRAS\n    HABILITADAS:\n      ADJETIVOS\n       Y VERBOS\n     TIEMPO POR\n       TURNO: '+str(tiempo)+'\n      SEGUNDOS'
+        return '    DIFICULTAD:\n         '+dificultad+'.\n      PALABRAS\n    HABILITADAS:\n      ADJETIVOS\n       Y VERBOS.\n     TIEMPO POR\n       TURNO: '+str(tiempo)+'\n      SEGUNDOS'
 
 
 def const_Update(window, *args):
     for keys in args: # PARA CADA VARIABLE DENTRO DE LOS ARGUMENTOS
         if keys:  # SI ESTA NÓ ESTÁ VACÍA
-            if type(list(keys.values())[0]) is not list:  # SI NO SE HABLA DE LISTAS COMO VALOR EN EL DICCIONARIO (LOS COLORES)
+            if type(list(keys.values())[0]) is not list:  # SI EL VALOR DE LA LLAVE NO ES UNA LISTA
                 for key in keys:  # PARA CADA LLAVE EN EL DICCIONARIO
                     window.Element(key).Update(keys[key]) # SE ACTUALIZA LA VENTANA CON EL VALOR DE ESA LLAVE
-            else:
+            else: # SI EL VALOR DE LA LLAVE ES UNA LISTA
                 for i in keys:
                     for j in keys[i]:
                         window.Element(j).Update(button_color=i)  # ESTA ACTUALIZACIÓN SOLO SIRVE PARA ASIGNAR COLORES

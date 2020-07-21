@@ -1,5 +1,6 @@
-from pattern.es import verbs, tag, spelling, lexicon, parse, split
+from pattern.es import verbs, tag, spelling, lexicon, parse
 from mod_puntos import Puntaje
+from mod_popups import Popups
 import const
 
 
@@ -7,6 +8,7 @@ class Interfaz(Puntaje):
 
     def __init__(self, parametros):
         self._parametros = parametros
+        self._popups = Popups()
         Puntaje.__init__(self)
 
     def primer_turno(self):
@@ -15,9 +17,9 @@ class Interfaz(Puntaje):
         if self._parametros.get_palabra():  # SI HAY FICHAS EN LA PALABRA, ES DECIR, SE INGRESÓ UNA PALABRA
             for key in self._parametros.get_palabra():  # PARA CADA UBICACIÓN DE LAS LETRAS
                 if key == (7, 7):   # SI SE UBICÓ ALGUNA EN EL CENTRO
-                    self._parametros.set_primer_turno() # FINALIZA EL PRIMER TURNO
+                    self._parametros.set_primer_turno(False) # FINALIZA EL PRIMER TURNO
                     return False
-        return True
+        return True # SI ESTAMOS EN EL PRIMER TURNO, O HASTA ACÁ LO ESTUVIMOS (DEPENDE DE LA LÍNEA 20)
 
     def devolver_fichas(self, window, quien):
         palabra = self._parametros.get_palabra()
@@ -27,7 +29,6 @@ class Interfaz(Puntaje):
                 self._parametros.add_letra_bolsa(palabra[key])  # SUMA LA LETRA A LA BOLSA
                 self._parametros.add_fichas()   # Y AUMENTA EN 1 EL TOTAL DE FICHAS, (TOTAL DE LETRAS SI SE QUIERE)
             const.const_Update(window, {key: '' for key in palabra})    # ACTUALIZA LA VENTANA, "LAS BORRA DE LA MATRIZ"
-            self._parametros.borrar_palabra()   # COMO FINALIZA EL TURNO, BORRA LA PALABRA
             self._parametros.set_matriz({}) # BORRA LA MATRIZ
             const.const_Update(window, {'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())})    # ACTUALIZA EL TOTAL DE FICHAS
             return False
@@ -42,7 +43,6 @@ class Interfaz(Puntaje):
         self._parametros.set_matriz({}) # BORRA LA MATRIZ
         getattr(self._parametros, 'set_atril_'+quien)(viejo_atril)  # SETEA EL ATRIL VIEJO
         const.const_Update(window, {key: '' for key in palabra}, viejo_atril)   # ACTUALIZA LA MATRIZ Y EL ATRIL
-        self._parametros.borrar_palabra()   # FINALIZA EL TURNO, ASÍ QUE BORRA LA PALABRA
 
     def mover_ficha(self, window, key):
         ''' ESTA FUNCIÓN CUMPLE CON EL MOVIMIENTO DE LA FICHA
@@ -72,24 +72,66 @@ class Interfaz(Puntaje):
                 const.const_Update(window, letra)
         const.const_Update(window, {'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())})    # ACTUALIZA LA CANTIDAD TOTAL DE FICHAS EN LA VENTANA
 
-    def _validar_palabra(self, palabra):
+    def _validar_palabra(self):
         ''' TRADUCE LAS FICHAS Y LAS ORDENA HORIZONTAL Y VERTICALMENTE. SI DE
             ALGUNA DE ESAS DOS MANERAS EXISTE LA PALABRA EN LOS LISTADOS DE
             PALABRAS, LA DEVUELVE, SINO, DEVUELVE UN STRING NULO "".'''
-        palabra_en_x, palabra_en_y = '', ''
-        for key in {key: value for key, value in sorted(palabra.items(), key=lambda elem: elem[0][0])}: # ESCRIBE LA PALABRA EN X PARA VERIFICAR SI ASÍ EXISTE
+        palabra_en_x, palabra_en_y, palabra = '', '', self._parametros.get_palabra()    # DEFINIMOS LAS PALABRAS EN x E y Y LA PALABRA ACTUAL
+        for key in {key: value for key, value in sorted(palabra.items(), key=lambda elem: elem[0][0])}: # ESCRIBE LA PALABRA ORIENTADA EN x
             palabra_en_x += palabra[key]
-        for key in {key: value for key, value in sorted(palabra.items(), key=lambda elem: elem[0][1])}: # ESCRIBE LA PALABRA EN Y PARA VERIFICAR SI ASÍ EXISTE
+        for key in {key: value for key, value in sorted(palabra.items(), key=lambda elem: elem[0][1])}: # ESCRIBE LA PALABRA ORIENTADA EN y
             palabra_en_y += palabra[key]
-        if ((palabra_en_x.lower() in lexicon) or (palabra_en_x.lower() in spelling) or (palabra_en_y.lower() in lexicon) or (palabra_en_y.lower() in spelling)):    # SI EXISTE LA DEVUELVE, SINO, DEVUELVE UN STRING NULO, SIMULANDO UNA PALABRA INVÁLIDA
-            return self._parametros.get_palabra()
-        else:
-            return ''
+        if self._parametros.get_dificultad() == 'FÁCIL':
+            return palabra if palabra_en_x in lexicon or palabra_en_x in spelling or palabra_en_y in lexicon or palabra_en_y in spelling else {} # SI LA PALABRA EXISTE, INDEPENDIENTEMENTE DEL TIPO QUE SEA (YA QUE ESTAMOS EN DIFICULTAD FÁCIL), LA DEVUELVE, SINO, UN DICT VACÍO (DE ESTA MANERA SE PUEDE CORROVORAR SI LA PALABRA EXISTE PREGUNTANDO POR EL DICT VACIÓ O NO 'if not palabra' - 'if palabra')
+        tipo = parse(str().join(list(self._parametros.get_palabra().values()))).split('/')[1]  # TIPO DE LA PALABRA. SI LA PALABRA ES UN VERBO, EL TIPO ES 'VB', SI ES UN ADJETIVO, 'JJ'. SOLO ESOS 2 TIPOS DE PALABRAS VALEN PARA 'MEDIO' O 'DIFICIL'. NO ES NECESARIO CORROVORAR SI LA PALABRA EXISTE EN SPELLING O LEXICON, PORQUE CUALFUERA ELA PALABRA, SI NO LA RECONOCE COMO VERBO 'VB' O ADJETIVO 'JJ', NO ES VÁLIDA. SOLAMENTE LAS RECONOCE COMO VERBO O ADJETIVO SI SE ENCUENTRA DENTRO DE SPELLING O LEXICON
+        print(tipo)
+        return palabra if tipo == 'VB' or tipo == 'JJ' else {}   # SI LA DIFICULTAD NO ES FÁCIL, INDEPENDIENTEMENTE DE LA PALABRA QUE SE HAYA ESCRITO, SI ES UN VERBO O UN ADJETIVO, LA DEVUELVE, SINO DEVUELVE UN DICT VACÍO (AL IGUAL QUE EN FÁCIL)
 
     def calcular_palabra(self, window, quien):
         ''' CALCULA Y DEVUELVE EL PUNTAJE GANADO O PERDIDO AL FINALIZAR UN TURNO'''
-        getattr(self._parametros, 'add_puntos_'+quien)(self._calcular_palabra(quien, self._validar_palabra(self._parametros.get_palabra())))    # CALCULA LA PALABRA SI ES VÁLIDA Y DEVUELVE SU PUNTAJE CORRESPONDIENTE SEGÚN LA SUMA DE LAS LETRAS EN REFERENCIA A SU PUNTUACIÓN Y COLOR EN LA QUE ESTÉN UBICADAS
-        const.const_Update(window, {'puntos_'+quien: getattr(self._parametros, 'get_puntos_'+quien)()}) # ACTUALIZA EL PUNTAJE EN PANTALLA
+        palabra = self._validar_palabra() # palabra RECIBE LA PALABRA SI ES VÁLIDA, SINO, UN DICT VACÍO (PALABRA VACÍA)
+        if palabra: # ENTONCES, SI LA PALABRA ES VÁLIDA, SI palabra CONTIENE ELEMENTOS
+            puntos = self.calcular_puntos(quien, palabra) # CALCULA LOS PUNTOS DE TAL PALABRA
+            getattr(self._parametros, 'add_puntos_'+quien)(puntos)    # SUMA LOS PUNTOS CALCULADOS A QUIEN LE CORRESPONDA SEGÚN 'quien'
+            const.const_Update(window, {'puntos_'+quien: getattr(self._parametros, 'get_puntos_'+quien)()}, {self._parametros.get_key_historial(): str().join(list(palabra.values()))+':\n'+str(puntos)}) # ACTUALIZA EL PUNTAJE ACTUAL Y EL HISTORIAL
+        else:   # SI LA PALABRA NO ES VÁLIDA
+            const.const_Update(window, {self._parametros.get_key_historial(): str(str().join(list(self._parametros.get_palabra().values())))+':'+'\nINVÁLIDA'})
+        self._parametros.add_key_historial()
 
     def set_dificultad(self):
         self._set_dificultad(self._parametros.get_dificultad())
+
+    def check_orientation(self,palabra):
+        lista_posiciones=list(palabra.keys())
+        firstPosition=lista_posiciones[0]
+        lastPosition=lista_posiciones[-1]
+        firstCol=lista_posiciones[0][0]
+        lastCol=lista_posiciones[-1][0]
+        if firstCol == lastCol:
+            return 'Vertical'
+        else:
+            return 'Horizontal'
+
+
+    def evaluar_posicion(self,window,event,palabra):
+        lista_posiciones=list(palabra.keys())
+        if not palabra:
+            '''Si el diccionario es vacio'''
+            pass
+        else:
+            orientacion=self.check_orientation(palabra)
+            '''Si la posicion (x,y) que recibí esta fuera del rango,
+               borro la letra de _palabra y actualizo el boton de la matriz '''
+            if orientacion=='Horizontal':
+
+                if event[1] != lista_posiciones[0][1]:
+                    print('EVENTO[1]', event[1])
+                    print('LIST[0][1] ' , lista_posiciones[0][1])
+                    sg.popup('Error de colocacion de letra')
+                    self._parametros.del_ficha_palabra(event)
+                    window.Element(event).Update('')
+            else:
+                if event[0] != lista_posiciones[0][0]:
+                    sg.popup('Error de colocacion de letra')
+                    self._parametros.del_ficha_palabra(event)
+                    window.Element(event).Update('')

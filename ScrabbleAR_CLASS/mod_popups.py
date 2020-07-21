@@ -8,7 +8,9 @@ class Popups:
         Popup(data,
               title='ScrabbleAR',
               custom_text='ACEPTAR',
-              font=24)
+              font=24,
+              auto_close=True,
+              auto_close_duration=10)
 
     def popup_scrolled(self, data):
         PopupScrolled(data,

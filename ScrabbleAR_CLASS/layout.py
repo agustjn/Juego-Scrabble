@@ -80,8 +80,9 @@ letras_jugador = [[Button(button_text='',
                           pad=fichas_pad,) for y in range(7)]]
 letras_bot = [[Button(button_text='',
                       key=('bot', y),
-                      button_color=('White',  'Grey'),
+                      button_color=('Red',  'Red'),
                       size=boton_tablero_size,
+                      image_data='iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAIAAADAARDdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADuSURBVEhLpY3RFYQgEAMtxE/778we7iA6hhVUYJ6PS3azuWVft2VJr76/nudqo/QazVH0FOa00r1QpYb0+ij50T/wBuyl+IrdN+632IMwdf2MJ9GyBWHnugoBZVzXIUHItUNMW9dPkCONAN/e7Tsc6OZVy3YQLt2GSY73w70qWnocWlTEy2QW7+JlMg4tKmrpEbhXhdswyfEeuNSxWz6f56NvcKMz1yJMgm1Cjqhrh5i2ruuQUMh1FQLKuI6w09r1A8SUdH3BVAvXrxBWvrBukj/X+bADb8A2pkNQpYb0ukEPQ8nRo59iNAdV+7r9AJ5KYMzAUVISAAAAAElFTkSuQmCC',
                       pad=fichas_pad,) for y in range(7)]]
 frame_letras = [[Frame(layout=[[Column(layout=letras_jugador,
                                        background_color=window_color)],
@@ -172,11 +173,28 @@ columna_de_juego_derecha = [[Column(layout=puntos,
                                   background_color=window_color)],
                             [Column(layout=botones_de_opcion_juego,
                                     background_color=window_color)]]
-layout_juego = [[Column(layout=tablero,
+historial = [[Text(text='',
+                   key=('puntuacion', i),
+                   size=(12, 2),
+                   text_color='Black',
+                   background_color='White')] for i in range(50)]
+columna_historial = [[Column(layout=historial,
+                             scrollable=True,
+                             vertical_scroll_only=True,
+                             background_color=window_color,
+                             size=(125, 495))]]
+frame_historial = [[Frame(title='HISTORIAL',
+                          layout=columna_historial,
+                          background_color=window_color)]]
+columna_tablero = [[Column(layout=tablero,
+                           background_color=window_color),
+                    Column(layout=columna_de_juego_derecha,
+                           background_color=window_color)],
+                   [Column(layout=frame_letras,
+                           background_color=window_color)]]
+layout_juego = [[Column(layout=frame_historial,
                         background_color=window_color),
-                 Column(layout=columna_de_juego_derecha,
-                        background_color=window_color)],
-                [Column(layout=frame_letras,
+                 Column(layout=columna_tablero,
                         background_color=window_color)]]
 window_juego = Window(title='ScrabbleAR',
                       font=font_size,

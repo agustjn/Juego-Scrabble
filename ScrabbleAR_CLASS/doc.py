@@ -1,4 +1,4 @@
-ELEMENT AND FUNCTION CALL
+
 REFERENCE
 Here you will ﬁnd the details for all Elements, Objects, and Functions that are available to you. If you want to use a
 complex element and don't understand the parameters, then this is the right place to come. For every element you're

@@ -1,28 +1,10 @@
-'''class s:
-    atril_jugador = {1: 1}
-    atril_bot = {2: 2}
-
-    def ya_mismo(self):
-        print(1)
-
-    def ahora_mismo(self, x):
-        print(x)
-
-    def mismo(self, cual):
-        getattr(self, cual+'_mismo')()
-
-    def var(self, quien, x):
-        print(getattr(self, 'ahora_'+quien)(x))
-
-
-a = s()
-a.var('mismo', 5)'''
-
-import PySimpleGUI as sg
-
-
-layout = [[sg.Text('CASA', key='h')]]
-w = sg.Window('Prueba').Layout(layout)
-while True:
-    e, v = w.Read(timeout=1000)
-    print(w.Element('h').Get_Text())
+from pattern.es import lexicon, spelling, split, parse
+d = {1: '1', 2: '2', 3: 'q', 4: 'w'}
+print(str().join(list(d.values())))
+tipo = parse(str().join(list(d.values()))).split('/')[1]
+print(tipo)
+print(parse('SI'))
+print({key: value if for key in [(1, 1), (2, ''), (3, 3)]})
+# self._parametros.get_palabra() = d
+# str().join(list(d.values()))
+# print(parse('rgbrty').split('/')[1])	# 'JJ' ADJETIVO, 'VB' VERBO

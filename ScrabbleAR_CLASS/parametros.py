@@ -2,7 +2,7 @@ from copy import deepcopy
 from random import choice
 from const import bolsa
 from json import dumps
-
+import const
 
 class Parametros:
     ''' ESTA CLASE CUMPLE UN IGUAL FUNCIONAMIENTO QUE LAS LISTAS EN
@@ -24,8 +24,10 @@ class Parametros:
         self._s = self._tiempo_p_t  # SEGUNDOS
         self._matriz = {}   # MATRIZ INICIAL
         self._palabra = {}  # PALABRA POR RONDA
+        self._ultima_puntuacion = ('puntuacion', 0) # ÚLTIMA LLAVE HABILITADA DEL HISTORIAL PARA ESCRIBIR
         self._bolsa_fichas = deepcopy(bolsa)    # COPIA PROFUNDA DE LA BOLSA, DESLIGAMIENTO DE CUALQUIER PUNTERO
         self._primer_turno = True
+        self._cambiar_fichas = 0    # CANTIDAD DE CAMBIO DE FICHAS REALIZADO DURANTE LA PARTIDA
 
     def set_puntos_jugador(self, puntos):
         self._p_jugador = puntos
@@ -105,17 +107,35 @@ class Parametros:
     def get_palabra(self):
         return self._palabra
 
+    def set_key_historial(self, key):
+        self._ultima_puntuacion = key
+
+    def get_key_historial(self):
+        return self._ultima_puntuacion
+
     def set_bolsa(self, bolsa):
         self._bolsa_fichas = bolsa
 
     def get_bolsa(self):
         return self._bolsa_fichas
 
-    def set_primer_turno(self):
-        self._primer_turno = not self._primer_turno
+    def set_primer_turno(self, boolean):
+        self._primer_turno = boolean
 
     def get_primer_turno(self):
         return self._primer_turno
+
+    def set_cambiar_fichas(self, cambiar_fichas):
+        self._cambiar_fichas = cambiar_fichas
+
+    def get_cambiar_fichas(self):
+        return self._cambiar_fichas
+
+    def add_key_historial(self, cantidad=1):    # AUMENTA ÉL NÚMERO DE LLAVE HABILITADO PARA SU ESCRITURA EN EL HISTORIAL SEGÚN 'cantidad'
+        self._ultima_puntuacion = ('puntuacion', self._ultima_puntuacion[1]+cantidad)
+
+    def add_cambiar_fichas(self, cantidad=1):   # AUMENTA EL NÚMERO DE VECES QUE SE CAMBIÓ DE FICHAS SEGÚN 'cantidad'
+        self._cambiar_fichas += cantidad
 
     def borrar_palabra(self):
         self.set_palabra({})
@@ -210,6 +230,22 @@ class Parametros:
         ''' SACA UNA FICHA DE LA MATRIZ SEGÚN LA LLAVE PASADA POR PARÁMETRO.'''
         self._matriz.pop(key)
 
+    def actualizar_atril(self, window, player): # player = 'jugador' o 'bot'
+        ''' GENERA LETRAS NUEVAS PARA EL ATRIL EN CASO QUE LOS BOTONES
+            DE LA INTERFAZ ESTEN VACIOS'''
+        # for boton in getattr(self._parametros, 'get_atril_'+player)():
+            # if window[boton].GetText() == '':
+                # const_Update(window, {boton: self.letra_random()})
+        const_Update(window, {key: self.letra_random() if getattr(self._parametros, 'get_atril_'+player)()[key] == '' for key in getattr(const, 'atril_'+quien)})
+
+    def actualizar_atril(self, window, player): #player='jugador' o 'bot'
+        ''' GENERA LETRAS NUEVAS PARA EL ATRIL EN CASO QUE LOS BOTONES
+            DE LA INTERFAZ ESTEN VACIOS'''
+        for boton in getattr(const, 'atril_'+player):
+            if window[boton].GetText() == '':
+                ficha_nueva = {boton: self.letra_random()}
+                const_Update(window, ficha_nueva)
+
 # ESTE ES EL FORMATO PARA GUARDAR Y CARGAR PARTIDA:
 # parametros = {'jugador': {'puntos': 0, 'atril': {}},
 #               'bot': {'puntos': 0, 'atril': {}},
@@ -233,7 +269,9 @@ class Parametros:
                 {'tiempo_por_turno': self.get_tiempo_por_turno(),
                  'segundos': self.get_segundos()},
                 'matriz': {dumps(key): value for key, value in self.get_matriz().items()},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
-                'bolsa_fichas': self.get_bolsa()}
+                'bolsa_fichas': self.get_bolsa(),
+                'primer_turno': self.get_primer_turno(),
+                'cambiar_fichas': self.get_cambiar_fichas()}
 
     def cargar_parametros(self, partida):   # CARGA TODOS LOS PARÁMETROS SEGÚN LA PARTIDA GUARDADA, SEGÚN 'partida' QUE CONTIENE EL FORMATO ACLARADO EN LA LÍNEA 213
         self.set_hay_partida()
@@ -254,3 +292,5 @@ class Parametros:
         self.set_tiempo_por_turno(partida['tiempos']['tiempo_por_turno'])
         self.set_segundos(partida['tiempos']['segundos'])
         self.set_bolsa(partida['bolsa_fichas'])
+        self.set_primer_turno(partida['primer_turno'])
+        self.set_cambiar_fichas(partida['cambiar_fichas'])
