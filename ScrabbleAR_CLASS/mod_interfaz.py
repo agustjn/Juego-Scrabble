@@ -29,7 +29,8 @@ class Interfaz(Puntaje):
                 self._parametros.add_letra_bolsa(letras[0]) # DEVOLVEMOS LA LETRA A LA BOLSA
                 self._parametros.add_fichas()   # AUMENTAMOS LA CANTIDAD DE LETRAS DE LA BOLSA EN 1
                 atril[key] = letras.pop(0)  # REUBICA LA LETRA EN EL ATRIL (.pop DEVUELVE Y ELIMINA EL ELEMENTO SEGÚN EL ÍNDICE, IGUAL QUE eliminar_en(pos) DE LISTAS EN ALGORITMOS)
-        self._parametros.set_matriz({}) # BORRA LA MATRIZ
+        for key in palabra:
+            self._parametros.pop_ficha_matriz(key) # BORRA LA MATRIZ
         getattr(self._parametros, 'set_atril_'+quien)(atril)  # RESETEA EL ATRIL
         const.const_Update(window, {key: '' for key in palabra}, atril)   # ACTUALIZA LA MATRIZ Y EL ATRIL
 
@@ -71,10 +72,14 @@ class Interfaz(Puntaje):
             palabra_en_x += palabra[key]
         for key in {key: value for key, value in sorted(palabra.items(), key=lambda elem: elem[0][1])}: # ESCRIBE LA PALABRA ORIENTADA EN y
             palabra_en_y += palabra[key]
-        if self._parametros.get_dificultad() == 'FÁCIL':
-            return palabra if palabra_en_x in lexicon or palabra_en_x in spelling or palabra_en_y in lexicon or palabra_en_y in spelling else {} # SI LA PALABRA EXISTE, INDEPENDIENTEMENTE DEL TIPO QUE SEA (YA QUE ESTAMOS EN DIFICULTAD FÁCIL), LA DEVUELVE, SINO, UN DICT VACÍO (DE ESTA MANERA SE PUEDE CORROVORAR SI LA PALABRA EXISTE PREGUNTANDO POR EL DICT VACIÓ O NO 'if not palabra' - 'if palabra')
-        tipo = parse(str().join(list(self._parametros.get_palabra().values()))).split('/')[1]  # TIPO DE LA PALABRA. SI LA PALABRA ES UN VERBO, EL TIPO ES 'VB', SI ES UN ADJETIVO, 'JJ'. SOLO ESOS 2 TIPOS DE PALABRAS VALEN PARA 'MEDIO' O 'DIFICIL'. NO ES NECESARIO CORROVORAR SI LA PALABRA EXISTE EN SPELLING O LEXICON, PORQUE CUALFUERA ELA PALABRA, SI NO LA RECONOCE COMO VERBO 'VB' O ADJETIVO 'JJ', NO ES VÁLIDA. SOLAMENTE LAS RECONOCE COMO VERBO O ADJETIVO SI SE ENCUENTRA DENTRO DE SPELLING O LEXICON
-        return palabra if tipo == 'VB' or tipo == 'JJ' else {}   # SI LA DIFICULTAD NO ES FÁCIL, INDEPENDIENTEMENTE DE LA PALABRA QUE SE HAYA ESCRITO, SI ES UN VERBO O UN ADJETIVO, LA DEVUELVE, SINO DEVUELVE UN DICT VACÍO (AL IGUAL QUE EN FÁCIL)
+        if palabra_en_x in lexicon or palabra_en_x in spelling or palabra_en_y in lexicon or palabra_en_y in spelling:
+            if self._parametros.get_dificultad() == 'FÁCIL':
+                return palabra # SI LA PALABRA EXISTE, INDEPENDIENTEMENTE DEL TIPO QUE SEA (YA QUE ESTAMOS EN DIFICULTAD FÁCIL), LA DEVUELVE, SINO, UN DICT VACÍO (DE ESTA MANERA SE PUEDE CORROVORAR SI LA PALABRA EXISTE PREGUNTANDO POR EL DICT VACIÓ O NO 'if not palabra' - 'if palabra')
+            else:
+                tipo = parse(str().join(list(self._parametros.get_palabra().values()))).split('/')[1]  # TIPO DE LA PALABRA. SI LA PALABRA ES UN VERBO, EL TIPO ES 'VB', SI ES UN ADJETIVO, 'JJ'. SOLO ESOS 2 TIPOS DE PALABRAS VALEN PARA 'MEDIO' O 'DIFICIL'. NO ES NECESARIO CORROVORAR SI LA PALABRA EXISTE EN SPELLING O LEXICON, PORQUE CUALFUERA ELA PALABRA, SI NO LA RECONOCE COMO VERBO 'VB' O ADJETIVO 'JJ', NO ES VÁLIDA. SOLAMENTE LAS RECONOCE COMO VERBO O ADJETIVO SI SE ENCUENTRA DENTRO DE SPELLING O LEXICON
+                return palabra if tipo == 'VB' or tipo == 'JJ' else {}   # SI LA DIFICULTAD NO ES FÁCIL, INDEPENDIENTEMENTE DE LA PALABRA QUE SE HAYA ESCRITO, SI ES UN VERBO O UN ADJETIVO, LA DEVUELVE, SINO DEVUELVE UN DICT VACÍO (AL IGUAL QUE EN FÁCIL)
+        else:
+            return {}
 
     def calcular_palabra(self, window, quien):
         ''' CALCULA Y DEVUELVE EL PUNTAJE GANADO O PERDIDO AL FINALIZAR UN TURNO'''
@@ -87,6 +92,7 @@ class Interfaz(Puntaje):
                 const.const_Update(window, {'puntos_'+quien: getattr(self._parametros, 'get_puntos_'+quien)()}) # ACTUALIZA EL PUNTAJE ACTUAL Y EL HISTORIAL
             else:   # SI LA PALABRA NO ES VÁLIDA
                 self._parametros.add_historial('PALABRA: '+str().join(list(self._parametros.get_palabra().values())), 'INVÁLIDA', '+0 PUNTOS')
+                self.devolver_fichas(window, quien)
             window.Element('historial').Update(self._parametros.get_historial())
             return True
         else:
@@ -123,7 +129,9 @@ class Interfaz(Puntaje):
                     if event[0] != lista_posiciones[0][0] or event[1] != lista_posiciones[-1][1]+1:
                         self._popups.popup('Error de colocacion de letra')
                         return False
-            elif event[0] != lista_posiciones[-1][0]+1 or event[1] != lista_posiciones[-1][1]+1:
+            elif event[0] == lista_posiciones[-1][0]+1 or event[1] == lista_posiciones[-1][1]+1:
+                return True
+            else:
                 self._popups.popup('Error de colocacion de letra')
                 return False
         return True

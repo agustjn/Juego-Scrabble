@@ -243,9 +243,13 @@ class Parametros:
         ''' GENERA LETRAS NUEVAS PARA EL ATRIL EN CASO QUE LOS BOTONES
             DE LA INTERFAZ ESTEN VACIOS'''
         for boton in getattr(const, 'atril_'+player):
-            if window[boton].GetText() == '':
+            if window.Element(boton).GetText() == '':
                 letra_nueva = self.letra_random()
                 const.const_Update(window, {boton: letra_nueva})
+
+    def pop_ficha_matriz(self, *fichas):
+        for ficha in fichas:
+            self._matriz.pop(ficha)
 
 # ESTE ES EL FORMATO PARA GUARDAR Y CARGAR PARTIDA:
 # parametros = {'jugador': {'puntos': 0, 'atril': {}},
