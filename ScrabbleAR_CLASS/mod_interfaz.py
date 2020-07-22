@@ -25,10 +25,11 @@ class Interfaz(Puntaje):
         palabra, atril = self._parametros.get_palabra(), getattr(self._parametros, 'get_atril_'+quien)() # EL ATRÍL SEGÚN QUIÉN, 'jugador' o 'bot'
         letras = list(palabra.values())
         for key in getattr(const, 'atril_'+quien):  # PARA CADA LLAVE EN EL ATRIL
-            if atril[key] == '' and letras:    # SI LA FICHA NO TIENE LETRA
-                self._parametros.add_letra_bolsa(letras[0]) # DEVOLVEMOS LA LETRA A LA BOLSA
-                self._parametros.add_fichas()   # AUMENTAMOS LA CANTIDAD DE LETRAS DE LA BOLSA EN 1
-                atril[key] = letras.pop(0)  # REUBICA LA LETRA EN EL ATRIL (.pop DEVUELVE Y ELIMINA EL ELEMENTO SEGÚN EL ÍNDICE, IGUAL QUE eliminar_en(pos) DE LISTAS EN ALGORITMOS)
+            if atril[key] == '':    # SI LA FICHA NO TIENE LETRA
+                if letras:
+                    self._parametros.add_letra_bolsa(letras[0]) # DEVOLVEMOS LA LETRA A LA BOLSA
+                    self._parametros.add_fichas()   # AUMENTAMOS LA CANTIDAD DE LETRAS DE LA BOLSA EN 1
+                    atril[key] = letras.pop(0)  # REUBICA LA LETRA EN EL ATRIL (.pop DEVUELVE Y ELIMINA EL ELEMENTO SEGÚN EL ÍNDICE, IGUAL QUE eliminar_en(pos) DE LISTAS EN ALGORITMOS)
         for key in palabra:
             self._parametros.pop_ficha_matriz(key) # BORRA LA MATRIZ
         getattr(self._parametros, 'set_atril_'+quien)(atril)  # RESETEA EL ATRIL
@@ -84,7 +85,10 @@ class Interfaz(Puntaje):
     def calcular_palabra(self, window, quien):
         ''' CALCULA Y DEVUELVE EL PUNTAJE GANADO O PERDIDO AL FINALIZAR UN TURNO'''
         if len(self._parametros.get_palabra()) > 1:
-            palabra = self._validar_palabra() # palabra RECIBE LA PALABRA SI ES VÁLIDA, SINO, UN DICT VACÍO (PALABRA VACÍA)
+            if quien == 'jugador':
+                palabra = self._validar_palabra() # palabra RECIBE LA PALABRA SI ES VÁLIDA, SINO, UN DICT VACÍO (PALABRA VACÍA)
+            else:
+                palabra = self._parametros.get_palabra()    
             if palabra: # ENTONCES, SI LA PALABRA ES VÁLIDA, SI palabra CONTIENE ELEMENTOS
                 puntos = self.calcular_puntos(quien, palabra) # CALCULA LOS PUNTOS DE TAL PALABRA
                 getattr(self._parametros, 'add_puntos_'+quien)(puntos)    # SUMA LOS PUNTOS CALCULADOS A QUIEN LE CORRESPONDA SEGÚN 'quien'

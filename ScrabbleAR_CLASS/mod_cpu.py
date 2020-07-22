@@ -95,13 +95,13 @@ def verificar_espacio(window,casilla_cpu,palabra_cpu):
 
 
 
-def colocar_palabra_bot(palabra,window,parametros, calcular_palabra):
+def colocar_palabra_bot(palabra,window,parametros,calcular_palabra):
     position=(randint(1,14),randint(1,14))
     result=verificar_espacio(window,position,palabra)
     while result == 'No valido':
         result=verificar_espacio(window,position,palabra)
     Colocar_Letras(window,position,result,palabra,parametros)
-    calcular_palabra(window, 'bot')
+    calcular_palabra(window,'bot')
 
 def Colocar_Letras(window,casilla_cpu,orientacion,palabra_cpu,parametros):
     columna=casilla_cpu[0]
@@ -129,15 +129,13 @@ def Colocar_Letras(window,casilla_cpu,orientacion,palabra_cpu,parametros):
         for i in range(len(palabra_cpu)):
             window.Element((columna,fila)).Update(palabra_cpu[i])
             parametros.agregar_ficha_matriz((columna,fila),palabra_cpu[i])
-            parametros.add_ficha_palabra({(columna, fila): palabra_cpu[i]})
-            #matriz_tablero[(columna,fila)]['letra']=palabra_cpu[i]
+            parametros.add_ficha_palabra({(columna,fila):palabra_cpu[i]})
             parametros.sacar_ficha_atril_bot(pos_eliminados[i])
             columna+=1
     else:
         for i in range(len(palabra_cpu)):
-            window.Element((columna, fila)).Update(palabra_cpu[i])
+            window.Element((columna,fila)).Update(palabra_cpu[i])
             parametros.agregar_ficha_matriz((columna,fila),palabra_cpu[i])
-            parametros.add_ficha_palabra({(columna, fila): palabra_cpu[i]})
-            # matriz_tablero[(columna,fila)]['letra']=palabra_cpu[i]
+            parametros.add_ficha_palabra({(columna,fila):palabra_cpu[i]})
             parametros.sacar_ficha_atril_bot(pos_eliminados[i])
-            fila += 1
+            fila+=1
