@@ -46,7 +46,8 @@ class Main(Interfaz):
         if self._parametros.get_hay_partida():  # PREGUNTA SI HAY PARTIDA
             const_Update(self._window, # SI HAY PARTIDA GUARDADA, ACTUALIZA LA VENTANA CON LOS PARÁMETROS GUARDADOS
                          {'puntos_jugador': self._parametros.get_puntos_jugador(),
-                          'puntos_bot': self._parametros.get_puntos_bot()},
+                          'puntos_bot': self._parametros.get_puntos_bot(),
+                          'historial': self._parametros.get_historial()},
                          self._parametros.get_atril_jugador(),
                          self._parametros.get_atril_bot(),
                          self._parametros.get_matriz())
@@ -68,12 +69,9 @@ class Main(Interfaz):
 
     def juego(self):
         self.inicio()
-        if self._parametros.get_matriz():   # SI LA MATRIZ NO ESTÁ VACÍA, YA NO ESTAMOS EN EL PRIMER TURNO
-            self._parametros.set_primer_turno(False)
         while True:
             event, values = self._window.Read(timeout=100)  # CADA 100 MILISEGUNDOS SALTA DEL .Read()
             self._turno.conteo(self._window)    # ACTUALIZA EL CONTEO EN PANTALLA MAS LAS VARIABLES CONTADORAS
-            const_Update(self._window, {'tiempo': self._parametros.get_segundos()})
             if event in ('terminar', None):
                 self.fin()
                 break
@@ -87,22 +85,26 @@ class Main(Interfaz):
                 if ((event is 'fin_de_turno') or (self._parametros.get_segundos() == 0)):   # SI CLICKEA EN FIN DE TURNO O SE LE TERMINA EL TIEMPO
                     if self._parametros.get_palabra():  # SI _palabra CONTIENE ELEMENTOS (SI PUSO LETRAS)
                         if not self.primer_turno(): # ESTA FUNCION DETERMINA SI PERMANECEMOS EN EL PRIMER TURNO O NO. SI LA VARIABLE _primer_turno ES False NO ESTAMOS EN EL PRIMER TURNO, SI ES True, SI. SI _primer_turno ES False, LA FUNCIÓN REGULA SI SE PUSO O NO UNA LETRA EN E CENTRO PARA TERMINAR EL PRIMER TURNO O NO
-                            self.calcular_palabra(self._window, 'jugador')  # CALCULA LA PALABRA
-                            self._parametros.actualizar_atril(self._window,'jugador')
+                            if self.calcular_palabra(self._window, 'jugador'):  # CALCULA LA PALABRA
+                                self._parametros.actualizar_atril(self._window, 'jugador')
+                            else:
+                                self._popups.popup('SOLO SE ACEPTAN PALABRAS CON 2 O MÁS LETRAS')
                             self._turno.fin_de_turno()  # CAMBIA EL TURNO Y BORRA LAS LETRAS USADAS DE LA BOLSA
                         else: # SI ESTAMOS EN EL PRIMER TURNO
                             self.devolver_fichas(self._window, 'jugador')   # DEVUELVE LAS FICHAS PUESTAS EN LA MATRIZ HACIA EL ATRIL PORQUE SE UBICARON INCORRECTAMENTE
                             self._popups.popup('TURNO PERDIDO. NO INGRESÓ NINGUNA LETRA\nDE LA PALABRA EN EL CENTRO DEL TABLERO')   # NO SE INGRESÓ NINGUNA LETRA EN EL TROCEN
                         self._parametros.borrar_palabra()   # POR CADA TURNO LA BORRA (EN _palabra SOLO SE UBICAN LAS LETRAS POR TURNO)
+                        self._parametros.set_letra_ficha('')
                 if event in atril_jugador:
                     self._parametros.set_ficha({event: self._window.Element(event).GetText()})  # GUARDA LA FICHA SELECCIONADA, LA SETEA EN _ficha
-                if event in matriz and self._parametros.get_letra_ficha() != '' and self._window.Element(event).GetText() == '':    # SI EL EVENTO ESTÁ EN LA MATRIZ Y SE SETEÓ ALGUNA FICHA (ES DECIR, NO ESTÁ VACÍA)
+                if event in matriz and self._parametros.get_letra_ficha() != '' and self._window.Element(event).GetText() == '' and self.evaluar_posicion(self._window, event, self._parametros.get_palabra()):    # SI EL EVENTO ESTÁ EN LA MATRIZ Y SE SETEÓ ALGUNA FICHA (ES DECIR, NO ESTÁ VACÍA)
                     self.mover_ficha(self._window, event)   # MUEVE LA FICA DESDE EL ATRIL HASTA LA MATRIZ
                 if event is 'cambiar_fichas':
                     if not self._parametros.get_palabra():  # SOLO SE PUEDEN CAMBIAR LAS FICHAS CUANDO NO SE HAYA PUESTO NINGUNA
                         if self._parametros.get_cambiar_fichas() < 300:   # SI SE CAMBIÓ MÁS DE 3 VECES, PIERDE
                             self._parametros.add_cambiar_fichas()   # AUMENTA EL CONTADOR DE 'CAMBIAR FICHAS' (MÁXIMO 3, LLEGA A 3 Y PIERDE)
                             self.repartir_fichas(self._parametros.get_atril_jugador(), self._window)    # REPARTE 7 NUEVAS FICHAS
+                            self._parametros.set_letra_ficha('')
                             self._turno.fin_de_turno()
                         else:
                             return self._popups.popup('HAS PERDIDO EL JUEGO')   # EL RETURN ES SOLO PARA QUE SALGA DE 'juego()' Y ESTE TERMINE
@@ -110,11 +112,10 @@ class Main(Interfaz):
                         self._popups.popup('NO SE PUEDEN CAMBIAR FICHAS SI YA\nPUSO ALGUNA DURANTE EL TURNO')   # SI '_palabra' CONTIENE FICHAS, ES DECIR, PUSO ALGUNA LETRA, NO PUEDE CAMBIARLAS HASTA SU SIGUIENTE TURNO
             else:
                 # TURNO DEL BOT:
-                self._parametros._palabra_bot=[]
-                cpu.create_word(self._parametros._a_bot.values(),self._parametros._dificultad,self._parametros)
-                print('PALABRA DEL BOT: ',self._parametros._palabra_bot)
-                cpu.colocar_palabra_bot(self._parametros._palabra_bot,self._window,self._parametros)
-                self._parametros.actualizar_atril(self._window,'bot')
+                cpu.create_word(self._parametros._a_bot.values(), self._parametros._dificultad, self._parametros)
+                print('PALABRA DEL BOT: ', self._parametros._palabra_bot)
+                cpu.colocar_palabra_bot(self._parametros._palabra_bot, self._window, self._parametros)
+                self._parametros.actualizar_atril(self._window, 'bot')
                 # if self._parametros.get_segundos() == 0:
                 #   self._turno.fin_de_turno()
                 #   if not self.primer_turno():

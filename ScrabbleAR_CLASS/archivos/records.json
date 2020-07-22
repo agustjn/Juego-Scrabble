@@ -25,28 +25,28 @@
         "dificultad": "DIFICIL"
     },
     {
+        "puntos": 12,
+        "fecha": "22/07/2020",
+        "dificultad": "F\u00c1CIL"
+    },
+    {
+        "puntos": 12,
+        "fecha": "22/07/2020",
+        "dificultad": "F\u00c1CIL"
+    },
+    {
         "puntos": 13,
         "fecha": "21/07/2020",
         "dificultad": "F\u00c1CIL"
     },
     {
-        "puntos": 16,
-        "fecha": "20/07/2020",
-        "dificultad": "DIFICIL"
-    },
-    {
-        "puntos": 16,
-        "fecha": "21/07/2020",
+        "puntos": 14,
+        "fecha": "22/07/2020",
         "dificultad": "F\u00c1CIL"
     },
     {
-        "puntos": 17,
+        "puntos": 16,
         "fecha": "20/07/2020",
-        "dificultad": "F\u00c1CIL"
-    },
-    {
-        "puntos": 19,
-        "fecha": "19/07/2020",
         "dificultad": "DIFICIL"
     }
 ]

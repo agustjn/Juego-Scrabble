@@ -1,4 +1,4 @@
-from PySimpleGUI import Window, Frame, Column, Button, Drop, Spin, Text
+from PySimpleGUI import Window, Frame, Column, Button, Drop, Spin, Text, Listbox
 
 
 boton_opcion = 'media/boton_opcion.png'
@@ -173,18 +173,14 @@ columna_de_juego_derecha = [[Column(layout=puntos,
                                   background_color=window_color)],
                             [Column(layout=botones_de_opcion_juego,
                                     background_color=window_color)]]
-historial = [[Text(text='',
-                   key=('puntuacion', i),
-                   size=(12, 2),
-                   text_color='Black',
-                   background_color='White')] for i in range(50)]
-columna_historial = [[Column(layout=historial,
-                             scrollable=True,
-                             vertical_scroll_only=True,
-                             background_color=window_color,
-                             size=(125, 495))]]
+historial = [[Listbox(values=[],
+                      key='historial',
+                      size=(20, 26),
+                      text_color='Black',
+                      background_color='White')]]
 frame_historial = [[Frame(title='HISTORIAL',
-                          layout=columna_historial,
+                          layout=historial,
+                          pad=(2, 1),
                           background_color=window_color)]]
 columna_tablero = [[Column(layout=tablero,
                            background_color=window_color),

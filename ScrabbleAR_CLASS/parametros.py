@@ -24,11 +24,11 @@ class Parametros:
         self._s = self._tiempo_p_t  # SEGUNDOS
         self._matriz = {}   # MATRIZ INICIAL
         self._palabra = {}  # PALABRA POR RONDA
-        self._ultima_puntuacion = ('puntuacion', 0) # ÚLTIMA LLAVE HABILITADA DEL HISTORIAL PARA ESCRIBIR
         self._bolsa_fichas = deepcopy(bolsa)    # COPIA PROFUNDA DE LA BOLSA, DESLIGAMIENTO DE CUALQUIER PUNTERO
         self._primer_turno = True
         self._cambiar_fichas = 0    # CANTIDAD DE CAMBIO DE FICHAS REALIZADO DURANTE LA PARTIDA
-        self._palabra_bot = None    # PALABRA GENERADA DEL BOT
+        self._palabra_bot = []    # PALABRA GENERADA DEL BOT
+        self._historial = []
 
     def set_puntos_jugador(self, puntos):
         self._p_jugador = puntos
@@ -108,12 +108,6 @@ class Parametros:
     def get_palabra(self):
         return self._palabra
 
-    def set_key_historial(self, key):
-        self._ultima_puntuacion = key
-
-    def get_key_historial(self):
-        return self._ultima_puntuacion
-
     def set_bolsa(self, bolsa):
         self._bolsa_fichas = bolsa
 
@@ -132,8 +126,21 @@ class Parametros:
     def get_cambiar_fichas(self):
         return self._cambiar_fichas
 
-    def add_key_historial(self, cantidad=1):    # AUMENTA ÉL NÚMERO DE LLAVE HABILITADO PARA SU ESCRITURA EN EL HISTORIAL SEGÚN 'cantidad'
-        self._ultima_puntuacion = ('puntuacion', self._ultima_puntuacion[1]+cantidad)
+    def set_historial(self, historial):
+        self._historial = historial
+
+    def set_palabra_bot(self, palabra):
+        self._palabra_bot = palabra
+
+    def get_palabra_bot(self):
+        return self._palabra_bot
+
+    def get_historial(self):
+        return self._historial
+
+    def add_historial(self, *data):
+        for txt in data:
+            self._historial.append(txt)
 
     def add_cambiar_fichas(self, cantidad=1):   # AUMENTA EL NÚMERO DE VECES QUE SE CAMBIÓ DE FICHAS SEGÚN 'cantidad'
         self._cambiar_fichas += cantidad
@@ -210,7 +217,7 @@ class Parametros:
 
     def sacar_ficha_atril_jugador(self):    # SACA LA FICHA SLECCIONADA ACTUALMENTE
         ''' SACA LA FICHA SELECCIONADA (EN MANO) DEL ATRIL.'''
-        self._a_jugador[self.get_key_ficha()]=''
+        self._a_jugador[self.get_key_ficha()] = ''
 
         #if self.get_letra_ficha() != '':
         #    self._a_jugador.pop(self.get_key_ficha())
@@ -219,10 +226,9 @@ class Parametros:
         ''' AGREGA UNA FICHA "{LLAVE: LETRA}" AL ATRIL.'''
         self._a_bot.update(self._ficha if ficha == None else ficha)
 
-    def sacar_ficha_atril_bot(self,ficha):    # SACA LA FICHA SLECCIONADA ACTUALMENTE
+    def sacar_ficha_atril_bot(self, ficha):    # SACA LA FICHA SLECCIONADA ACTUALMENTE
         ''' SACA LA FICHA SELECCIONADA (EN MANO) DEL ATRIL.'''
         self._a_bot.pop(ficha)
-
 
     def agregar_ficha_matriz(self, key, letra=None):    # AGREGA LA FICHA A LA MATRIZ
         ''' AGREGA UNA FICHA "LLAVE, LETRA" A LA MATRIZ.
@@ -233,13 +239,13 @@ class Parametros:
         ''' SACA UNA FICHA DE LA MATRIZ SEGÚN LA LLAVE PASADA POR PARÁMETRO.'''
         self._matriz.pop(key)
 
-    def actualizar_atril(self,window,player): #player='jugador' o 'bot'
+    def actualizar_atril(self, window, player): #player='jugador' o 'bot'
         ''' GENERA LETRAS NUEVAS PARA EL ATRIL EN CASO QUE LOS BOTONES
             DE LA INTERFAZ ESTEN VACIOS'''
-        for boton in getattr(const,'atril_'+player):
-                if window[boton].GetText() == '':
-                     letra_nueva=self.letra_random()
-                     const.const_Update(window,{boton:letra_nueva})
+        for boton in getattr(const, 'atril_'+player):
+            if window[boton].GetText() == '':
+                letra_nueva = self.letra_random()
+                const.const_Update(window, {boton: letra_nueva})
 
 # ESTE ES EL FORMATO PARA GUARDAR Y CARGAR PARTIDA:
 # parametros = {'jugador': {'puntos': 0, 'atril': {}},
@@ -251,22 +257,21 @@ class Parametros:
 #               'tiempos': {'tiempo_por_turno': 20, 'segundos': 20},
 #               'matriz': {}}
     def guardar_parametros(self):   # GUARDA TODOS LOS PARAMETROS ACTUALES DE LA PARTIDA, ES DECIR, LAS VARIABLES SETEADAS HASTA EL MOMENTO DE CLICKEAR EN 'POSPONER'
-        return {'jugador':
-                    {'puntos': self.get_puntos_jugador(),
-                    'atril': {dumps(key): value for key, value in self.get_atril_jugador().items()}},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
-                'bot':
-                    {'puntos': self.get_puntos_bot(),
-                    'atril': {dumps(key): value for key, value in self.get_atril_bot().items()}},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
+        return {'jugador': {'puntos': self.get_puntos_jugador(),
+                            'atril': {dumps(key): value for key, value in self.get_atril_jugador().items()}},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
+                'bot': {'puntos': self.get_puntos_bot(),
+                        'atril': {dumps(key): value for key, value in self.get_atril_bot().items()}},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
                 'fichas': self.get_fichas(),
                 'dificultad': self.get_dificultad(),
                 'turno': self.get_turno(),
-                'tiempos':
-                    {'tiempo_por_turno': self.get_tiempo_por_turno(),
-                 'segundos': self.get_segundos()},
+                'tiempos': {'tiempo_por_turno': self.get_tiempo_por_turno(),
+                            'segundos': self.get_segundos()},
                 'matriz': {dumps(key): value for key, value in self.get_matriz().items()},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
                 'bolsa_fichas': self.get_bolsa(),
                 'primer_turno': self.get_primer_turno(),
-                'cambiar_fichas': self.get_cambiar_fichas()}
+                'cambiar_fichas': self.get_cambiar_fichas(),
+                'historial': self.get_historial(),
+                'palabra_bot': self.get_palabra_bot()}
 
     def cargar_parametros(self, partida):   # CARGA TODOS LOS PARÁMETROS SEGÚN LA PARTIDA GUARDADA, SEGÚN 'partida' QUE CONTIENE EL FORMATO ACLARADO EN LA LÍNEA 213
         self.set_hay_partida()
@@ -289,3 +294,5 @@ class Parametros:
         self.set_bolsa(partida['bolsa_fichas'])
         self.set_primer_turno(partida['primer_turno'])
         self.set_cambiar_fichas(partida['cambiar_fichas'])
+        self.set_historial(partida['historial'])
+        self.set_palabra_bot(partida['palabra_bot'])

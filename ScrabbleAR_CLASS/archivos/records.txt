@@ -1,0 +1,40 @@
+Puntos: 6
+Fecha: 21/07/2020
+Dificultad: FÁCIL
+
+Puntos: 8
+Fecha: 19/07/2020
+Dificultad: DIFICIL
+
+Puntos: 8
+Fecha: 21/07/2020
+Dificultad: FÁCIL
+
+Puntos: 9
+Fecha: 21/07/2020
+Dificultad: DIFICIL
+
+Puntos: 11
+Fecha: 19/07/2020
+Dificultad: DIFICIL
+
+Puntos: 13
+Fecha: 21/07/2020
+Dificultad: FÁCIL
+
+Puntos: 16
+Fecha: 20/07/2020
+Dificultad: DIFICIL
+
+Puntos: 16
+Fecha: 21/07/2020
+Dificultad: FÁCIL
+
+Puntos: 17
+Fecha: 20/07/2020
+Dificultad: FÁCIL
+
+Puntos: 19
+Fecha: 19/07/2020
+Dificultad: DIFICIL
+
