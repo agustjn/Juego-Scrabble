@@ -25,7 +25,7 @@ class Interfaz(Puntaje):
         palabra, atril = self._parametros.get_palabra(), getattr(self._parametros, 'get_atril_'+quien)() # EL ATRÍL SEGÚN QUIÉN, 'jugador' o 'bot'
         letras = list(palabra.values())
         for key in getattr(const, 'atril_'+quien):  # PARA CADA LLAVE EN EL ATRIL
-            if atril[key] == '':    # SI LA FICHA NO TIENE LETRA
+            if atril[key] == '' and letras:    # SI LA FICHA NO TIENE LETRA
                 self._parametros.add_letra_bolsa(letras[0]) # DEVOLVEMOS LA LETRA A LA BOLSA
                 self._parametros.add_fichas()   # AUMENTAMOS LA CANTIDAD DE LETRAS DE LA BOLSA EN 1
                 atril[key] = letras.pop(0)  # REUBICA LA LETRA EN EL ATRIL (.pop DEVUELVE Y ELIMINA EL ELEMENTO SEGÚN EL ÍNDICE, IGUAL QUE eliminar_en(pos) DE LISTAS EN ALGORITMOS)

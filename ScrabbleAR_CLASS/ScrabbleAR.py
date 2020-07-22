@@ -114,7 +114,7 @@ class Main(Interfaz):
                 # TURNO DEL BOT:
                 cpu.create_word(self._parametros._a_bot.values(), self._parametros._dificultad, self._parametros)
                 print('PALABRA DEL BOT: ', self._parametros._palabra_bot)
-                cpu.colocar_palabra_bot(self._parametros._palabra_bot, self._window, self._parametros)
+                cpu.colocar_palabra_bot(self._parametros._palabra_bot, self._window, self._parametros, self.calcular_palabra)
                 self._parametros.actualizar_atril(self._window, 'bot')
                 # if self._parametros.get_segundos() == 0:
                 #   self._turno.fin_de_turno()
@@ -124,6 +124,7 @@ class Main(Interfaz):
                 #           self._parametros.borrar_palabra()
                 # elif self._parametros.get_matriz():
                 #   self.devolver_fichas(self._window, 'bot')
+                self._parametros.borrar_palabra()
                 self._turno.fin_de_turno()
 
     def run(self):
