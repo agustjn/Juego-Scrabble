@@ -88,19 +88,19 @@ class Interfaz(Puntaje):
             if quien == 'jugador':
                 palabra = self._validar_palabra() # palabra RECIBE LA PALABRA SI ES VÁLIDA, SINO, UN DICT VACÍO (PALABRA VACÍA)
             else:
-                palabra = self._parametros.get_palabra()    
+                palabra = self._parametros.get_palabra()
             if palabra: # ENTONCES, SI LA PALABRA ES VÁLIDA, SI palabra CONTIENE ELEMENTOS
                 puntos = self.calcular_puntos(quien, palabra) # CALCULA LOS PUNTOS DE TAL PALABRA
                 getattr(self._parametros, 'add_puntos_'+quien)(puntos)    # SUMA LOS PUNTOS CALCULADOS A QUIEN LE CORRESPONDA SEGÚN 'quien'
-                self._parametros.add_historial('PALABRA: '+str().join(list(self._parametros.get_palabra().values())), 'VÁLIDA', ('+' if puntos > -1 else '')+str(puntos)+' PUNTOS')
+                self._parametros.add_historial(quien.upper(),'PALABRA: '+str().join(list(self._parametros.get_palabra().values())), 'VÁLIDA', ('+' if puntos > -1 else '')+str(puntos)+' PUNTOS',' ')
                 const.const_Update(window, {'puntos_'+quien: getattr(self._parametros, 'get_puntos_'+quien)()}) # ACTUALIZA EL PUNTAJE ACTUAL Y EL HISTORIAL
-            else:   # SI LA PALABRA NO ES VÁLIDA
-                self._parametros.add_historial('PALABRA: '+str().join(list(self._parametros.get_palabra().values())), 'INVÁLIDA', '+0 PUNTOS')
+            else:   # SI LA PALABRA NO ES VÁLIDA PARA EL JUGADOR O PARA EL BOT NO LA ENCONTRO
+                self._parametros.add_historial(quien.upper(),'PALABRA: '+(str().join(list(self._parametros.get_palabra().values()) if quien=='jugador' else 'NO ENCONTRADO')), 'INVÁLIDA', '+0 PUNTOS',' ')
                 self.devolver_fichas(window, quien)
             window.Element('historial').Update(self._parametros.get_historial())
             return True
         else:
-            self._parametros.add_historial('PALABRA: '+str(str().join(list(self._parametros.get_palabra().values()))), 'INVÁLIDA', '+0 PUNTOS')
+            self._parametros.add_historial(quien.upper(),'PALABRA: '+str(str().join(list(self._parametros.get_palabra().values())) if quien=='jugador' else 'NO ENCONTRADO'),'INVÁLIDA', '+0 PUNTOS',' ')
             window.Element('historial').Update(self._parametros.get_historial())
             return False
 

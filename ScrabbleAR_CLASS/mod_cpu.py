@@ -1,6 +1,6 @@
 from pattern.es import verbs, tag, spelling, lexicon, parse, split
 from const import matriz
-from random import randint
+from random import randint, choice
 
 '''CONJUNTO DE FUNCIONES DEL BOT'''
 def create_word(atril_cpu,nivel,parametros):
@@ -84,24 +84,22 @@ def verificar_espacio(window,casilla_cpu,palabra_cpu):
         return 'No Valido'
 
 
-
-'''def verificar_espacio(col,fila,orientacion,palabra,window):
-    ok=True
-    if orientacion=='Vertical':
-        for i in range(len(palabra)):
-             if self.window[(col,fila+i)] != '':        #COLUMNA SELECCIONADA + 0,1,2,3...'''
-
-
-
-
-
-def colocar_palabra_bot(palabra,window,parametros,calcular_palabra):
-    position=(randint(1,14),randint(1,14))
+def colocar_palabra_bot(window,parametros,calcular_palabra,cambiar):
+    palabra=parametros.get_palabra_bot()
+    if not parametros.get_primer_turno():
+        position=(randint(1,14),randint(1,14))
+    else:
+        position=(7,7)
+        parametros.set_primer_turno(False)
     result=verificar_espacio(window,position,palabra)
     while result == 'No valido':
         result=verificar_espacio(window,position,palabra)
-    Colocar_Letras(window,position,result,palabra,parametros)
-    calcular_palabra(window,'bot')
+    if palabra!='':
+        Colocar_Letras(window,position,result,palabra,parametros)
+        calcular_palabra(window,'bot')
+    else:
+        if choice([True,False]):
+            cambiar(parametros.get_atril_bot(),window)
 
 def Colocar_Letras(window,casilla_cpu,orientacion,palabra_cpu,parametros):
     columna=casilla_cpu[0]

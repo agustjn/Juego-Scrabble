@@ -26,7 +26,8 @@ class Parametros:
         self._palabra = {}  # PALABRA POR RONDA
         self._bolsa_fichas = deepcopy(bolsa)    # COPIA PROFUNDA DE LA BOLSA, DESLIGAMIENTO DE CUALQUIER PUNTERO
         self._primer_turno = True
-        self._cambiar_fichas = 0    # CANTIDAD DE CAMBIO DE FICHAS REALIZADO DURANTE LA PARTIDA
+        self._cambiar_fichas_j = 0    # CANTIDAD DE CAMBIO DE FICHAS REALIZADO DURANTE LA PARTIDA
+        self._cambiar_fichas_b = 0
         self._palabra_bot = []    # PALABRA GENERADA DEL BOT
         self._historial = []
 
@@ -120,11 +121,17 @@ class Parametros:
     def get_primer_turno(self):
         return self._primer_turno
 
-    def set_cambiar_fichas(self, cambiar_fichas):
-        self._cambiar_fichas = cambiar_fichas
+    def set_cambiar_fichas_j(self, cambiar_fichas):
+        self._cambiar_fichas_j = cambiar_fichas
 
-    def get_cambiar_fichas(self):
-        return self._cambiar_fichas
+    def get_cambiar_fichas_j(self):
+        return self._cambiar_fichas_j
+
+    def set_cambiar_fichas_b(self, cambiar_fichas):
+        self._cambiar_fichas_b = cambiar_fichas
+
+    def get_cambiar_fichas_b(self):
+        return self._cambiar_fichas_b
 
     def set_historial(self, historial):
         self._historial = historial
@@ -142,8 +149,10 @@ class Parametros:
         for txt in data:
             self._historial.append(txt)
 
-    def add_cambiar_fichas(self, cantidad=1):   # AUMENTA EL NÚMERO DE VECES QUE SE CAMBIÓ DE FICHAS SEGÚN 'cantidad'
-        self._cambiar_fichas += cantidad
+    def add_cambiar_fichas_j(self, cantidad=1):   # AUMENTA EL NÚMERO DE VECES QUE SE CAMBIÓ DE FICHAS SEGÚN 'cantidad'
+        self._cambiar_fichas_j += cantidad
+    def add_cambiar_fichas_b(self, cantidad=1):   # AUMENTA EL NÚMERO DE VECES QUE SE CAMBIÓ DE FICHAS SEGÚN 'cantidad'
+        self._cambiar_fichas_b += cantidad
 
     def borrar_palabra(self):
         self.set_palabra({})
