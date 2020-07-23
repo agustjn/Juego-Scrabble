@@ -56,7 +56,8 @@ class Main(Interfaz):
             self.repartir_fichas(self._parametros.get_atril_bot(), self._window)
         const_Update(self._window, # HAYA O NO PARTIDA GUARDADA, CARGA LOS PARÁMETROS GENÉRICOS COMO LAS REGLAS
                      {'reglas': reglas(self._parametros.get_dificultad(),
-                                       self._parametros.get_tiempo_por_turno()),
+                                       self._parametros.get_tiempo_por_turno(),
+                                       self._parametros.get_tiempo_total()),
                       'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())},
                      color_botones[self._parametros.get_dificultad()],
                      puntos_botones[self._parametros.get_dificultad()]['jugador'])

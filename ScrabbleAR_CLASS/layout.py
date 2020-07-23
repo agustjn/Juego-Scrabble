@@ -20,7 +20,7 @@ margins_size = (0, 0)
 font_size = 24
 fichas_pad = (6, 0)
 drop_size = (6, 1)
-rules_size = (14, 8)
+rules_size = (18, 8)
 
 
 # ~~~~~~~~~~~~~~~ Elementos del menú ~~~~~~~~~~~~~~~
@@ -119,7 +119,9 @@ puntos = [[Text(text='MIS PUNTOS: ',
 frame_reglas = [[Frame(layout=[[Column(layout=[[Text(text='',
                                                      key='reglas',
                                                      size=rules_size,
-                                                     background_color=window_color,text_color='white')]],
+                                                     pad=(0, 0),
+                                                     background_color=window_color,
+                                                     text_color='white')]],
                                        background_color=window_color)],
                                [Column(layout=[[Button(button_text='',
                                                        key='puntos_verde',
@@ -148,7 +150,8 @@ frame_reglas = [[Frame(layout=[[Column(layout=[[Text(text='',
                                                        pad=boton_tablero_pad)]],
                                        background_color=window_color)]],
                        title='REGLAS',
-                       background_color=window_color,title_color='white')]]
+                       background_color=window_color,
+                       title_color='white')]]
 botones_de_opcion_juego = [[Button(button_text='TOP 10',
                                    key='top_diez',
                                    pad=boton_opcion_size,

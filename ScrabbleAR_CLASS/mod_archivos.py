@@ -22,6 +22,7 @@ class Archivos():
                 dump({}, a)
         except FileExistsError:
             pass
+        open(records_txt, 'w').close()
 
     def escribir_json(self, data, enlace, abrir_en):
         ''' REALIZA UN DUMP DE LA INFORMACIÓN SOBRE EL ARCHIVO

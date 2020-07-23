@@ -11,6 +11,8 @@ class Turno:
         self._MS += 100
         if self._MS == 1000:    # SI SE LLEGÓ AL SEGUNDO (MIL MILISEGUNDOS)
             self._MS = 0    # SE RESETEN LOS MILISEGUNDOS
+            if self._parametros.get_turno():    # SI ES EL TURNO DEL JUGADOR (osea True)
+                self._parametros.dec_contador_total() # LE VAMOS DESCONTANDO EL TIEMPO TOTAL
             self._parametros.set_segundos(self._parametros.get_segundos()-1 if self._parametros.get_segundos() != 0 else self._parametros.get_tiempo_por_turno())   # SI SE LLEGÓ AL TIEMPO LÍMITE, SE REINICIA EL CONTADOR PARA EL SIGUIENTE TURNO, SINO, SE RESTA EN 1 EL TIEMPO ACTUAL
             const_Update(window, {'tiempo': self._parametros.get_segundos()})
 

@@ -99,11 +99,11 @@ bolsa = {'A': {'cantidad': 9, 'puntaje': 1}, 'E': {'cantidad': 9, 'puntaje': 1},
 #
 # ~~~~~~~~~~ FUNCIONES
 #
-def reglas(dificultad, tiempo): # SE IMPRIMEN LAS RESPECTIVAS REGLAS SEGÚN LA DIFICULTAD. EL TIEMPO ES OPCIONAL SEGÚN LO INGRESADO DESDE EL MENÚ (PREDETERMINADAMENTE ENTRAN 20 SEGUNDOS)
+def reglas(dificultad, tiempo, tiempo_total): # SE IMPRIMEN LAS RESPECTIVAS REGLAS SEGÚN LA DIFICULTAD. EL TIEMPO ES OPCIONAL SEGÚN LO INGRESADO DESDE EL MENÚ (PREDETERMINADAMENTE ENTRAN 20 SEGUNDOS)
     if dificultad == 'FÁCIL':
-        return '     DIFICULTAD:\n           '+dificultad+'.\n      PALABRAS\n    HABILITADAS:\n          TODAS.\n     TIEMPO POR\n       TURNO: '+str(tiempo)+'\n      SEGUNDOS'
+        return 'NIVEL: '+dificultad+'.\nPALABRAS\nVÁLIDAS: TODAS.\nTIEMPO TOTAL:\n'+str(tiempo_total)+' MINUTOS\nTIEMPO TURNO:\n'+str(tiempo)+' SEGUNDOS'
     else:
-        return '    DIFICULTAD:\n         '+dificultad+'.\n      PALABRAS\n    HABILITADAS:\n      ADJETIVOS\n       Y VERBOS.\n     TIEMPO POR\n       TURNO: '+str(tiempo)+'\n      SEGUNDOS'
+        return 'NIVEL: '+dificultad+'.\nPALABRAS\nVÁLIDAS: VERBOS\nY ADJETIVOS.\nTIEMPO TOTAL:\n'+str(tiempo_total)+' MINUTOS\nTIEMPO TURNO:\n'+str(tiempo)+' SEGUNDOS'
 
 
 def const_Update(window, *args):

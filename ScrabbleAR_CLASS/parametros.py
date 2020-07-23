@@ -22,6 +22,8 @@ class Parametros:
         self._turno = choice([True, False]) # TURNO RANDOM
         self._tiempo_p_t = 20   # TIEMPO POR TURNO
         self._s = self._tiempo_p_t  # SEGUNDOS
+        self._tiempo_total = 10 # MINUTOS
+        self._contador_total = {'minutos': 10, 'segundos': 0}
         self._matriz = {}   # MATRIZ INICIAL
         self._palabra = {}  # PALABRA POR RONDA
         self._bolsa_fichas = deepcopy(bolsa)    # COPIA PROFUNDA DE LA BOLSA, DESLIGAMIENTO DE CUALQUIER PUNTERO
@@ -97,6 +99,18 @@ class Parametros:
     def get_segundos(self):
         return self._s
 
+    def set_tiempo_total(self, t):
+        self._tiempo_total = t
+
+    def get_tiempo_total(self):
+        return self._tiempo_total
+
+    def set_contador_total(self, c_t):
+        self._contador_total = c_t
+
+    def get_contador_total(self):
+        return self._contador_total
+
     def set_matriz(self, matriz):
         self._matriz = matriz
 
@@ -145,12 +159,20 @@ class Parametros:
     def get_historial(self):
         return self._historial
 
+    def dec_contador_total(self):
+        if self._contador_total['segundos'] > 0:
+            self._contador_total['segundos'] -= 1
+        else:
+            self._contador_total['minutos'] -= 1
+            self._contador_total['segundos'] += 5
+
     def add_historial(self, *data):
         for txt in data:
             self._historial.append(txt)
 
     def add_cambiar_fichas_j(self, cantidad=1):   # AUMENTA EL NÚMERO DE VECES QUE SE CAMBIÓ DE FICHAS SEGÚN 'cantidad'
         self._cambiar_fichas_j += cantidad
+
     def add_cambiar_fichas_b(self, cantidad=1):   # AUMENTA EL NÚMERO DE VECES QUE SE CAMBIÓ DE FICHAS SEGÚN 'cantidad'
         self._cambiar_fichas_b += cantidad
 
@@ -282,9 +304,12 @@ class Parametros:
                 'matriz': {dumps(key): value for key, value in self.get_matriz().items()},  # GUARDA UN DICCIONARIO CON LAS 'LLAVES: VALOR' FORMATEADAS EN FORMATO JSON PARA PODER SER GUARDADAS EN EL ARCHIVO
                 'bolsa_fichas': self.get_bolsa(),
                 'primer_turno': self.get_primer_turno(),
-                'cambiar_fichas': self.get_cambiar_fichas(),
                 'historial': self.get_historial(),
-                'palabra_bot': self.get_palabra_bot()}
+                'palabra_bot': self.get_palabra_bot(),
+                'cambiar_fichas_j': self.get_cambiar_fichas_j(),
+                'cambiar_fichas_b': self.get_cambiar_fichas_b(),
+                'tiempo_total': self.get_tiempo_total(),
+                'contador_total': self.get_contador_total()}
 
     def cargar_parametros(self, partida):   # CARGA TODOS LOS PARÁMETROS SEGÚN LA PARTIDA GUARDADA, SEGÚN 'partida' QUE CONTIENE EL FORMATO ACLARADO EN LA LÍNEA 213
         self.set_hay_partida()
@@ -306,6 +331,9 @@ class Parametros:
         self.set_segundos(partida['tiempos']['segundos'])
         self.set_bolsa(partida['bolsa_fichas'])
         self.set_primer_turno(partida['primer_turno'])
-        self.set_cambiar_fichas(partida['cambiar_fichas'])
         self.set_historial(partida['historial'])
         self.set_palabra_bot(partida['palabra_bot'])
+        self.set_cambiar_fichas_j(partida['cambiar_fichas_j'])
+        self.set_cambiar_fichas_b(partida['cambiar_fichas_b'])
+        self.set_tiempo_total(partida['tiempo_total'])
+        self.set_contador_total(partida['contador_total'])
