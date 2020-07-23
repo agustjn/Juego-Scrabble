@@ -259,7 +259,10 @@ class Parametros:
 
     def sacar_ficha_atril_bot(self, ficha):    # SACA LA FICHA SLECCIONADA ACTUALMENTE
         ''' SACA LA FICHA SELECCIONADA (EN MANO) DEL ATRIL.'''
-        self._a_bot.pop(ficha)
+        try:
+            self._a_bot.pop(ficha)
+        except KeyError:
+            pass    
 
     def agregar_ficha_matriz(self, key, letra=None):    # AGREGA LA FICHA A LA MATRIZ
         ''' AGREGA UNA FICHA "LLAVE, LETRA" A LA MATRIZ.

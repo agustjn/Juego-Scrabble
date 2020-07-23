@@ -52,7 +52,6 @@ def create_word(atril_cpu,nivel,parametros):
                 if ok:
                     break
     parametros._palabra_bot=palabra_cpu.upper()
-    #return palabra_cpu.upper()
 
 def verificar_espacio(window,casilla_cpu,palabra_cpu):
     columna=casilla_cpu[0]
@@ -87,19 +86,18 @@ def verificar_espacio(window,casilla_cpu,palabra_cpu):
 def colocar_palabra_bot(window,parametros,calcular_palabra,cambiar):
     palabra=parametros.get_palabra_bot()
     if not parametros.get_primer_turno():
-        position=(randint(1,14),randint(1,14))
+        position=choice(matriz)
     else:
         position=(7,7)
         parametros.set_primer_turno(False)
     result=verificar_espacio(window,position,palabra)
-    while result == 'No valido':
+    while result == 'No Valido':
         result=verificar_espacio(window,position,palabra)
     if palabra!='':
         Colocar_Letras(window,position,result,palabra,parametros)
         calcular_palabra(window,'bot')
     else:
-        if choice([True,False]):
-            cambiar(parametros.get_atril_bot(),window)
+        cambiar(parametros.get_atril_bot(),window)
 
 def Colocar_Letras(window,casilla_cpu,orientacion,palabra_cpu,parametros):
     columna=casilla_cpu[0]

@@ -199,7 +199,7 @@ puntos = [[Text(text='',
                 background_color=window_color)]]
 layout_juego = [[Frame(title='TIEMPOS',
                        layout=puntos,
-                       background_color=window_color),
+                       background_color=window_color,title_color='white'),
                  Text(text='Grupo 24: Leidi Agustin, Rodriguez Sandoval Felix, Diz Rendani Matias.',
                       text_color='White',
                       background_color=window_color)],
