@@ -62,6 +62,7 @@ class Main(Interfaz):
                      color_botones[self._parametros.get_dificultad()],
                      puntos_botones[self._parametros.get_dificultad()]['jugador'])
         Interfaz.set_dificultad(self)   # SETEA LA DIFICULTAD A LA CLASE PUNTAJE (PADRE DE INTERFAZ)
+        const_Update(self._window, {'tiempo': 'TIEMPO DE RONDA: '+str(self._parametros.get_segundos()), 'tiempo_total': 'TIEMPO TOTAL: '+str(self._parametros.get_contador_total()['minutos'])+':'+str(self._parametros.get_contador_total()['segundos'])})
 
     def fin(self):
         if (self._parametros.get_puntos_jugador() > self._parametros.get_puntos_bot()): # GUARDA EL PUNTAJE COMO RECORD SI LOS PUNTOS FUERON MAYORES A LOS DEL BOT
@@ -95,14 +96,14 @@ class Main(Interfaz):
                                 self._parametros.actualizar_atril(self._window, 'jugador')
                             else:
                                 self._popups.popup('SOLO SE ACEPTAN PALABRAS CON 2 O MÁS LETRAS')
-                            self._turno.fin_de_turno()  # CAMBIA EL TURNO Y BORRA LAS LETRAS USADAS DE LA BOLSA
+                            self._turno.fin_de_turno(self._window)  # CAMBIA EL TURNO Y BORRA LAS LETRAS USADAS DE LA BOLSA
                         else: # SI ESTAMOS EN EL PRIMER TURNO
                             self.devolver_fichas(self._window, 'jugador')   # DEVUELVE LAS FICHAS PUESTAS EN LA MATRIZ HACIA EL ATRIL PORQUE SE UBICARON INCORRECTAMENTE
                             self._popups.popup('TURNO PERDIDO. NO INGRESÓ NINGUNA LETRA\nDE LA PALABRA EN EL CENTRO DEL TABLERO')   # NO SE INGRESÓ NINGUNA LETRA EN EL TROCEN
                         self._parametros.borrar_palabra()   # POR CADA TURNO LA BORRA (EN _palabra SOLO SE UBICAN LAS LETRAS POR TURNO)
                         self._parametros.set_letra_ficha('')
                     else:
-                        self._turno.fin_de_turno()
+                        self._turno.fin_de_turno(self._window)
                         self._parametros.set_letra_ficha('')
                 if event in atril_jugador:
                     self._parametros.set_ficha({event: self._window.Element(event).GetText()})  # GUARDA LA FICHA SELECCIONADA, LA SETEA EN _ficha
@@ -125,7 +126,7 @@ class Main(Interfaz):
                 cpu.colocar_palabra_bot(self._window, self._parametros,self.calcular_palabra,self.repartir_fichas)
                 self._parametros.actualizar_atril(self._window, 'bot')
 
-                self._turno.fin_de_turno()
+                self._turno.fin_de_turno(self._window)
                 self._parametros.borrar_palabra()
 
     def run(self):

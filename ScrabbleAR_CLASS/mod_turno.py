@@ -16,8 +16,9 @@ class Turno:
             self._parametros.set_segundos(int(self._parametros.get_segundos())-1 if int(self._parametros.get_segundos()) != 0 else int(self._parametros.get_tiempo_por_turno()))   # SI SE LLEGÓ AL TIEMPO LÍMITE, SE REINICIA EL CONTADOR PARA EL SIGUIENTE TURNO, SINO, SE RESTA EN 1 EL TIEMPO ACTUAL
             const_Update(window, {'tiempo': 'TIEMPO DE RONDA: '+str(self._parametros.get_segundos()), 'tiempo_total': 'TIEMPO TOTAL: '+str(self._parametros.get_contador_total()['minutos'])+':'+str(self._parametros.get_contador_total()['segundos'])})
 
-    def fin_de_turno(self):
+    def fin_de_turno(self, window):
         ''' CAMBIA EL TURNO Y REINICIA EL TIEMPO.'''
+        const_Update(window, {'turno': 'BOT'}) if self._parametros.get_turno() else const_Update(window, {'turno': 'JUGADOR'})
         if len(self._parametros._palabra) == 0: # Fue turno del bot
             for letter in self._parametros._palabra_bot:
                 self._parametros.dec_letra_bolsa(letter, 1)
