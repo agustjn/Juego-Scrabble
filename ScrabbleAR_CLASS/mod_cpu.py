@@ -83,8 +83,8 @@ def colocar_palabra_bot(window,parametros,calcular_palabra,cambiar):
         parametros.set_primer_turno(False)
     result=verificar_espacio(window,position,palabra)
     while result == 'No Valido':
-        result=verificar_espacio(window,position,palabra)
         position=choice(matriz)
+        result=verificar_espacio(window,position,palabra)
     if palabra!='':
         Colocar_Letras(window,position,result,palabra,parametros)
         calcular_palabra(window,'bot')

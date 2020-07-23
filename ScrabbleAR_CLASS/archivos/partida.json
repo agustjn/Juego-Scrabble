@@ -1,74 +1,89 @@
 {
     "jugador": {
-        "puntos": 22,
+        "puntos": 0,
         "atril": {
-            "[\"jugador\", 0]": "",
-            "[\"jugador\", 1]": "",
-            "[\"jugador\", 2]": "Z",
-            "[\"jugador\", 3]": "O",
-            "[\"jugador\", 4]": "",
-            "[\"jugador\", 5]": "",
-            "[\"jugador\", 6]": ""
+            "[\"jugador\", 0]": "Y",
+            "[\"jugador\", 1]": "B",
+            "[\"jugador\", 2]": "I",
+            "[\"jugador\", 3]": "B",
+            "[\"jugador\", 4]": "N",
+            "[\"jugador\", 5]": "Q",
+            "[\"jugador\", 6]": "G"
         }
     },
     "bot": {
-        "puntos": 23,
+        "puntos": 50,
         "atril": {
-            "[\"bot\", 0]": "N",
-            "[\"bot\", 5]": "H",
-            "[\"bot\", 6]": "K"
+            "[\"bot\", 3]": "I",
+            "[\"bot\", 5]": "P",
+            "[\"bot\", 1]": "S",
+            "[\"bot\", 4]": "L"
         }
     },
-    "fichas": 90,
-    "dificultad": "F\u00c1CIL",
+    "fichas": 65,
+    "dificultad": "DIFICIL",
     "turno": true,
     "tiempos": {
-        "tiempo_por_turno": 20,
+        "tiempo_por_turno": "14",
         "segundos": 10
     },
     "matriz": {
-        "[7, 7]": "G",
-        "[8, 7]": "R",
-        "[7, 11]": "J",
-        "[2, 10]": "K",
-        "[3, 10]": "G",
-        "[5, 13]": "\u00d1",
-        "[9, 11]": "E",
-        "[3, 7]": "D",
-        "[8, 3]": "Z",
-        "[8, 4]": "A"
+        "[4, 12]": "F",
+        "[5, 12]": "E",
+        "[6, 12]": "O",
+        "[12, 6]": "P",
+        "[12, 7]": "O",
+        "[12, 8]": "N",
+        "[12, 9]": "E",
+        "[11, 3]": "J",
+        "[12, 3]": "U",
+        "[13, 3]": "A",
+        "[14, 3]": "N",
+        "[7, 7]": "O",
+        "[8, 7]": "I",
+        "[9, 7]": "G",
+        "[10, 7]": "A",
+        "[4, 1]": "U",
+        "[5, 1]": "N",
+        "[6, 1]": "E",
+        "[6, 5]": "S",
+        "[7, 5]": "C",
+        "[8, 5]": "H",
+        "[11, 8]": "W",
+        "[11, 9]": "E",
+        "[11, 10]": "B"
     },
     "bolsa_fichas": {
         "A": {
-            "cantidad": 7,
+            "cantidad": 3,
             "puntaje": 1
         },
         "E": {
-            "cantidad": 7,
+            "cantidad": 0,
             "puntaje": 1
         },
         "O": {
-            "cantidad": 8,
+            "cantidad": 0,
             "puntaje": 1
         },
         "S": {
-            "cantidad": 7,
+            "cantidad": 3,
             "puntaje": 1
         },
         "I": {
-            "cantidad": 6,
+            "cantidad": 1,
             "puntaje": 1
         },
         "U": {
-            "cantidad": 6,
+            "cantidad": 1,
             "puntaje": 1
         },
         "N": {
-            "cantidad": 4,
+            "cantidad": 1,
             "puntaje": 1
         },
         "R": {
-            "cantidad": 2,
+            "cantidad": 4,
             "puntaje": 1
         },
         "T": {
@@ -76,15 +91,15 @@
             "puntaje": 1
         },
         "C": {
-            "cantidad": 4,
+            "cantidad": 1,
             "puntaje": 2
         },
         "D": {
-            "cantidad": 2,
+            "cantidad": 4,
             "puntaje": 2
         },
         "G": {
-            "cantidad": 0,
+            "cantidad": 1,
             "puntaje": 2
         },
         "M": {
@@ -92,7 +107,7 @@
             "puntaje": 3
         },
         "B": {
-            "cantidad": 2,
+            "cantidad": 0,
             "puntaje": 3
         },
         "H": {
@@ -108,23 +123,23 @@
             "puntaje": 4
         },
         "J": {
-            "cantidad": 0,
+            "cantidad": 1,
             "puntaje": 6
         },
         "K": {
-            "cantidad": 0,
+            "cantidad": 2,
             "puntaje": 8
         },
         "\u00d1": {
-            "cantidad": 0,
-            "puntaje": 8
-        },
-        "Q": {
             "cantidad": 1,
             "puntaje": 8
         },
-        "W": {
+        "Q": {
             "cantidad": 2,
+            "puntaje": 8
+        },
+        "W": {
+            "cantidad": 0,
             "puntaje": 8
         },
         "X": {
@@ -132,15 +147,15 @@
             "puntaje": 8
         },
         "Z": {
-            "cantidad": 0,
+            "cantidad": 2,
             "puntaje": 10
         },
         "L": {
-            "cantidad": 4,
+            "cantidad": 3,
             "puntaje": 1
         },
         "P": {
-            "cantidad": 2,
+            "cantidad": 0,
             "puntaje": 3
         },
         "F": {
@@ -149,83 +164,49 @@
         }
     },
     "primer_turno": false,
-    "cambiar_fichas": 0,
     "historial": [
         "BOT",
-        "PALABRA: GR",
+        "PALABRA: FEO",
         "V\u00c1LIDA",
-        "+7 PUNTOS",
-        " ",
-        "JUGADOR",
-        "PALABRA: J",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
+        "+12 PUNTOS",
         " ",
         "BOT",
-        "PALABRA: KG",
+        "PALABRA: PONE",
         "V\u00c1LIDA",
-        "+16 PUNTOS",
-        " ",
-        "JUGADOR",
-        "PALABRA: \u00d1",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
+        "+2 PUNTOS",
         " ",
         "BOT",
-        "PALABRA: NO ENCONTRADO",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
-        " ",
-        "JUGADOR",
-        "PALABRA: E",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
-        " ",
-        "BOT",
-        "PALABRA: NO ENCONTRADO",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
-        " ",
-        "JUGADOR",
-        "PALABRA: D",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
-        " ",
-        "BOT",
-        "PALABRA: NO ENCONTRADO",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
-        " ",
-        "JUGADOR",
-        "PALABRA: AZ",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
-        " ",
-        "BOT",
-        "PALABRA: NO ENCONTRADO",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
-        " ",
-        "JUGADOR",
-        "PALABRA: ZO",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
-        " ",
-        "BOT",
-        "PALABRA: NO ENCONTRADO",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
-        " ",
-        "JUGADOR",
-        "PALABRA: ZA",
+        "PALABRA: JUAN",
         "V\u00c1LIDA",
-        "+22 PUNTOS",
+        "-4 PUNTOS",
         " ",
         "BOT",
-        "PALABRA: NO ENCONTRADO",
-        "INV\u00c1LIDA",
-        "+0 PUNTOS",
+        "PALABRA: OIGA",
+        "V\u00c1LIDA",
+        "+10 PUNTOS",
+        " ",
+        "BOT",
+        "PALABRA: UNE",
+        "V\u00c1LIDA",
+        "+9 PUNTOS",
+        " ",
+        "BOT",
+        "PALABRA: SCH",
+        "V\u00c1LIDA",
+        "+1 PUNTOS",
+        " ",
+        "BOT",
+        "PALABRA: WEB",
+        "V\u00c1LIDA",
+        "+20 PUNTOS",
         " "
     ],
-    "palabra_bot": ""
+    "palabra_bot": "WEB",
+    "cambiar_fichas_j": 0,
+    "cambiar_fichas_b": 0,
+    "tiempo_total": 10,
+    "contador_total": {
+        "minutos": 8,
+        "segundos": 23
+    }
 }

@@ -13,7 +13,7 @@ class Turno:
             self._MS = 0    # SE RESETEN LOS MILISEGUNDOS
             if self._parametros.get_turno():    # SI ES EL TURNO DEL JUGADOR (osea True)
                 self._parametros.dec_contador_total() # LE VAMOS DESCONTANDO EL TIEMPO TOTAL
-            self._parametros.set_segundos(self._parametros.get_segundos()-1 if self._parametros.get_segundos() != 0 else self._parametros.get_tiempo_por_turno())   # SI SE LLEGÓ AL TIEMPO LÍMITE, SE REINICIA EL CONTADOR PARA EL SIGUIENTE TURNO, SINO, SE RESTA EN 1 EL TIEMPO ACTUAL
+            self._parametros.set_segundos(int(self._parametros.get_segundos())-1 if int(self._parametros.get_segundos()) != 0 else int(self._parametros.get_tiempo_por_turno()))   # SI SE LLEGÓ AL TIEMPO LÍMITE, SE REINICIA EL CONTADOR PARA EL SIGUIENTE TURNO, SINO, SE RESTA EN 1 EL TIEMPO ACTUAL
             const_Update(window, {'tiempo': 'TIEMPO DE RONDA: '+str(self._parametros.get_segundos()), 'tiempo_total': 'TIEMPO TOTAL: '+str(self._parametros.get_contador_total()['minutos'])+':'+str(self._parametros.get_contador_total()['segundos'])})
 
     def fin_de_turno(self):

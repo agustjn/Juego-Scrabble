@@ -133,7 +133,7 @@ class Interfaz(Puntaje):
                     if event[0] != lista_posiciones[0][0] or event[1] != lista_posiciones[-1][1]+1:
                         self._popups.popup('Error de colocacion de letra')
                         return False
-            elif event[0] == lista_posiciones[-1][0]+1 or event[1] == lista_posiciones[-1][1]+1:
+            elif (event[0] == lista_posiciones[-1][0]+1 and (event[1] == lista_posiciones[-1][1])) or ((event[0] == lista_posiciones[-1][0]) and event[1] == lista_posiciones[-1][1]+1):
                 return True
             else:
                 self._popups.popup('Error de colocacion de letra')
