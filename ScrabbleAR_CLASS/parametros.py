@@ -164,7 +164,7 @@ class Parametros:
             self._contador_total['segundos'] -= 1
         else:
             self._contador_total['minutos'] -= 1
-            self._contador_total['segundos'] += 5
+            self._contador_total['segundos'] += 60
 
     def add_historial(self, *data):
         for txt in data:

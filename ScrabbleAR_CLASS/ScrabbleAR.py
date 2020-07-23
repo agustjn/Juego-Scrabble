@@ -73,6 +73,11 @@ class Main(Interfaz):
         while True:
             event, values = self._window.Read(timeout=100)  # CADA 100 MILISEGUNDOS SALTA DEL .Read()
             self._turno.conteo(self._window)    # ACTUALIZA EL CONTEO EN PANTALLA MAS LAS VARIABLES CONTADORAS
+            if self._parametros.get_contador_total()['minutos'] == 0 and self._parametros.get_contador_total()['segundos'] == 0:
+                self._popups.popup('FIN DEL TIEMPO.')
+                # self._window.close()
+                # break
+                self.fin()
             if event in ('terminar', None):
                 self.fin()
                 break
