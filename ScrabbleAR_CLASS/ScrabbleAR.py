@@ -122,8 +122,6 @@ class Main(Interfaz):
             else:
                 # TURNO DEL BOT:
                 cpu.create_word(self._parametros._a_bot.values(), self._parametros._dificultad, self._parametros)
-                print('PALABRA DEL BOT: ', self._parametros._palabra_bot)
-                print(self._parametros.get_atril_bot())
                 cpu.colocar_palabra_bot(self._window, self._parametros,self.calcular_palabra,self.repartir_fichas)
                 self._parametros.actualizar_atril(self._window, 'bot')
 

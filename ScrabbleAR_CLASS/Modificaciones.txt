@@ -1,0 +1,3 @@
+ Modificaciones :
+ - Correcciones en el metodo evaluar_posicion y mover_ficha, para que cuando se haga
+ una incorrecta colocacion de letra en la matriz, se proceda correctamente.

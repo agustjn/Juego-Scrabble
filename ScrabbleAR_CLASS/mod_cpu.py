@@ -3,54 +3,45 @@ from const import matriz
 from random import randint, choice
 
 '''CONJUNTO DE FUNCIONES DEL BOT'''
+
 def create_word(atril_cpu,nivel,parametros):
     letters=[]
+    palabra_aux=[]
     for letter in atril_cpu:
         letters.append(letter)
-    if nivel=='FÁCIL':
-        todo=True
-    elif nivel=='MEDIO':
-        adj=True
-        vb=True
-        todo=False
-    elif nivel=='DIFICIL':
-        adj=True
-        vb=False
-        todo=False
+    aux=letters.copy()
     palabra_cpu=''
     ok=False
     for palabra in lexicon.keys():
-        if (len(palabra)>=2)and(len(palabra)<=7)and(ord(palabra[0])>=97)and(ord(palabra[0])<=122) and (palabra in spelling.keys()):
-            if todo:
-                cont=0
+        if (len(palabra)>=3)and(len(palabra)<=7)and(ord(palabra[0])>=97)and(ord(palabra[0])<=122) and (palabra in spelling.keys()):
+            if nivel=='FÁCIL':
                 for letra in palabra:
-                    if (palabra.count(letra) <= letters.count(letra.upper())):
-                        cont+=1
-                    if len(palabra)==cont:
-                        palabra_cpu=palabra
+                    if letra.upper() in aux:
+                        aux.remove(letra.upper())
+                        palabra_aux.append(letra)
                         ok=True
+                    else:
+                        palabra_aux=[]
+                        aux=letters.copy()
+                        ok=False
                         break
                 if ok:
-                    break
+                    palabra_cpu=str().join(palabra_aux)
             else:
-                datos_palabra=parse(palabra).split()
-                for datos in datos_palabra:
-                    for pos in datos:
-                        if (((pos[1]=='JJ') and (adj)) or ((pos[1]=='VB') and (vb))) and (len(pos[0])>=4):
-                            cont=0
-                            for letra in pos[0]:
-                                if (pos[0].count(letra) <= letters.count(letra.upper())):
-                                    cont+=1
-                                if len(pos[0])==cont:
-                                    palabra_cpu=pos[0]
-                                    ok=True
-                                    break
-                            if ok:
-                                break
-                        if ok:
+                datos_palabra=parse(palabra).split('/')
+                if datos_palabra[1]  =='JJ' or datos_palabra[1]=='VB':
+                    for letra in palabra:
+                        if letra.upper() in aux:
+                            aux.remove(letra.upper())
+                            palabra_aux.append(letra)
+                            ok=True
+                        else:
+                            palabra_aux=[]
+                            aux=letters.copy()
+                            ok=False
                             break
-                if ok:
-                    break
+                    if ok==True:
+                        palabra_cpu=str().join(palabra_aux)
     parametros._palabra_bot=palabra_cpu.upper()
 
 def verificar_espacio(window,casilla_cpu,palabra_cpu):
@@ -93,6 +84,7 @@ def colocar_palabra_bot(window,parametros,calcular_palabra,cambiar):
     result=verificar_espacio(window,position,palabra)
     while result == 'No Valido':
         result=verificar_espacio(window,position,palabra)
+        position=choice(matriz)
     if palabra!='':
         Colocar_Letras(window,position,result,palabra,parametros)
         calcular_palabra(window,'bot')
@@ -116,7 +108,6 @@ def Colocar_Letras(window,casilla_cpu,orientacion,palabra_cpu,parametros):
     for key in keysAtril:
         if window.Element(key).GetText() in palabra_cpu:
             letra=window.Element(key).GetText()
-            print('CONT_LETRAS: ',contador_letras,' - POS DEL DIC: ',contador_letras[letra])
             if lista_eliminados.count(letra)!=contador_letras[letra]:
                 lista_eliminados.append(letra)
                 pos_eliminados.append(key)
