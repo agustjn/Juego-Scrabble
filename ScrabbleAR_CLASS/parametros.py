@@ -20,10 +20,10 @@ class Parametros:
         self._ficha = {'': ''}      #FICHA ACTUAL
         self._dificultad = ''       #DIFICULTAD DE LA PARTIDA
         self._turno = choice([True, False]) # TURNO RANDOM
-        self._tiempo_p_t = 20   # TIEMPO POR TURNO
+        self._tiempo_p_t = 30   # TIEMPO POR TURNO
         self._s = self._tiempo_p_t  # SEGUNDOS
         self._tiempo_total = 10 # MINUTOS
-        self._contador_total = {'minutos': 10, 'segundos': 0}
+        self._contador_total = {'minutos': 10, 'segundos': 59}
         self._matriz = {}   # MATRIZ INICIAL
         self._palabra = {}  # PALABRA POR RONDA
         self._bolsa_fichas = deepcopy(bolsa)    # COPIA PROFUNDA DE LA BOLSA, DESLIGAMIENTO DE CUALQUIER PUNTERO
@@ -101,6 +101,7 @@ class Parametros:
 
     def set_tiempo_total(self, t):
         self._tiempo_total = t
+        self._contador_total['minutos'] = t-1
 
     def get_tiempo_total(self):
         return self._tiempo_total
@@ -164,7 +165,7 @@ class Parametros:
             self._contador_total['segundos'] -= 1
         else:
             self._contador_total['minutos'] -= 1
-            self._contador_total['segundos'] += 60
+            self._contador_total['segundos'] += 59
 
     def add_historial(self, *data):
         for txt in data:

@@ -29,6 +29,7 @@ class Main(Interfaz):
                     self._parametros.set_dificultad(values['dificultad'])
                     self._parametros.set_tiempo_por_turno(values['tiempo_por_turno'])
                     self._parametros.set_segundos(values['tiempo_por_turno'])
+                    self._parametros.set_tiempo_total(values['tiempo_total'])
                 else:
                     self._parametros.set_dificultad(event)
                 break
@@ -62,7 +63,7 @@ class Main(Interfaz):
                      color_botones[self._parametros.get_dificultad()],
                      puntos_botones[self._parametros.get_dificultad()]['jugador'])
         Interfaz.set_dificultad(self)   # SETEA LA DIFICULTAD A LA CLASE PUNTAJE (PADRE DE INTERFAZ)
-        const_Update(self._window, {'tiempo': 'TIEMPO DE RONDA: '+str(self._parametros.get_segundos()), 'tiempo_total': 'TIEMPO TOTAL: '+str(self._parametros.get_contador_total()['minutos'])+':'+str(self._parametros.get_contador_total()['segundos'])})
+        const_Update(self._window, {'tiempo': 'TIEMPO DE RONDA: '+str(self._parametros.get_segundos()), 'tiempo_total': 'TIEMPO TOTAL: '+str(self._parametros.get_contador_total()['minutos'])+':'+str(self._parametros.get_contador_total()['segundos']), 'turno': 'JUGADOR' if self._parametros.get_turno() else '       BOT'})
 
     def fin(self):
         if (self._parametros.get_puntos_jugador() > self._parametros.get_puntos_bot()): # GUARDA EL PUNTAJE COMO RECORD SI LOS PUNTOS FUERON MAYORES A LOS DEL BOT

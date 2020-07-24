@@ -4,7 +4,8 @@ from PySimpleGUI import Window, Frame, Column, Button, Drop, Spin, Text, Listbox
 boton_opcion = 'media/boton_opcion.png'
 boton_salir = 'media/boton_salir.png'
 window_color = '#1c1c1c'
-spin_rango = [time for time in range(10, 31)]
+spin_rango = [time for time in range(10, 41)]
+spin_rango_total = [time for time in range(5, 16)]
 boton_opcion_size = (23, 5)
 boton_tablero_size = (3, 1)
 boton_tablero_pad = (0, 0)
@@ -26,15 +27,19 @@ rules_size = (18, 8)
 # ~~~~~~~~~~~~~~~ Elementos del menú ~~~~~~~~~~~~~~~
 botones_de_opcion_menu = [[Button(button_text='FÁCIL',
                                   key='FÁCIL',
+                                  pad=(0, 6),
                                   image_filename=boton_opcion)],
                           [Button(button_text='MEDIO',
                                   key='MEDIO',
+                                  pad=(0, 6),
                                   image_filename=boton_opcion)],
                           [Button(button_text='DIFICIL',
                                   key='DIFICIL',
+                                  pad=(0, 6),
                                   image_filename=boton_opcion)],
                           [Button(button_text='CARGAR PARTIDA',
                                   key='cargar_partida',
+                                  pad=(0, 6),
                                   image_filename=boton_opcion)]]
 frame_menu = [[Frame(layout=[[Text(text='DIFICULTAD    ',
                                    background_color=window_color),
@@ -46,6 +51,10 @@ frame_menu = [[Frame(layout=[[Text(text='DIFICULTAD    ',
                                    background_color=window_color),
                               Spin(values=spin_rango,
                                    key='tiempo_por_turno')],
+                             [Text(text='TIEMPO TOTAL          ',
+                                   background_color=window_color),
+                              Spin(values=spin_rango_total,
+                                   key='tiempo_total')],
                              [Button(button_text='ACEPTAR',
                                      key='personalizado',
                                      image_filename=boton_opcion)]],
@@ -165,12 +174,13 @@ botones_de_opcion_juego = [[Button(button_text='TOP 10',
                                    key='terminar',
                                    pad=boton_opcion_size,
                                    image_filename=boton_opcion)],
-                           [Frame(title='TURNO',
+                           [Text(text='', size=(4, 1), background_color=window_color),
+                            Frame(title='TURNO',
                                   pad=(0, 0),
                                   layout=[[Text(text='',
                                                 key='turno',
                                                 font=24,
-                                                size=(14, 1),
+                                                size=(9, 1),
                                                 text_color='White',
                                                 background_color=window_color)]],
                                   background_color=window_color)]]

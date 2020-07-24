@@ -18,7 +18,7 @@ class Turno:
 
     def fin_de_turno(self, window):
         ''' CAMBIA EL TURNO Y REINICIA EL TIEMPO.'''
-        const_Update(window, {'turno': 'BOT'}) if self._parametros.get_turno() else const_Update(window, {'turno': 'JUGADOR'})
+        const_Update(window, {'turno': '       BOT'}) if self._parametros.get_turno() else const_Update(window, {'turno': 'JUGADOR'})
         if len(self._parametros._palabra) == 0: # Fue turno del bot
             for letter in self._parametros._palabra_bot:
                 self._parametros.dec_letra_bolsa(letter, 1)
