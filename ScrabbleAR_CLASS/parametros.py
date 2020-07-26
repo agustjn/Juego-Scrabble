@@ -101,7 +101,7 @@ class Parametros:
 
     def set_tiempo_total(self, t):
         self._tiempo_total = t
-        self._contador_total['minutos'] = t-1
+        self._contador_total['minutos'] = int(t)-1
 
     def get_tiempo_total(self):
         return self._tiempo_total
@@ -263,7 +263,7 @@ class Parametros:
         try:
             self._a_bot.pop(ficha)
         except KeyError:
-            pass    
+            pass
 
     def agregar_ficha_matriz(self, key, letra=None):    # AGREGA LA FICHA A LA MATRIZ
         ''' AGREGA UNA FICHA "LLAVE, LETRA" A LA MATRIZ.

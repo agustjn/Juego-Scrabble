@@ -2,84 +2,64 @@
     "jugador": {
         "puntos": 0,
         "atril": {
-            "[\"jugador\", 0]": "Y",
-            "[\"jugador\", 1]": "B",
-            "[\"jugador\", 2]": "I",
-            "[\"jugador\", 3]": "B",
-            "[\"jugador\", 4]": "N",
-            "[\"jugador\", 5]": "Q",
-            "[\"jugador\", 6]": "G"
+            "[\"jugador\", 0]": "I",
+            "[\"jugador\", 1]": "",
+            "[\"jugador\", 2]": "U",
+            "[\"jugador\", 3]": "X",
+            "[\"jugador\", 4]": "Y",
+            "[\"jugador\", 5]": "G",
+            "[\"jugador\", 6]": "Y"
         }
     },
     "bot": {
-        "puntos": 50,
+        "puntos": 3,
         "atril": {
-            "[\"bot\", 3]": "I",
-            "[\"bot\", 5]": "P",
-            "[\"bot\", 1]": "S",
-            "[\"bot\", 4]": "L"
+            "[\"bot\", 3]": "J",
+            "[\"bot\", 4]": "A",
+            "[\"bot\", 5]": "N",
+            "[\"bot\", 6]": "M"
         }
     },
-    "fichas": 65,
-    "dificultad": "DIFICIL",
+    "fichas": 86,
+    "dificultad": "MEDIO",
     "turno": true,
     "tiempos": {
-        "tiempo_por_turno": "14",
-        "segundos": 10
+        "tiempo_por_turno": "80",
+        "segundos": 75
     },
     "matriz": {
-        "[4, 12]": "F",
-        "[5, 12]": "E",
-        "[6, 12]": "O",
-        "[12, 6]": "P",
-        "[12, 7]": "O",
-        "[12, 8]": "N",
-        "[12, 9]": "E",
-        "[11, 3]": "J",
-        "[12, 3]": "U",
-        "[13, 3]": "A",
-        "[14, 3]": "N",
-        "[7, 7]": "O",
-        "[8, 7]": "I",
-        "[9, 7]": "G",
-        "[10, 7]": "A",
-        "[4, 1]": "U",
-        "[5, 1]": "N",
-        "[6, 1]": "E",
-        "[6, 5]": "S",
-        "[7, 5]": "C",
-        "[8, 5]": "H",
-        "[11, 8]": "W",
-        "[11, 9]": "E",
-        "[11, 10]": "B"
+        "[7, 7]": "C",
+        "[0, 6]": "S",
+        "[1, 6]": "A",
+        "[2, 6]": "W"
     },
     "bolsa_fichas": {
         "A": {
-            "cantidad": 3,
+            "cantidad": 6,
             "puntaje": 1
         },
         "E": {
-            "cantidad": 0,
+            "cantidad": 9,
             "puntaje": 1
         },
         "O": {
-            "cantidad": 0,
+            "cantidad": 8,
             "puntaje": 1
         },
         "S": {
-            "cantidad": 3,
+            "cantidad": 5,
             "puntaje": 1
         },
         "I": {
-            "cantidad": 1,
+            "cantidad": 5,
             "puntaje": 1
         },
         "U": {
-            "cantidad": 1,
+            "cantidad": 5,
             "puntaje": 1
         },
         "N": {
-            "cantidad": 1,
+            "cantidad": 4,
             "puntaje": 1
         },
         "R": {
@@ -91,7 +71,7 @@
             "puntaje": 1
         },
         "C": {
-            "cantidad": 1,
+            "cantidad": 2,
             "puntaje": 2
         },
         "D": {
@@ -103,15 +83,15 @@
             "puntaje": 2
         },
         "M": {
-            "cantidad": 3,
+            "cantidad": 2,
             "puntaje": 3
         },
         "B": {
-            "cantidad": 0,
+            "cantidad": 2,
             "puntaje": 3
         },
         "H": {
-            "cantidad": 1,
+            "cantidad": 2,
             "puntaje": 4
         },
         "V": {
@@ -119,7 +99,7 @@
             "puntaje": 4
         },
         "Y": {
-            "cantidad": 2,
+            "cantidad": 1,
             "puntaje": 4
         },
         "J": {
@@ -127,7 +107,7 @@
             "puntaje": 6
         },
         "K": {
-            "cantidad": 2,
+            "cantidad": 1,
             "puntaje": 8
         },
         "\u00d1": {
@@ -135,7 +115,7 @@
             "puntaje": 8
         },
         "Q": {
-            "cantidad": 2,
+            "cantidad": 1,
             "puntaje": 8
         },
         "W": {
@@ -143,7 +123,7 @@
             "puntaje": 8
         },
         "X": {
-            "cantidad": 2,
+            "cantidad": 1,
             "puntaje": 8
         },
         "Z": {
@@ -151,11 +131,11 @@
             "puntaje": 10
         },
         "L": {
-            "cantidad": 3,
+            "cantidad": 4,
             "puntaje": 1
         },
         "P": {
-            "cantidad": 0,
+            "cantidad": 2,
             "puntaje": 3
         },
         "F": {
@@ -165,48 +145,23 @@
     },
     "primer_turno": false,
     "historial": [
-        "BOT",
-        "PALABRA: FEO",
-        "V\u00c1LIDA",
-        "+12 PUNTOS",
+        "JUGADOR",
+        "PALABRA: C",
+        "INV\u00c1LIDA",
+        "+0 PUNTOS",
         " ",
         "BOT",
-        "PALABRA: PONE",
+        "PALABRA: SAW",
         "V\u00c1LIDA",
-        "+2 PUNTOS",
-        " ",
-        "BOT",
-        "PALABRA: JUAN",
-        "V\u00c1LIDA",
-        "-4 PUNTOS",
-        " ",
-        "BOT",
-        "PALABRA: OIGA",
-        "V\u00c1LIDA",
-        "+10 PUNTOS",
-        " ",
-        "BOT",
-        "PALABRA: UNE",
-        "V\u00c1LIDA",
-        "+9 PUNTOS",
-        " ",
-        "BOT",
-        "PALABRA: SCH",
-        "V\u00c1LIDA",
-        "+1 PUNTOS",
-        " ",
-        "BOT",
-        "PALABRA: WEB",
-        "V\u00c1LIDA",
-        "+20 PUNTOS",
+        "+3 PUNTOS",
         " "
     ],
-    "palabra_bot": "WEB",
+    "palabra_bot": "SAW",
     "cambiar_fichas_j": 0,
     "cambiar_fichas_b": 0,
-    "tiempo_total": 10,
+    "tiempo_total": "100",
     "contador_total": {
-        "minutos": 8,
-        "segundos": 23
+        "minutos": 99,
+        "segundos": 42
     }
 }

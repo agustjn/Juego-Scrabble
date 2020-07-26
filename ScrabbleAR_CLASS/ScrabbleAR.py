@@ -116,7 +116,7 @@ class Main(Interfaz):
                             self._parametros.add_cambiar_fichas_j()   # AUMENTA EL CONTADOR DE 'CAMBIAR FICHAS' (MÁXIMO 3, LLEGA A 3 Y PIERDE)
                             self.repartir_fichas(self._parametros.get_atril_jugador(), self._window)    # REPARTE 7 NUEVAS FICHAS
                             self._parametros.set_letra_ficha('')
-                            self._turno.fin_de_turno()
+                            self._turno.fin_de_turno(self._window)
                         else:
                             return self._popups.popup('HAS PERDIDO EL JUEGO')   # EL RETURN ES SOLO PARA QUE SALGA DE 'juego()' Y ESTE TERMINE
                     else:

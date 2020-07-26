@@ -89,7 +89,7 @@ letras_jugador = [[Button(button_text='',
                           pad=fichas_pad,) for y in range(7)]]
 letras_bot = [[Button(button_text='',
                       key=('bot', y),
-                      button_color=('White',  'White'), #button_color=('Red',  'Red'),
+                      button_color=('Red',  'Red'),#button_color=('White',  'White'),
                       size=boton_tablero_size,
                       image_data='iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAIAAADAARDdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADuSURBVEhLpY3RFYQgEAMtxE/778we7iA6hhVUYJ6PS3azuWVft2VJr76/nudqo/QazVH0FOa00r1QpYb0+ij50T/wBuyl+IrdN+632IMwdf2MJ9GyBWHnugoBZVzXIUHItUNMW9dPkCONAN/e7Tsc6OZVy3YQLt2GSY73w70qWnocWlTEy2QW7+JlMg4tKmrpEbhXhdswyfEeuNSxWz6f56NvcKMz1yJMgm1Cjqhrh5i2ruuQUMh1FQLKuI6w09r1A8SUdH3BVAvXrxBWvrBukj/X+bADb8A2pkNQpYb0ukEPQ8nRo59iNAdV+7r9AJ5KYMzAUVISAAAAAElFTkSuQmCC',
                       pad=fichas_pad,) for y in range(7)]]
@@ -183,7 +183,7 @@ botones_de_opcion_juego = [[Button(button_text='TOP 10',
                                                 size=(9, 1),
                                                 text_color='White',
                                                 background_color=window_color)]],
-                                  background_color=window_color)]]
+                                  background_color=window_color,title_color='white')]]
 columna_de_juego_derecha = [[Column(layout=puntos,
                                     background_color=window_color)],
                             [Column(layout=frame_reglas,
