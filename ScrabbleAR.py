@@ -1,214 +1,140 @@
-import json
-import time
-import PySimpleGUI as sg
+from mod_archivos import Archivos, partida_json
+from mod_interfaz import Interfaz
+from parametros import Parametros
+from mod_popups import Popups
+from mod_turno import Turno
+from layout import *
 from const import *
-from random import *
-from modulo_interfaz import MenuPrincipal,Dificultad,MenuPersonalizado,InterfazReglas,TableroFacil,TableroMedio,TableroDificil,TableroPersonalizado
-from modulo_atril import Atril,Actualizar_Atril_Jugador,Actualizar_Atril_Cpu,Actualizar_Puntos
-from modulo_archivos import CargarPartida,GuardarPartida,Cargar_TopDiez,Ver_TopDiez
-from modulo_verificacion import checkOrientation,checkWord,verifyWord,Validar_Palabra_CPU
-from modulo_restricciones import Primera_Letra,Segunda_Letra,Letras_Horizontal,Letras_Vertical,Palabra_Invalida,Evaluar_Posicion,Colocar_Letras
-
-#NOTA CAMBIAR LOS NOMBRES DE TODOS LOS MODULOS A MINISCULA MENOS EL PRINCIPAL SCRABBLE AR
-def Turno():
-    ''' Esta Funcion se encarga de escoger de manera aleatoria  que jugador va
-        a empezar a jugar'''
-    jugadores=['jugador','cpu']
-    if (choice(jugadores)=='jugador'):
-        return True,False
-    else:
-        return False,True
-
-def Reiniciar_Listas(listas):# resetea las listas
-    listas['pos_en_tablero']=[]
-    listas['letras_en_tablero']=[]
-    listas['pos_en_atril']=[]
-    listas['casillas']=[]
-    listas['puntos_por_letra']=[]
-    return listas
+import mod_cpu as cpu
+import json
 
 
+class Main(Interfaz):
 
-def Inicio(window, matriz_tablero, nivel,partida):# esta funcion se encarga de configurar la partida antes de iniciar
-    if not partida: # si se inicio una nueva partida entonces comienza con su configuracion predeterminada
-        '''jugador=Atril([],0,nivel)
-        cpu=Atril([],0,nivel)
-        jugador.repartirFichas()
-        cpu.repartirFichas()'''
-        historial=[]
-        jugador = Atril(['H', 'O', 'L', 'A', 'U', 'B', 'E'],0,nivel)
-        cpu=Atril(['C','O','R','R','E','R','O'],0,nivel)
-        #turno_jugador,turno_cpu=Turno()
-        turno_jugador,turno_cpu=True,False
-        listas= {'pos_en_tablero':[],'letras_en_tablero':[],'pos_en_atril':[],
-                 'casillas':[],'puntos_por_letra':[]}
-        print('MANO JUGADOR = ',jugador.getMano())
-        print('MANO CPU = ',cpu.getMano())
-        Actualizar_Atril_Jugador(window, jugador)
-        Actualizar_Atril_Cpu(window, cpu)
-        Comenzar_Juego(window,matriz_tablero,nivel,jugador,cpu,turno_jugador,turno_cpu,listas,historial)
-    else: # si se cargo una partida guardada se inicia desde esa partida
-        jugador=Atril([],0,nivel)
-        cpu=Atril([],0,nivel)
-        historial=[]
-        jugador.repartirFichas()
-        cpu.repartirFichas()
-        turno_jugador,turno_cpu=True,False
-        listas= {'pos_en_tablero':[],'letras_en_tablero':[],'pos_en_atril':[],
-                 'casillas':[],'puntos_por_letra':[]}
-        Comenzar_Juego(window,matriz_tablero,nivel,jugador,cpu,turno_jugador,turno_cpu,listas,historial)
+    def __init__(self):
+        self._parametros = Parametros()
+        Interfaz.__init__(self, self._parametros)
+        self._turno = Turno(self._parametros)
+        self._popups = Popups()
+        self._archivos = Archivos()
+        self._window = window_menu
 
-def Comenzar_Juego(window, matriz_tablero, nivel,jugador,cpu,turno_jugador,turno_cpu,listas,historial):
-    ''' Esta Funcion es en donde se ejecutan todas las operaciones que permiten
-        la interaccion con el tablero y las manos de los jugadores entre otras
-        cosas'''
-    while True:
-        if (turno_jugador) & (not turno_cpu):
-            window.Element('Turno').Update('Jg')
-            event, values = window.Read() # primer read para los botones y el atril del jugador
-            if event in (None, 'TERMINAR'):
-                Cargar_TopDiez({'puntaje': 0,
-                                'fecha': time.strftime('%d/%m/%Y'),
-                                'nivel': nivel})
+    def menu(self):
+        while True:
+            event, values = self._window.Read()
+            if event in ('salir', None):
+                return False
+            if event in ('FÁCIL', 'MEDIO', 'DIFICIL', 'personalizado'):
+                if event is 'personalizado':
+                    self._parametros.set_dificultad(values['dificultad'])
+                    self._parametros.set_tiempo_por_turno(values['tiempo_por_turno'])
+                    self._parametros.set_segundos(values['tiempo_por_turno'])
+                    self._parametros.set_tiempo_total(values['tiempo_total'])
+                else:
+                    self._parametros.set_dificultad(event)
                 break
-            elif event == 'POSPONER':
-                GuardarPartida(matriz_tablero, nivel)
-                sg.Popup('Partida guardada en el archivo')
-            elif event == 'TOP 10':
-                Ver_TopDiez()
-            elif event == 'REGLAS':
-                InterfazReglas(nivel)
-            elif event == 'Fin De Turno':
-                if len(listas['pos_en_tablero'])!=0:# si el jugador coloco almenos 1 letra se evalua
-                    word = checkWord(listas['pos_en_tablero'], matriz_tablero)
-                    if not verifyWord(word):
-                        matriz_tablero=Palabra_Invalida(listas,matriz_tablero,
-                                                        window)
-                        sg.Popup('Palabra invalida pierdes el turno')
+            if event is 'cargar_partida':
+                partida = self._archivos.leer_json(partida_json)
+                if not partida:
+                    self._popups.popup('NO HAY PARTIDA GUARDADA')
+                else:
+                    self._parametros.cargar_parametros(partida)
+                    break
+        return True
+
+    def inicio(self):
+        self._window = window_juego.Finalize()
+        if self._parametros.get_hay_partida():  # PREGUNTA SI HAY PARTIDA
+            const_Update(self._window, # SI HAY PARTIDA GUARDADA, ACTUALIZA LA VENTANA CON LOS PARÁMETROS GUARDADOS
+                         {'puntos_jugador': self._parametros.get_puntos_jugador(),
+                          'puntos_bot': self._parametros.get_puntos_bot(),
+                          'historial': self._parametros.get_historial()},
+                         self._parametros.get_atril_jugador(),
+                         self._parametros.get_atril_bot(),
+                         self._parametros.get_matriz())
+        else:   # SI NO HAY PARTIDA GUARDADA, SOLO CARGA NUEVOS ATRILES
+            self.repartir_fichas(self._parametros.get_atril_jugador(), self._window)
+            self.repartir_fichas(self._parametros.get_atril_bot(), self._window)
+        const_Update(self._window, # HAYA O NO PARTIDA GUARDADA, CARGA LOS PARÁMETROS GENÉRICOS COMO LAS REGLAS
+                     {'reglas': reglas(self._parametros.get_dificultad(),
+                                       self._parametros.get_tiempo_por_turno(),
+                                       self._parametros.get_tiempo_total()),
+                      'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())},
+                     color_botones[self._parametros.get_dificultad()],
+                     puntos_botones[self._parametros.get_dificultad()]['jugador'])
+        Interfaz.set_dificultad(self)   # SETEA LA DIFICULTAD A LA CLASE PUNTAJE (PADRE DE INTERFAZ)
+        const_Update(self._window, {'tiempo': 'TIEMPO DE RONDA: '+str(self._parametros.get_segundos()), 'tiempo_total': 'TIEMPO TOTAL: '+str(self._parametros.get_contador_total()['minutos'])+':'+str(self._parametros.get_contador_total()['segundos']), 'turno': 'JUGADOR' if self._parametros.get_turno() else '       BOT'})
+
+    def fin(self):
+        if (self._parametros.get_puntos_jugador() > self._parametros.get_puntos_bot()): # GUARDA EL PUNTAJE COMO RECORD SI LOS PUNTOS FUERON MAYORES A LOS DEL BOT
+            self._archivos.cargar_records_json(self._parametros.get_puntos_jugador(),
+                                               self._parametros.get_dificultad())
+
+    def juego(self):
+        self.inicio()
+        while True:
+            event, values = self._window.Read(timeout=100)  # CADA 100 MILISEGUNDOS SALTA DEL .Read()
+            self._turno.conteo(self._window)    # ACTUALIZA EL CONTEO EN PANTALLA MAS LAS VARIABLES CONTADORAS
+            if self._parametros.get_contador_total()['minutos'] == 0 and self._parametros.get_contador_total()['segundos'] == 0:
+                self._popups.popup('FIN DEL TIEMPO.')
+                # self._window.close()
+                # break
+                self.fin()
+            if event in ('terminar', None):
+                self.fin()
+                break
+            if event is 'guardar_partida':  # ESCRIBE EN 'partida_json' LOS PARÁMETROS DE LA PARTIDA EN JUEGO
+                self._popups.popup('PARTIDA GUARDADA')
+                self._archivos.escribir_json(self._parametros.guardar_parametros(), partida_json, 'w')
+            if event is 'top_diez':
+                self._popups.popup_scrolled(self._archivos.cargar_records_txt())
+            if self._parametros.get_turno():
+                # TURNO DEL USUARIO:
+                if ((event is 'fin_de_turno') or (self._parametros.get_segundos() == 0)):   # SI CLICKEA EN FIN DE TURNO O SE LE TERMINA EL TIEMPO
+                    if self._parametros.get_palabra():  # SI _palabra CONTIENE ELEMENTOS (SI PUSO LETRAS)
+                        if not self.primer_turno(): # ESTA FUNCION DETERMINA SI PERMANECEMOS EN EL PRIMER TURNO O NO. SI LA VARIABLE _primer_turno ES False NO ESTAMOS EN EL PRIMER TURNO, SI ES True, SI. SI _primer_turno ES False, LA FUNCIÓN REGULA SI SE PUSO O NO UNA LETRA EN E CENTRO PARA TERMINAR EL PRIMER TURNO O NO
+                            if self.calcular_palabra(self._window, 'jugador'):  # CALCULA LA PALABRA
+                                self._parametros.actualizar_atril(self._window, 'jugador')
+                            else:
+                                self._popups.popup('SOLO SE ACEPTAN PALABRAS CON 2 O MÁS LETRAS')
+                            self._turno.fin_de_turno(self._window)  # CAMBIA EL TURNO Y BORRA LAS LETRAS USADAS DE LA BOLSA
+                        else: # SI ESTAMOS EN EL PRIMER TURNO
+                            self.devolver_fichas(self._window, 'jugador')   # DEVUELVE LAS FICHAS PUESTAS EN LA MATRIZ HACIA EL ATRIL PORQUE SE UBICARON INCORRECTAMENTE
+                            self._popups.popup('TURNO PERDIDO. NO INGRESÓ NINGUNA LETRA\nDE LA PALABRA EN EL CENTRO DEL TABLERO')   # NO SE INGRESÓ NINGUNA LETRA EN EL TROCEN
+                        self._parametros.borrar_palabra()   # POR CADA TURNO LA BORRA (EN _palabra SOLO SE UBICAN LAS LETRAS POR TURNO)
+                        self._parametros.set_letra_ficha('')
                     else:
-                        Actualizar_Puntos(jugador,'jugador',listas['casillas'],
-                                          listas['puntos_por_letra'],window,historial,word,nivel)
-                        window.Element('Palabras').Update(historial)
-                    listas=Reiniciar_Listas(listas)
-
-                    print(word)
-                    print(verifyWord(word))
-                else: # en caso de que no coloco una letra y dio fin de turno envia un mensaje
-                    sg.Popup('Finalizaste el turno del jugador sin colocar una ficha')
-                turno_jugador=False
-                turno_cpu=True
-            elif event=='Cambiar Fichas':#FALTA AGREGAR QUE SI EL JUGADOR CAMBIA LAS FICHAS PIERDE EL TURNO
-                jugador.devolverFichas()
-                Actualizar_Atril_Jugador(window, jugador)
-                turno_jugador=False
-                turno_cpu=True
-                sg.Popup('Cambiaste tus fichas pierdes el turno')
-                #print(Atril.bolsa_fichas)
-                #print(Atril.letras_bolsa)
-            elif 'Jugador' in event:
-                letra_turno = window.Element(event).GetText()
-                key_letra = event
-                print('LETRA TURNO = ',letra_turno)
-                event, values = window.Read() # segundo read para colocar la letra en la casilla del tablero
-                print('EVENTO = ',event)
-                if event not in ('Cambiar Fichas','Fin De Turno','TOP 10','POSPONER','REGLAS','TERMINAR',None):
-                    print('ENTRE!!!!!!!!!',event)
-                    if len(listas['pos_en_tablero'])==0:# primera letra en el tablero
-                        listas,matriz_tablero=Primera_Letra(listas,event,letra_turno,
-                        matriz_tablero,window,key_letra,jugador)
-                    elif len(listas['pos_en_tablero'])==1: # segunda letra en el tablero
-                        listas,matriz_tablero,orientacion=Segunda_Letra(listas,
-                        event,letra_turno,matriz_tablero,window,key_letra,jugador)
-                    else:# siguientes letras a colocar segun la orientacion
-                        if orientacion == 'Horizontal': #Letras a poner en horizontal
-                            listas,matriz_tablero=Letras_Horizontal(listas,event,
-                            letra_turno,matriz_tablero,window,key_letra,jugador)
-                        else:#Letras a poner en vertical
-                            listas,matriz_tablero=Letras_Vertical(listas,event,
-                            letra_turno,matriz_tablero,window,key_letra,jugador)
-                    print(listas['pos_en_tablero'])
-                    print(listas['pos_en_atril'])
-                    print(listas['letras_en_tablero'])
-                    print(listas['casillas'])
-                    print(listas['puntos_por_letra'])
-        else: # variables en uso para la cpu: palabra_cpu, casilla_cpu, objeto cpu, window, linea
-            window.Element('Turno').Update('CPU')
-            palabra_cpu=Validar_Palabra_CPU(cpu.getMano(),nivel)
-            print('PALABRA CPU =',palabra_cpu)
-            if palabra_cpu=='':#esto quiere decir que la palabra es invalida
-                if cont==1: #esto quiere decir que la maquina paso un turno para cambiar fichas
-                    cpu.devolverFichas()
-                    Actualizar_Atril_Cpu(window,cpu)
-                elif cont>=3:
-                    sg.Popup('La Cpu ha perdido paso 3 veces seguidas el turno')
-                cont+=1
-                print('No tengo palabra valida')
+                        self._turno.fin_de_turno(self._window)
+                        self._parametros.set_letra_ficha('')
+                if event in atril_jugador:
+                    self._parametros.set_ficha({event: self._window.Element(event).GetText()})  # GUARDA LA FICHA SELECCIONADA, LA SETEA EN _ficha
+                if event in matriz and self._parametros.get_letra_ficha() != '' and self._window.Element(event).GetText() == '' and self.evaluar_posicion(self._window, event, self._parametros.get_palabra()):    # SI EL EVENTO ESTÁ EN LA MATRIZ Y SE SETEÓ ALGUNA FICHA (ES DECIR, NO ESTÁ VACÍA)
+                    self.mover_ficha(self._window, event)   # MUEVE LA FICA DESDE EL ATRIL HASTA LA MATRIZ
+                if event is 'cambiar_fichas':
+                    if not self._parametros.get_palabra():  # SOLO SE PUEDEN CAMBIAR LAS FICHAS CUANDO NO SE HAYA PUESTO NINGUNA
+                        if self._parametros.get_cambiar_fichas_j() < 3:   # SI SE CAMBIÓ MÁS DE 3 VECES, PIERDE
+                            self._parametros.add_cambiar_fichas_j()   # AUMENTA EL CONTADOR DE 'CAMBIAR FICHAS' (MÁXIMO 3, LLEGA A 3 Y PIERDE)
+                            self.repartir_fichas(self._parametros.get_atril_jugador(), self._window)    # REPARTE 7 NUEVAS FICHAS
+                            self._parametros.set_letra_ficha('')
+                            self._turno.fin_de_turno(self._window)
+                        else:
+                            return self._popups.popup('HAS PERDIDO EL JUEGO')   # EL RETURN ES SOLO PARA QUE SALGA DE 'juego()' Y ESTE TERMINE
+                    else:
+                        self._popups.popup('NO SE PUEDEN CAMBIAR FICHAS SI YA\nPUSO ALGUNA DURANTE EL TURNO')   # SI '_palabra' CONTIENE FICHAS, ES DECIR, PUSO ALGUNA LETRA, NO PUEDE CAMBIARLAS HASTA SU SIGUIENTE TURNO
             else:
-                cont=0
-                if window.Element((7,7)).GetText()=='':
-                    casilla_cpu=(7,7)
-                else:
-                    casilla_cpu=choice(list(matriz_tablero.keys()))
-                linea=Evaluar_Posicion(window,casilla_cpu,palabra_cpu,
-                                       matriz_tablero)
-                print('Casilla random ',casilla_cpu)
-                while linea == 'No Valido':
-                    print(linea)
-                    casilla_cpu=choice(list(matriz_tablero.keys()))
-                    print(casilla_cpu)
-                    linea=Evaluar_Posicion(window,casilla_cpu,palabra_cpu,
-                                           matriz_tablero)
-                if linea == 'Horizontal':
-                    matriz_tablero=Colocar_Letras(window,casilla_cpu,'Horizontal',
-                                                 palabra_cpu,matriz_tablero,
-                                                 cpu,listas)
-                else:
-                    matriz_tablero=Colocar_Letras(window,casilla_cpu,'Vertical',
-                                                 palabra_cpu,matriz_tablero,
-                                                 cpu,listas)
-                print('Palabra valida encontrada = ',palabra_cpu)
-                print(listas['pos_en_tablero'])
-                print(listas['pos_en_atril'])
-                print(listas['letras_en_tablero'])
-                print(listas['casillas'])
-                print(listas['puntos_por_letra'])
-                Actualizar_Puntos(cpu,'cpu',listas['casillas'],
-                                  listas['puntos_por_letra'],window,historial,palabra_cpu,nivel)
-                window.Element('Palabras').Update(historial)
-            listas=Reiniciar_Listas(listas)
-            turno_jugador=True
-            turno_cpu=False
+                # TURNO DEL BOT:
+                cpu.create_word(self._parametros._a_bot.values(), self._parametros._dificultad, self._parametros)
+                cpu.colocar_palabra_bot(self._window, self._parametros,self.calcular_palabra,self.repartir_fichas)
+                self._parametros.actualizar_atril(self._window, 'bot')
+                self._turno.fin_de_turno(self._window)
+                self._parametros.borrar_palabra()
+
+    def run(self):
+        if self.menu():
+            self._window.Close()
+            self.juego()
+        self._window.Close()
 
 
-def Jugar(opcion):
-    ''' Esta funcion trata de la configuracion del juego en donde se presentan
-        2 menus el primero el cual contiene el boton Iniciar, CargarPartida y
-        Salir y el segundo el cual se despliega al presionar el boton Iniciar
-        que permite al usuario escoger que nivel de juego desea o si quiere
-        configurar otros aspectos del juego'''
-    if opcion == 'Iniciar':
-        nivel = Dificultad()
-        ok=True
-        if nivel == 'FACIL':
-            window, matriz_tablero, nivel = TableroFacil()
-        elif nivel == 'MEDIO':
-            window, matriz_tablero, nivel = TableroMedio()
-        elif nivel == 'DIFICIL':
-            window, matriz_tablero, nivel = TableroDificil()
-        elif nivel == 'PERSONALIZADO':
-            event, values = MenuPersonalizado()
-            if event!=None:
-                window, matriz_tablero, nivel = TableroPersonalizado(values['Nivel'])
-            else:
-                ok=False
-        elif nivel== 'Volver':
-            Jugar(MenuPrincipal())
-        if ((nivel!='Volver')&(nivel!=None)&(ok)):
-            Inicio(window, matriz_tablero, nivel,False)
-    elif opcion == 'Cargar Partida':
-        window, matriz_tablero, nivel,partida = CargarPartida()
-        if (partida):
-            Inicio(window, matriz_tablero, nivel,partida)
-
-
-Jugar(MenuPrincipal())
+main = Main()
+main.run()

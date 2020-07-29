@@ -22,8 +22,8 @@ class Parametros:
         self._turno = choice([True, False]) # TURNO RANDOM
         self._tiempo_p_t = 30   # TIEMPO POR TURNO
         self._s = self._tiempo_p_t  # SEGUNDOS
-        self._tiempo_total = 10 # MINUTOS
-        self._contador_total = {'minutos': 10, 'segundos': 59}
+        self._tiempo_total = 9 # MINUTOS
+        self._contador_total = {'minutos': 9, 'segundos': 59}
         self._matriz = {}   # MATRIZ INICIAL
         self._palabra = {}  # PALABRA POR RONDA
         self._bolsa_fichas = deepcopy(bolsa)    # COPIA PROFUNDA DE LA BOLSA, DESLIGAMIENTO DE CUALQUIER PUNTERO

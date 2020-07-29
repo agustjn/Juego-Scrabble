@@ -1,8 +1,9 @@
 from PySimpleGUI import Window, Frame, Column, Button, Drop, Spin, Text, Listbox
 
 
-boton_opcion = 'media/boton_opcion.png'
-boton_salir = 'media/boton_salir.png'
+boton_opcion = 'iVBORw0KGgoAAAANSUhEUgAAAJUAAAAVCAYAAABPEqyXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAABVSURBVGhD7dIxAcAwDMCwdIDCn137DIJP6TEBn929A6HvL2RMRc5U5ExFzlTkTEXOVORMRc5U5ExFzlTkTEXOVORMRc5U5ExFzlTkTEXOVORMRWzmAWM4AbPo5MpQAAAAAElFTkSuQmCC'
+boton_salir = 'iVBORw0KGgoAAAANSUhEUgAAAZMAAAAUCAYAAABI3tC1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAJwSURBVHhe7dxZjiIxDIBheh44Dtz/GFyHl2kslTWWJ0ulcJJa/k+KGqqctRyCeOifx+Px9wYAwBf+LH8BANiMwwRAN6/Xa3lV1ysWY/Azl5FL0OfzubyKIf0coU0V0faotc0Z+WxLes939jp7LbnTK7ZkTTt7W9O94jBZlJIqKnGFthXZpohuz4poO9dGz3Fbpf5F1BhGzSel1PescbX02ys2R9uotZW7HzGGM+Fnro9aUpAw/cjayvrPIv3PHkMEcni8M+RNJA6TgWobHsAY7MV4HCaT8K1mX674PGS+vlj2vb+v720p6RVrba3HXozBYfJBMuHoWnNYYqWOL57E2Vhl6+j1XP+pviJira31EIfDZKHJpyWaJrt19YTXtfbrcnQ6L196W5vDLWORNtc8n1JM6p6O1WuJVXKvpV4qvtaHJ7G5fq+Kw8SQxNCiydKSYCizaypF1/psbB7ZMoLtz661N2o8Z2HXUoquMf7hMMmwyZLajC20vk1GLXr9CnRN2YRjROawZ3NYy0yp8Ujx9JqPs9dTyN06DpOKqOSxyegL0FN0jskHrs/h6D5apcajxUvFaMF2HCad6cYrkfu5b0Rntbc5r3lOOLaovXjF/boGh8mB3O/35dU5sCnnmb3uLf3v8cOd3P0fh8lHKSnkniTOHrzf7+XVeczelNL3np7xVi053GOutf5TUuNoiZ1NxlSa99Xwv7kWPZJY2myp3xpv1ZJ65DxSSm3o2L/toyS3PtF99nwONa1zTMXbWLm/tq7EpeL1Wire2xJr+XpK20y1k2PjS3W1z5a2z4rDBADwNX7mAgB8jcMEAPCl2+0XoIZVxtxGR/wAAAAASUVORK5CYII='
+boton_bot = 'iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAIAAADAARDdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADuSURBVEhLpY3RFYQgEAMtxE/778we7iA6hhVUYJ6PS3azuWVft2VJr76/nudqo/QazVH0FOa00r1QpYb0+ij50T/wBuyl+IrdN+632IMwdf2MJ9GyBWHnugoBZVzXIUHItUNMW9dPkCONAN/e7Tsc6OZVy3YQLt2GSY73w70qWnocWlTEy2QW7+JlMg4tKmrpEbhXhdswyfEeuNSxWz6f56NvcKMz1yJMgm1Cjqhrh5i2ruuQUMh1FQLKuI6w09r1A8SUdH3BVAvXrxBWvrBukj/X+bADb8A2pkNQpYb0ukEPQ8nRo59iNAdV+7r9AJ5KYMzAUVISAAAAAElFTkSuQmCC'
 window_color = '#1c1c1c'
 spin_rango = [time for time in range(10, 41)]
 spin_rango_total = [time for time in range(5, 16)]
@@ -28,19 +29,19 @@ rules_size = (18, 8)
 botones_de_opcion_menu = [[Button(button_text='FÁCIL',
                                   key='FÁCIL',
                                   pad=(0, 6),
-                                  image_filename=boton_opcion)],
+                                  image_data=boton_opcion)],
                           [Button(button_text='MEDIO',
                                   key='MEDIO',
                                   pad=(0, 6),
-                                  image_filename=boton_opcion)],
+                                  image_data=boton_opcion)],
                           [Button(button_text='DIFICIL',
                                   key='DIFICIL',
                                   pad=(0, 6),
-                                  image_filename=boton_opcion)],
+                                  image_data=boton_opcion)],
                           [Button(button_text='CARGAR PARTIDA',
                                   key='cargar_partida',
                                   pad=(0, 6),
-                                  image_filename=boton_opcion)]]
+                                  image_data=boton_opcion)]]
 frame_menu = [[Frame(layout=[[Text(text='DIFICULTAD    ',
                                    background_color=window_color),
                               Drop(values=['FÁCIL', 'MEDIO', 'DIFICIL'],
@@ -57,7 +58,7 @@ frame_menu = [[Frame(layout=[[Text(text='DIFICULTAD    ',
                                    key='tiempo_total')],
                              [Button(button_text='ACEPTAR',
                                      key='personalizado',
-                                     image_filename=boton_opcion)]],
+                                     image_data=boton_opcion)]],
                      title='PERZONALIZADO',
                      background_color=window_color)]]
 columna_menu = [[Column(layout=botones_de_opcion_menu,
@@ -69,7 +70,7 @@ layout_menu = [[Frame(layout=columna_menu,
                       background_color=window_color)],
                [Button(button_text='',
                        key='salir',
-                       image_filename=boton_salir)]]
+                       image_data=boton_salir)]]
 window_menu = Window(title='ScrabbleAR',
                      font=font_size,
                      margins=margins_size,
@@ -91,16 +92,16 @@ letras_bot = [[Button(button_text='',
                       key=('bot', y),
                       button_color=('Red',  'Red'),#button_color=('White',  'White'),
                       size=boton_tablero_size,
-                      image_data='iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAIAAADAARDdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADuSURBVEhLpY3RFYQgEAMtxE/778we7iA6hhVUYJ6PS3azuWVft2VJr76/nudqo/QazVH0FOa00r1QpYb0+ij50T/wBuyl+IrdN+632IMwdf2MJ9GyBWHnugoBZVzXIUHItUNMW9dPkCONAN/e7Tsc6OZVy3YQLt2GSY73w70qWnocWlTEy2QW7+JlMg4tKmrpEbhXhdswyfEeuNSxWz6f56NvcKMz1yJMgm1Cjqhrh5i2ruuQUMh1FQLKuI6w09r1A8SUdH3BVAvXrxBWvrBukj/X+bADb8A2pkNQpYb0ukEPQ8nRo59iNAdV+7r9AJ5KYMzAUVISAAAAAElFTkSuQmCC',
+                      image_data=boton_bot,
                       pad=fichas_pad,) for y in range(7)]]
 frame_letras = [[Frame(layout=[[Column(layout=letras_jugador,
                                        background_color=window_color)],
                                [Button(button_text='CAMBIAR FICHAS',
                                        key='cambiar_fichas',
-                                       image_filename=boton_opcion),
+                                       image_data=boton_opcion),
                                 Button(button_text='FIN DE TURNO',
                                        key='fin_de_turno',
-                                       image_filename=boton_opcion)]],
+                                       image_data=boton_opcion)]],
                        title='MIS FICHAS~~~~~~~TOTAL DE FICHAS: ',
                        key='fichas_jugador',
                        background_color=window_color,
@@ -165,15 +166,15 @@ frame_reglas = [[Frame(layout=[[Column(layout=[[Text(text='',
 botones_de_opcion_juego = [[Button(button_text='TOP 10',
                                    key='top_diez',
                                    pad=boton_opcion_size,
-                                   image_filename=boton_opcion)],
+                                   image_data=boton_opcion)],
                            [Button(button_text='POSPONER',
                                    key='guardar_partida',
                                    pad=boton_opcion_size,
-                                   image_filename=boton_opcion)],
+                                   image_data=boton_opcion)],
                            [Button(button_text='TERMINAR',
                                    key='terminar',
                                    pad=boton_opcion_size,
-                                   image_filename=boton_opcion)],
+                                   image_data=boton_opcion)],
                            [Text(text='', size=(4, 1), background_color=window_color),
                             Frame(title='TURNO',
                                   pad=(0, 0),

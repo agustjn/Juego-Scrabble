@@ -1,9 +1,9 @@
 from json import dump, load
 from time import strftime
 
-partida_json = 'archivos/partida.json'
-records_json = 'archivos/records.json'
-records_txt = 'archivos/records.txt'
+partida_json = 'partida.json'
+records_json = 'records.json'
+records_txt = 'records.txt'
 
 
 class Archivos():

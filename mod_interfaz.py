@@ -139,15 +139,3 @@ class Interfaz(Puntaje):
                 self._popups.popup('Error de colocacion de letra')
                 return False
         return True
-
-# LINEA 119
-# event = (1^, 2^)
-# palabra = (5, 5^), (6, 5), (7^, 5)
-# si 2^ != 5^ o 1^ != (7^+1)
-#
-# LOS DOS REFIEREN A SI SE COLOCAN LAS LETRAS CONSECUTIVAMENTE
-#
-# LINEA 123
-# event = (1^, 2^)
-# palabra = (5^, 5), (5, 6), (5, 7^)
-# si 1^ != 5^ o 2^ != 7^+1

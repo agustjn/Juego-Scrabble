@@ -11,13 +11,11 @@ Grupo 24
 Consideraciones:
 
 Para comenzar a jugar al ScrabbleAR, se requiere ejecutar el "ScrabbleAR.py".
-Al ejecutar se le solicitara al usuario elegir entre 3 opciones Iniciar,
-Cargar Partida o Salir.
+Al ejecutar se le solicitara al usuario elegir entre 6 opciones FÁCIL, MEDIO,
+DIFÍCIL, CARGAR PARTIDA, ACEPTAR o SALIR DE ScrabbleAR.
 
-Si el usuario quiere iniciar una partida debe de presionar el botón Iniciar
-el cual despliega otro menú en el que se le permite escoger entre 4 tipos de
-dificultades entre las cuales se encuentran los niveles Fácil, Medio, Difícil y
-Personalizado.
+Si el usuario quiere iniciar una partida, debe presionar cualquiera de las opciones
+anteriormente mencionadas, exceptuando 'SALIR DE ScrabbleAR'
 
 Cada nivel cuenta con un tablero distinto según el grado de la dificultad.
 
