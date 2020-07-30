@@ -108,6 +108,8 @@ class Interfaz(Puntaje):
         self._set_dificultad(self._parametros.get_dificultad())
 
     def check_orientation(self, palabra):
+        ''' ESTA FUNCION SE ENCARGA DE VERIFICAR LA ORIENTACION DE LA PALABRA
+            INGRASADA EN EL TABLERO '''
         lista_posiciones = list(palabra.keys())
         firstPosition = lista_posiciones[0]
         lastPosition = lista_posiciones[-1]

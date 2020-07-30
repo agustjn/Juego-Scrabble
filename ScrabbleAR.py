@@ -77,9 +77,9 @@ class Main(Interfaz):
             self._turno.conteo(self._window)    # ACTUALIZA EL CONTEO EN PANTALLA MAS LAS VARIABLES CONTADORAS
             if self._parametros.get_contador_total()['minutos'] == 0 and self._parametros.get_contador_total()['segundos'] == 0:
                 self._popups.popup('FIN DEL TIEMPO.')
-                # self._window.close()
-                # break
+                self._window.Close()
                 self.fin()
+                break
             if event in ('terminar', None):
                 self.fin()
                 break

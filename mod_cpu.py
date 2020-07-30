@@ -5,6 +5,8 @@ from random import randint, choice
 '''CONJUNTO DE FUNCIONES DEL BOT'''
 
 def create_word(atril_cpu,nivel,parametros):
+    ''' ESTA FUNCION SE ENCARGA DE BUSCAR UNA PALABRA VALIDA PARA EL BOT SEGUN
+        SU ATRIL ACTUAL '''
     letters=[]
     palabra_aux=[]
     for letter in atril_cpu:
@@ -45,6 +47,8 @@ def create_word(atril_cpu,nivel,parametros):
     parametros._palabra_bot=palabra_cpu.upper()
 
 def verificar_espacio(window,casilla_cpu,palabra_cpu):
+    ''' ESTA FUNCION SE ENCARGA DE VERIFICAR SI LA PALABRA VALIDA ENCONTRADA
+        TIENE ESPACIO EN EL TABLERO SEGUN SU ORIENTACION VERTICAL U HORIZONTAL '''
     columna=casilla_cpu[0]
     fila=casilla_cpu[1]
     horizontal = True
@@ -75,6 +79,8 @@ def verificar_espacio(window,casilla_cpu,palabra_cpu):
 
 
 def colocar_palabra_bot(window,parametros,calcular_palabra,cambiar):
+    ''' ESTA FUNCION SE ENCARGA DE VERIFICAR Y BUSCAR LA PALABRA VALIDA PARA EL
+        BOT '''
     palabra=parametros.get_palabra_bot()
     if not parametros.get_primer_turno():
         position=choice(matriz)
@@ -92,6 +98,8 @@ def colocar_palabra_bot(window,parametros,calcular_palabra,cambiar):
         cambiar(parametros.get_atril_bot(),window)
 
 def Colocar_Letras(window,casilla_cpu,orientacion,palabra_cpu,parametros):
+    ''' ESTA FUNCION SE ENCARGA DE COLOCAR LAS LETRAS DEL BOT EN EL TABLERO
+        DESPUES DE SER VALIDADAS'''
     columna=casilla_cpu[0]
     fila=casilla_cpu[1]
     lista_eliminados=[]# lista de las letras que fueron colocadas en el atril
