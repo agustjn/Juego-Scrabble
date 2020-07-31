@@ -21,6 +21,9 @@ class Interfaz(Puntaje):
                     return False
         return True # SI ESTAMOS EN EL PRIMER TURNO, O HASTA ACÁ LO ESTUVIMOS (DEPENDE DE LA LÍNEA 20)
 
+    def control_bolsa(self, quien):
+        return len(getattr(self._parametros, 'get_atril_'+quien)()) + self._parametros.get_fichas() < 7
+
     def devolver_fichas(self, window, quien):
         palabra, atril = self._parametros.get_palabra(), getattr(self._parametros, 'get_atril_'+quien)() # EL ATRÍL SEGÚN QUIÉN, 'jugador' o 'bot'
         letras = list(palabra.values())
