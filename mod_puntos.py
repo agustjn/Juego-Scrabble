@@ -24,7 +24,7 @@ class Puntaje:
     def _sumar(self, color, puntaje_letra, quien):
         ''' DEVUELVE LA SUMA DE LA PUNTUACIÓN DE LA LETRA MAS EL COLOR'''
         if color == 'Red':
-            return - int(puntos_botones[self._dificultad][quien]['puntos_rojo'][-1:])
+            return puntaje_letra-int(puntos_botones[self._dificultad][quien]['puntos_rojo'][-1:])
         elif color == 'Green':
             return puntaje_letra*int(puntos_botones[self._dificultad][quien]['puntos_verde'][-1:])
         elif color == 'Blue':
