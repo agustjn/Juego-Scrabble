@@ -1,6 +1,8 @@
 from pattern.es import verbs, tag, spelling, lexicon, parse
+from layout import Window, layout_puntos_por_letra as ppl, font_size, margins_size, window_color
 from mod_puntos import Puntaje
 from mod_popups import Popups
+from copy import deepcopy
 import const
 
 
@@ -10,6 +12,29 @@ class Interfaz(Puntaje):
         self._parametros = parametros
         self._popups = Popups()
         Puntaje.__init__(self)
+
+    def puntos_por_letra(self, window):
+        _window = Window(title='ScrabbleAR',
+                         font=font_size,
+                         margins=margins_size,
+                         background_color=window_color).Layout(deepcopy(ppl))
+        while True:
+            _event, _values = _window.Read(timeout=100)     # timeout NOS PERMITE LEER LAS 2
+            event, values = window.Read(timeout=100)        # VENTANAS AL MISMO TIEMPO
+            if event in ('salir', None):        # SI ELIGIÓ SALIR DEL MENÚ PRINCIPAL
+                _window.Close()
+                return False        # SI DEVUELVE FALSO, CERRAMOS EL JUEGO
+            if _event is None:      # SI ELIGIÓ SALIR DEL MENÚ DE MODIFICACIÓN DE PUNTAJES
+                _window.Close()
+                return True         # SI DEVOLVEMOS TRUE, SOLO CERRAMOS LA VENTANA LOCAL
+            if _event is 'puntos_personalizados':       # SI CLICKEÓ EN ACEPTAR, SE SETEAN MEDIANTE PUNTEROS LOS PUNTAJES MODIFICADOS
+                bolsa = self._parametros.get_bolsa()    # TOMA LA BOLSA PARA EL JUEGO
+                for letras in list(_values.items()):    # EXTRACCIÓN DE LOS 
+                    for letra in letras[1]:     # POR CADA LETRA ESCRITA
+                        if letra and ord(letra) in const.minus or ord(letra) in const.mayus:    # SI LA LETRA ES VÁLIDA (ES DECIR, EXISTE EN LA BOLSA)
+                            bolsa[letra.upper()]['puntaje'] = int(letras[0].split('_')[-1])     # MODIFICAMOS EL PUNTAJE (SE MODIFICA EL VALOR AL QUE APUNTA EL PUNTERO, POR ENDE, NO ES NECESARIO SETEAR LA BOLSA)
+                _window.Close()
+                return True         # SI DEVOLVEMOS TRUE, SOLO CERRAMOS LA VENTANA LOCAL
 
     def primer_turno(self):
         if not self._parametros.get_primer_turno(): # SI NO ES EL PRIMER TURNO
@@ -122,7 +147,7 @@ class Interfaz(Puntaje):
             return 'Vertical'
         else:
             return 'Horizontal'
-        # return 'Vertical' if list(palabra.keys())[0][0] == list(palabra.keys())[-1][0] else 'Horizontal'
+        # return 'Vertical' if lista_posiciones[0][0] == lista_posiciones[-1][0] else 'Horizontal'
 
     def evaluar_posicion(self, window, event, palabra):
         if palabra:

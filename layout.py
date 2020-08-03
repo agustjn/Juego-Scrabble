@@ -1,7 +1,8 @@
-from PySimpleGUI import Window, Frame, Column, Button, Drop, Spin, Text, Listbox
+from PySimpleGUI import Window, Frame, Column, Button, Drop, Spin, Text, Listbox, InputText
 
 
 boton_opcion = 'iVBORw0KGgoAAAANSUhEUgAAAJUAAAAVCAYAAABPEqyXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAABVSURBVGhD7dIxAcAwDMCwdIDCn137DIJP6TEBn929A6HvL2RMRc5U5ExFzlTkTEXOVORMRc5U5ExFzlTkTEXOVORMRc5U5ExFzlTkTEXOVORMRWzmAWM4AbPo5MpQAAAAAElFTkSuQmCC'
+boton_opcion_L = 'iVBORw0KGgoAAAANSUhEUgAAAKQAAAAVCAYAAADII0WRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAABXSURBVGhD7dIxAcAwDMCwdIDCn137DIQP6TEBn929AxHfX0gwJCmGJMWQpBiSFEOSYkhSDEmKIUkxJCmGJMWQpBiSFEOSYkhSDEmKIUkxJCmGJMWQhMw8XkQBsw98HPIAAAAASUVORK5CYII='
 boton_salir = 'iVBORw0KGgoAAAANSUhEUgAAAZMAAAAUCAYAAABI3tC1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAJwSURBVHhe7dxZjiIxDIBheh44Dtz/GFyHl2kslTWWJ0ulcJJa/k+KGqqctRyCeOifx+Px9wYAwBf+LH8BANiMwwRAN6/Xa3lV1ysWY/Azl5FL0OfzubyKIf0coU0V0faotc0Z+WxLes939jp7LbnTK7ZkTTt7W9O94jBZlJIqKnGFthXZpohuz4poO9dGz3Fbpf5F1BhGzSel1PescbX02ys2R9uotZW7HzGGM+Fnro9aUpAw/cjayvrPIv3PHkMEcni8M+RNJA6TgWobHsAY7MV4HCaT8K1mX674PGS+vlj2vb+v720p6RVrba3HXozBYfJBMuHoWnNYYqWOL57E2Vhl6+j1XP+pviJira31EIfDZKHJpyWaJrt19YTXtfbrcnQ6L196W5vDLWORNtc8n1JM6p6O1WuJVXKvpV4qvtaHJ7G5fq+Kw8SQxNCiydKSYCizaypF1/psbB7ZMoLtz661N2o8Z2HXUoquMf7hMMmwyZLajC20vk1GLXr9CnRN2YRjROawZ3NYy0yp8Ujx9JqPs9dTyN06DpOKqOSxyegL0FN0jskHrs/h6D5apcajxUvFaMF2HCad6cYrkfu5b0Rntbc5r3lOOLaovXjF/boGh8mB3O/35dU5sCnnmb3uLf3v8cOd3P0fh8lHKSnkniTOHrzf7+XVeczelNL3np7xVi053GOutf5TUuNoiZ1NxlSa99Xwv7kWPZJY2myp3xpv1ZJ65DxSSm3o2L/toyS3PtF99nwONa1zTMXbWLm/tq7EpeL1Wire2xJr+XpK20y1k2PjS3W1z5a2z4rDBADwNX7mAgB8jcMEAPCl2+0XoIZVxtxGR/wAAAAASUVORK5CYII='
 boton_bot = 'iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAIAAADAARDdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADuSURBVEhLpY3RFYQgEAMtxE/778we7iA6hhVUYJ6PS3azuWVft2VJr76/nudqo/QazVH0FOa00r1QpYb0+ij50T/wBuyl+IrdN+632IMwdf2MJ9GyBWHnugoBZVzXIUHItUNMW9dPkCONAN/e7Tsc6OZVy3YQLt2GSY73w70qWnocWlTEy2QW7+JlMg4tKmrpEbhXhdswyfEeuNSxWz6f56NvcKMz1yJMgm1Cjqhrh5i2ruuQUMh1FQLKuI6w09r1A8SUdH3BVAvXrxBWvrBukj/X+bADb8A2pkNQpYb0ukEPQ8nRo59iNAdV+7r9AJ5KYMzAUVISAAAAAElFTkSuQmCC'
 window_color = '#1c1c1c'
@@ -13,6 +14,8 @@ boton_tablero_pad = (0, 0)
 text_puntos_de_quien_size = (12, 1)
 text_segundos_size = (2, 1)
 text_puntos_size = (4, 1)
+size_text_letras = (12, 1)
+size_text_puntos = (2, 1)
 text_puntos_por_boton = (14, 1)
 text_size = (16, 1)
 frame_size = (10, 0)
@@ -21,6 +24,7 @@ column_pad = (0, 0)
 margins_size = (0, 0)
 font_size = 24
 fichas_pad = (6, 0)
+opciones_menu_pad = (0, 10)
 drop_size = (6, 1)
 rules_size = (18, 8)
 
@@ -28,19 +32,19 @@ rules_size = (18, 8)
 # ~~~~~~~~~~~~~~~ Elementos del menú ~~~~~~~~~~~~~~~
 botones_de_opcion_menu = [[Button(button_text='FÁCIL',
                                   key='FÁCIL',
-                                  pad=(0, 6),
+                                  pad=opciones_menu_pad,
                                   image_data=boton_opcion)],
                           [Button(button_text='MEDIO',
                                   key='MEDIO',
-                                  pad=(0, 6),
+                                  pad=opciones_menu_pad,
                                   image_data=boton_opcion)],
                           [Button(button_text='DIFICIL',
                                   key='DIFICIL',
-                                  pad=(0, 6),
+                                  pad=opciones_menu_pad,
                                   image_data=boton_opcion)],
                           [Button(button_text='CARGAR PARTIDA',
                                   key='cargar_partida',
-                                  pad=(0, 6),
+                                  pad=opciones_menu_pad,
                                   image_data=boton_opcion)]]
 frame_menu = [[Frame(layout=[[Text(text='DIFICULTAD    ',
                                    background_color=window_color),
@@ -56,9 +60,14 @@ frame_menu = [[Frame(layout=[[Text(text='DIFICULTAD    ',
                                    background_color=window_color),
                               Spin(values=spin_rango_total,
                                    key='tiempo_total')],
+                             [Button(button_text='PUNTOS POR LETRA',
+                                     key='puntos_por_letra',
+                                     pad=(18, 3),
+                                     image_data=boton_opcion_L)],
                              [Button(button_text='ACEPTAR',
                                      key='personalizado',
-                                     image_data=boton_opcion)]],
+                                     pad=(18, 3),
+                                     image_data=boton_opcion_L)]],
                      title='PERZONALIZADO',
                      background_color=window_color)]]
 columna_menu = [[Column(layout=botones_de_opcion_menu,
@@ -75,6 +84,14 @@ window_menu = Window(title='ScrabbleAR',
                      font=font_size,
                      margins=margins_size,
                      background_color=window_color).Layout(layout_menu)
+puntos_por_letra = [[Text('       INGRESE LAS LETRAS EN LOS\n  CAMPOS DE PUNTAJE DESEADOS', size=(32, 2), font=font_size, background_color=window_color)],
+                    [Text('1:', size=size_text_puntos, font=font_size, background_color=window_color), InputText(default_text='', size=size_text_letras, font=font_size, key='input_1'), Text('2:', size=size_text_puntos, font=font_size, background_color=window_color), InputText(default_text='', size=size_text_letras, font=font_size, key='input_2')],
+                    [Text('3:', size=size_text_puntos, font=font_size, background_color=window_color), InputText(default_text='', size=size_text_letras, font=font_size, key='input_3'), Text('4:', size=size_text_puntos, font=font_size, background_color=window_color), InputText(default_text='', size=size_text_letras, font=font_size, key='input_4')],
+                    [Text('5:', size=size_text_puntos, font=font_size, background_color=window_color), InputText(default_text='', size=size_text_letras, font=font_size, key='input_5'), Text('6:', size=size_text_puntos, font=font_size, background_color=window_color), InputText(default_text='', size=size_text_letras, font=font_size, key='input_6')],
+                    [Text('7:', size=size_text_puntos, font=font_size, background_color=window_color), InputText(default_text='', size=size_text_letras, font=font_size, key='input_7'), Text('8:', size=size_text_puntos, font=font_size, background_color=window_color), InputText(default_text='', size=size_text_letras, font=font_size, key='input_8')],
+                    [Text('9:', size=size_text_puntos, font=font_size, background_color=window_color), InputText(default_text='', size=size_text_letras, font=font_size, key='input_9'), Text('10:',size=size_text_puntos, font=font_size, background_color=window_color), InputText(default_text='', size=size_text_letras, font=font_size, key='input_10')],
+                    [Text('', size=(6, 1), background_color=window_color), Button(button_text='ACEPTAR', key='puntos_personalizados', image_data=boton_opcion)]]
+layout_puntos_por_letra = [[Column(layout=puntos_por_letra, background_color=window_color)]]
 
 
 # ~~~~~~~~~~~~~~~ Elementos del juego ~~~~~~~~~~~~~~~

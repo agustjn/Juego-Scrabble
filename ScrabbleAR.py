@@ -33,6 +33,8 @@ class Main(Interfaz):
                 else:
                     self._parametros.set_dificultad(event)
                 break
+            if event is 'puntos_por_letra' and not self.puntos_por_letra(self._window):
+                return False
             if event is 'cargar_partida':
                 partida = self._archivos.leer_json(partida_json)
                 if not partida:
