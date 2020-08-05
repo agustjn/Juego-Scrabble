@@ -15,7 +15,7 @@ def create_word(atril_cpu,nivel,parametros):
     palabra_cpu=''
     ok=False
     for palabra in lexicon.keys():
-        if (len(palabra)>=3)and(len(palabra)<=7)and(ord(palabra[0])>=97)and(ord(palabra[0])<=122) and (palabra in spelling.keys()):
+        if (len(palabra)>=2)and(len(palabra)<=7)and(ord(palabra[0])>=97)and(ord(palabra[0])<=122) and (palabra in spelling.keys()):
             if nivel=='FÁCIL':
                 for letra in palabra:
                     if letra.upper() in aux:
@@ -82,7 +82,7 @@ def colocar_palabra_bot(window,parametros,calcular_palabra,cambiar):
     ''' ESTA FUNCION SE ENCARGA DE VERIFICAR Y BUSCAR LA PALABRA VALIDA PARA EL
         BOT '''
     palabra=parametros.get_palabra_bot()
-    if not parametros.get_primer_turno():
+    if window.Element((7,7)).GetText()!='':
         position=choice(matriz)
     else:
         position=(7,7)
@@ -93,9 +93,10 @@ def colocar_palabra_bot(window,parametros,calcular_palabra,cambiar):
         result=verificar_espacio(window,position,palabra)
     if palabra!='':
         Colocar_Letras(window,position,result,palabra,parametros)
-        calcular_palabra(window,'bot')
+        calcular_palabra(window,'bot',{})
     else:
         cambiar(parametros.get_atril_bot(),window)
+        parametros.add_cambiar_fichas_b()
 
 def Colocar_Letras(window,casilla_cpu,orientacion,palabra_cpu,parametros):
     ''' ESTA FUNCION SE ENCARGA DE COLOCAR LAS LETRAS DEL BOT EN EL TABLERO

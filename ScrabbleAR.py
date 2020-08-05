@@ -93,12 +93,12 @@ class Main(Interfaz):
                 # TURNO DEL USUARIO:
                 if ((event is 'fin_de_turno') or (self._parametros.get_segundos() == 0)):   # SI CLICKEA EN FIN DE TURNO O SE LE TERMINA EL TIEMPO
                     if self._parametros.get_palabra():  # SI _palabra CONTIENE ELEMENTOS (SI PUSO LETRAS)
-                        if not self.control_bolsa():
+                        if not self.control_bolsa('jugador'):
                             if not self.primer_turno(): # ESTA FUNCION DETERMINA SI PERMANECEMOS EN EL PRIMER TURNO O NO. SI LA VARIABLE _primer_turno ES False NO ESTAMOS EN EL PRIMER TURNO, SI ES True, SI. SI _primer_turno ES False, LA FUNCIÓN REGULA SI SE PUSO O NO UNA LETRA EN E CENTRO PARA TERMINAR EL PRIMER TURNO O NO
                                 if self.calcular_palabra(self._window, 'jugador'):  # CALCULA LA PALABRA
                                     self._parametros.actualizar_atril(self._window, 'jugador')
                                 else:
-                                    self._popups.popup('SOLO SE ACEPTAN PALABRAS CON 2 O MÁS LETRAS')
+                                    self._popups.popup('PALABRA INVALIDA')
                                 self._turno.fin_de_turno(self._window)  # CAMBIA EL TURNO Y BORRA LAS LETRAS USADAS DE LA BOLSA
                             else: # SI ESTAMOS EN EL PRIMER TURNO
                                 self.devolver_fichas(self._window, 'jugador')   # DEVUELVE LAS FICHAS PUESTAS EN LA MATRIZ HACIA EL ATRIL PORQUE SE UBICARON INCORRECTAMENTE
@@ -107,6 +107,7 @@ class Main(Interfaz):
                             self._parametros.set_letra_ficha('')
                         else:
                             self._popups.popup('NO ES POSIBLE REPONER FICHAS, FIN DEL JUEGO')
+                            self.fin()
                             break
                     else:
                         self._turno.fin_de_turno(self._window)
@@ -124,7 +125,7 @@ class Main(Interfaz):
                                 self._parametros.set_letra_ficha('')
                                 self._turno.fin_de_turno(self._window)
                             else:
-                                return self._popups.popup('HAS PERDIDO EL JUEGO')   # EL RETURN ES SOLO PARA QUE SALGA DE 'juego()' Y ESTE TERMINE
+                                return self._popups.popup('HAS PERDIDO EL JUEGO\nSUPERASTE EL LIMITE DE CAMBIO DE FICHAS')   # EL RETURN ES SOLO PARA QUE SALGA DE 'juego()' Y ESTE TERMINE
                         else:
                             self._popups.popup('NO ES POSIBLE REPONER FICHAS, FIN DEL JUEGO')
                             break
@@ -132,8 +133,13 @@ class Main(Interfaz):
                         self._popups.popup('NO SE PUEDEN CAMBIAR FICHAS SI YA\nPUSO ALGUNA DURANTE EL TURNO')   # SI '_palabra' CONTIENE FICHAS, ES DECIR, PUSO ALGUNA LETRA, NO PUEDE CAMBIARLAS HASTA SU SIGUIENTE TURNO
             else:
                 # TURNO DEL BOT:
-                cpu.create_word(self._parametros._a_bot.values(), self._parametros._dificultad, self._parametros)
-                cpu.colocar_palabra_bot(self._window, self._parametros,self.calcular_palabra,self.repartir_fichas)
+                if self._parametros.limite_bot():
+                    cpu.create_word(self._parametros._a_bot.values(), self._parametros._dificultad, self._parametros)
+                    cpu.colocar_palabra_bot(self._window, self._parametros,self.calcular_palabra,self.repartir_fichas)
+                else:
+                    self._popups.popup('EL BOT HA PERDIDO DEBIDO A QUE SUPERO\nEL LIMITE DE CAMBIO DE FICHAS')
+                    self.fin()
+                    break
                 if not self.control_bolsa('bot'):
                     self._parametros.actualizar_atril(self._window, 'bot')
                     self._turno.fin_de_turno(self._window)

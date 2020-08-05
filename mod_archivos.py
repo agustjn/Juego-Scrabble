@@ -19,7 +19,7 @@ class Archivos():
             pass
         try:
             with open(records_json, 'x') as a:
-                dump({}, a)
+                dump([], a)
         except FileExistsError:
             pass
         open(records_txt, 'w').close()
@@ -53,7 +53,7 @@ class Archivos():
         records.append({'puntos': puntos,
                         'fecha': strftime('%d/%m/%Y'),
                         'dificultad': dificultad})
-        records.sort(key=lambda i: i['puntos']) # ORDENA LOS RECORDS SEGÚN EL PUNTAJE
+        records.sort(key=lambda i: i['puntos'],reverse=True) # ORDENA LOS RECORDS SEGÚN EL PUNTAJE
         if len(records) == 11:  # SOLO CARGA HASTA 10 (TOP 10) RECORDS
             records.remove(records[-1]) # REMUEVE EL ÚLTIMO SEGÚN EL ÓRDEN
         self.escribir_json(records, records_json, 'w')  # LOS REESCRIBE
@@ -63,6 +63,7 @@ class Archivos():
         records = self.leer_json(records_json)  # CARGA LOS RECORDS
         if not records: # SI NO HAY RECORDS
             return 'NO HAY RECORDS'
+        self.escribir_txt('',records_txt,'w')
         for record in records:  # POR CADA RECORD, SE LO ESCRIBE EN UN .txt
             self.escribir_txt('Puntos: {}\nFecha: {}\nDificultad: {}\n\n'.
                               format(record['puntos'],

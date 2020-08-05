@@ -286,6 +286,14 @@ class Parametros:
         for ficha in fichas:
             self._matriz.pop(ficha)
 
+    def limite_bot(self):
+        if self._dificultad=='FÁCIL' and self._cambiar_fichas_b<=3:
+            return True
+        if self._dificultad=='MEDIO' and self._cambiar_fichas_b<=7:
+            return True
+        if self._dificultad=='DIFICIL' and self._cambiar_fichas_b<=10:
+            return True
+        return False    
 # ESTE ES EL FORMATO PARA GUARDAR Y CARGAR PARTIDA:
 # parametros = {'jugador': {'puntos': 0, 'atril': {}},
 #               'bot': {'puntos': 0, 'atril': {}},

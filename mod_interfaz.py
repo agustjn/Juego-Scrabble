@@ -14,29 +14,37 @@ class Interfaz(Puntaje):
         Puntaje.__init__(self)
 
     def puntos_por_letra(self, window):
+        ''' ESTA FUNCION CONFIGURA LAS LETRAS DE LA BOLSA'''
         _window = Window(title='ScrabbleAR',
                          font=font_size,
                          margins=margins_size,
                          background_color=window_color).Layout(deepcopy(ppl))
         while True:
-            _event, _values = _window.Read(timeout=100)     # timeout NOS PERMITE LEER LAS 2
-            event, values = window.Read(timeout=100)        # VENTANAS AL MISMO TIEMPO
-            if event in ('salir', None):        # SI ELIGIÓ SALIR DEL MENÚ PRINCIPAL
-                _window.Close()
-                return False        # SI DEVUELVE FALSO, CERRAMOS EL JUEGO
+            _event, _values = _window.Read()     # timeout NOS PERMITE LEER LAS 2
+                   # VENTANAS AL MISMO TIEMPO
+             # SI DEVUELVE FALSO, CERRAMOS EL JUEGO
             if _event is None:      # SI ELIGIÓ SALIR DEL MENÚ DE MODIFICACIÓN DE PUNTAJES
                 _window.Close()
                 return True         # SI DEVOLVEMOS TRUE, SOLO CERRAMOS LA VENTANA LOCAL
-            if _event is 'puntos_personalizados':       # SI CLICKEÓ EN ACEPTAR, SE SETEAN MEDIANTE PUNTEROS LOS PUNTAJES MODIFICADOS
+            if _event in ('puntos_personalizados','cantidad_letras'):       # SI CLICKEÓ EN ACEPTAR, SE SETEAN MEDIANTE PUNTEROS LOS PUNTAJES MODIFICADOS
                 bolsa = self._parametros.get_bolsa()    # TOMA LA BOLSA PARA EL JUEGO
-                for letras in list(_values.items()):    # EXTRACCIÓN DE LOS 
+                i=0
+                for letras in list(_values.items()):    # EXTRACCIÓN DE LOS
+                    i+=1
                     for letra in letras[1]:     # POR CADA LETRA ESCRITA
                         if letra and ord(letra) in const.minus or ord(letra) in const.mayus:    # SI LA LETRA ES VÁLIDA (ES DECIR, EXISTE EN LA BOLSA)
                             bolsa[letra.upper()]['puntaje'] = int(letras[0].split('_')[-1])     # MODIFICAMOS EL PUNTAJE (SE MODIFICA EL VALOR AL QUE APUNTA EL PUNTERO, POR ENDE, NO ES NECESARIO SETEAR LA BOLSA)
-                _window.Close()
-                return True         # SI DEVOLVEMOS TRUE, SOLO CERRAMOS LA VENTANA LOCAL
+                    if i==10:
+                        break
+                for letra in _values['input_letras']:
+                    if letra and ord(letra) in const.minus or ord(letra) in const.mayus:
+                        bolsa[letra.upper()]['cantidad']=int(_values['spin'])
+                if _event is 'puntos_personalizados':
+                    _window.Close()
+                    return True         # SI DEVOLVEMOS TRUE, SOLO CERRAMOS LA VENTANA LOCAL
 
     def primer_turno(self):
+        ''' ESTA FUNCION DEFINE SI SE ESTA O NO EN EL PRIMER TURNO '''
         if not self._parametros.get_primer_turno(): # SI NO ES EL PRIMER TURNO
             return False
         if self._parametros.get_palabra():  # SI HAY FICHAS EN LA PALABRA, ES DECIR, SE INGRESÓ UNA PALABRA
@@ -47,9 +55,11 @@ class Interfaz(Puntaje):
         return True # SI ESTAMOS EN EL PRIMER TURNO, O HASTA ACÁ LO ESTUVIMOS (DEPENDE DE LA LÍNEA 20)
 
     def control_bolsa(self, quien):
+        ''' ESTA FUNCION DEFINE SI SE ALCANZA O NO A REPONER LOS ATRILES '''
         return len(getattr(self._parametros, 'get_atril_'+quien)()) + self._parametros.get_fichas() < 7
 
     def devolver_fichas(self, window, quien):
+        ''' ESTA FUNCION SE ENCARGA DE DEVOLVER LAS FICHAS CUANDO LA PALABRA ES INVALIDA '''
         palabra, atril = self._parametros.get_palabra(), getattr(self._parametros, 'get_atril_'+quien)() # EL ATRÍL SEGÚN QUIÉN, 'jugador' o 'bot'
         letras = list(palabra.values())
         for key in getattr(const, 'atril_'+quien):  # PARA CADA LLAVE EN EL ATRIL
@@ -90,7 +100,7 @@ class Interfaz(Puntaje):
                 self._parametros.agregar_ficha_atril_bot(letra)
                 self._parametros.dec_letra_bolsa(list(letra.values())[0])
                 const.const_Update(window, letra)
-        const.const_Update(window, {'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())})    # ACTUALIZA LA CANTIDAD TOTAL DE FICHAS EN LA VENTANA
+        const.const_Update(window, {'fichas_jugador': 'MIS FICHAS -- TOTAL DE FICHAS '+str(self._parametros.get_fichas())})    # ACTUALIZA LA CANTIDAD TOTAL DE FICHAS EN LA VENTANA
 
     def _validar_palabra(self):
         ''' TRADUCE LAS FICHAS Y LAS ORDENA HORIZONTAL Y VERTICALMENTE. SI DE
@@ -110,13 +120,11 @@ class Interfaz(Puntaje):
         else:
             return {}
 
-    def calcular_palabra(self, window, quien):
+    def calcular_palabra(self, window, quien,palabra={}):
         ''' CALCULA Y DEVUELVE EL PUNTAJE GANADO O PERDIDO AL FINALIZAR UN TURNO'''
         if len(self._parametros.get_palabra()) > 1:
-            if quien == 'jugador':
-                palabra = self._validar_palabra() # palabra RECIBE LA PALABRA SI ES VÁLIDA, SINO, UN DICT VACÍO (PALABRA VACÍA)
-            else:
-                palabra = self._parametros.get_palabra()
+            if quien == 'bot' and palabra=={}:
+                palabra = self._parametros.get_palabra() # palabra RECIBE LA PALABRA SI ES VÁLIDA, SINO, UN DICT VACÍO (PALABRA VACÍA)
             if palabra: # ENTONCES, SI LA PALABRA ES VÁLIDA, SI palabra CONTIENE ELEMENTOS
                 puntos = self.calcular_puntos(quien, palabra) # CALCULA LOS PUNTOS DE TAL PALABRA
                 getattr(self._parametros, 'add_puntos_'+quien)(puntos)    # SUMA LOS PUNTOS CALCULADOS A QUIEN LE CORRESPONDA SEGÚN 'quien'
@@ -133,6 +141,7 @@ class Interfaz(Puntaje):
             return False
 
     def set_dificultad(self):
+        ''' SETEA LA DIFICULTAD '''
         self._set_dificultad(self._parametros.get_dificultad())
 
     def check_orientation(self, palabra):
@@ -150,10 +159,10 @@ class Interfaz(Puntaje):
         # return 'Vertical' if lista_posiciones[0][0] == lista_posiciones[-1][0] else 'Horizontal'
 
     def evaluar_posicion(self, window, event, palabra):
+        '''Si la posicion (x,y) que recibí esta fuera del rango,
+           borro la letra de _palabra y actualizo el boton de la matriz '''
         if palabra:
             lista_posiciones = list(palabra.keys())
-            '''Si la posicion (x,y) que recibí esta fuera del rango,
-               borro la letra de _palabra y actualizo el boton de la matriz '''
             if len(palabra) > 1:
                 if lista_posiciones[0][0] != lista_posiciones[-1][0]:   # if self.check_orientation(palabra) == 'Horizontal':
                     if event[1] != lista_posiciones[0][1] or event[0] != lista_posiciones[-1][0]+1:
