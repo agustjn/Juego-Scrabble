@@ -99,6 +99,7 @@ class Main(Interfaz):
                                     self._parametros.actualizar_atril(self._window, 'jugador')
                                 else:
                                     self._popups.popup('PALABRA INVALIDA')
+                                    self.devolver_fichas(self._window, 'jugador')
                                 self._turno.fin_de_turno(self._window)  # CAMBIA EL TURNO Y BORRA LAS LETRAS USADAS DE LA BOLSA
                             else: # SI ESTAMOS EN EL PRIMER TURNO
                                 self.devolver_fichas(self._window, 'jugador')   # DEVUELVE LAS FICHAS PUESTAS EN LA MATRIZ HACIA EL ATRIL PORQUE SE UBICARON INCORRECTAMENTE
