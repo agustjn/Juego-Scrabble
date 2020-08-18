@@ -29,6 +29,7 @@ def create_word(atril_cpu,nivel,parametros):
                         break
                 if ok:
                     palabra_cpu=str().join(palabra_aux)
+                    break
             else:
                 datos_palabra=parse(palabra).split('/')
                 if datos_palabra[1]  =='JJ' or datos_palabra[1]=='VB':
@@ -44,6 +45,7 @@ def create_word(atril_cpu,nivel,parametros):
                             break
                     if ok==True:
                         palabra_cpu=str().join(palabra_aux)
+                        break
     parametros._palabra_bot=palabra_cpu.upper()
 
 def verificar_espacio(window,casilla_cpu,palabra_cpu):

@@ -109,13 +109,25 @@ class Interfaz(Puntaje):
         palabra_en_x, palabra_en_y, palabra = '', '', self._parametros.get_palabra()   # DEFINIMOS LAS PALABRAS EN x E y Y LA PALABRA ACTUAL
         for key in {key: value for key, value in sorted(palabra.items(), key=lambda elem: elem[0][0])}: # ESCRIBE LA PALABRA ORIENTADA EN x
             palabra_en_x += palabra[key]
+            #tipo = parse(str().join(list(self._parametros.get_palabra().values()))).split('/')[1]
+            #print(tipo)
+            #if palabra_en_x.lower() in lexicon.keys() and palabra_en_x.lower()in spelling.keys():
+            #    print('SI ESTA')
+            #    print(palabra_en_x)
+            #else:
+                #print(palabra_en_x)
+            #    print('NO ESTA')
         for key in {key: value for key, value in sorted(palabra.items(), key=lambda elem: elem[0][1])}: # ESCRIBE LA PALABRA ORIENTADA EN y
             palabra_en_y += palabra[key]
-        if palabra_en_x in lexicon or palabra_en_x in spelling or palabra_en_y in lexicon or palabra_en_y in spelling:
+
+        if (palabra_en_x.lower() in lexicon.keys() and palabra_en_x.lower() in spelling.keys()) or (palabra_en_y.lower() in lexicon.keys() and palabra_en_y.lower() in spelling.keys()):
             if self._parametros.get_dificultad() == 'FÁCIL':
+                #print(palabra)
                 return palabra # SI LA PALABRA EXISTE, INDEPENDIENTEMENTE DEL TIPO QUE SEA (YA QUE ESTAMOS EN DIFICULTAD FÁCIL), LA DEVUELVE, SINO, UN DICT VACÍO (DE ESTA MANERA SE PUEDE CORROVORAR SI LA PALABRA EXISTE PREGUNTANDO POR EL DICT VACIÓ O NO 'if not palabra' - 'if palabra')
             else:
                 tipo = parse(str().join(list(self._parametros.get_palabra().values()))).split('/')[1]  # TIPO DE LA PALABRA. SI LA PALABRA ES UN VERBO, EL TIPO ES 'VB', SI ES UN ADJETIVO, 'JJ'. SOLO ESOS 2 TIPOS DE PALABRAS VALEN PARA 'MEDIO' O 'DIFICIL'. NO ES NECESARIO CORROVORAR SI LA PALABRA EXISTE EN SPELLING O LEXICON, PORQUE CUALFUERA ELA PALABRA, SI NO LA RECONOCE COMO VERBO 'VB' O ADJETIVO 'JJ', NO ES VÁLIDA. SOLAMENTE LAS RECONOCE COMO VERBO O ADJETIVO SI SE ENCUENTRA DENTRO DE SPELLING O LEXICON
+                #print(tipo)
+                #print(palabra)
                 return palabra if tipo == 'VB' or tipo == 'JJ' else {}   # SI LA DIFICULTAD NO ES FÁCIL, INDEPENDIENTEMENTE DE LA PALABRA QUE SE HAYA ESCRITO, SI ES UN VERBO O UN ADJETIVO, LA DEVUELVE, SINO DEVUELVE UN DICT VACÍO (AL IGUAL QUE EN FÁCIL)
         else:
             return {}
@@ -125,6 +137,9 @@ class Interfaz(Puntaje):
         if len(self._parametros.get_palabra()) > 1:
             if quien == 'bot' and palabra=={}:
                 palabra = self._parametros.get_palabra() # palabra RECIBE LA PALABRA SI ES VÁLIDA, SINO, UN DICT VACÍO (PALABRA VACÍA)
+            else:
+                palabra = self._validar_palabra()
+                #print('PALABRA:',palabra)
             if palabra: # ENTONCES, SI LA PALABRA ES VÁLIDA, SI palabra CONTIENE ELEMENTOS
                 puntos = self.calcular_puntos(quien, palabra) # CALCULA LOS PUNTOS DE TAL PALABRA
                 getattr(self._parametros, 'add_puntos_'+quien)(puntos)    # SUMA LOS PUNTOS CALCULADOS A QUIEN LE CORRESPONDA SEGÚN 'quien'
