@@ -38,7 +38,7 @@ class Main(Interfaz):
             if event is 'cargar_partida':
                 partida = self._archivos.leer_json(partida_json)
                 if not partida:
-                    self._popups.popup('NO HAY PARTIDA GUARDADA')
+                    self._popups.popuRp('NO HAY PARTIDA GUARDADA')
                 else:
                     self._parametros.cargar_parametros(partida)
                     break
@@ -101,9 +101,10 @@ class Main(Interfaz):
                                     self._popups.popup('PALABRA INVALIDA')
                                     self.devolver_fichas(self._window, 'jugador')
                                 self._turno.fin_de_turno(self._window)  # CAMBIA EL TURNO Y BORRA LAS LETRAS USADAS DE LA BOLSA
-                            else: # SI ESTAMOS EN EL PRIMER TURNO
+                            else: # SI ESTAMOS EN EL PRIMER TURNO                               
                                 self.devolver_fichas(self._window, 'jugador')   # DEVUELVE LAS FICHAS PUESTAS EN LA MATRIZ HACIA EL ATRIL PORQUE SE UBICARON INCORRECTAMENTE
                                 self._popups.popup('TURNO PERDIDO. NO INGRESÓ NINGUNA LETRA\nDE LA PALABRA EN EL CENTRO DEL TABLERO')   # NO SE INGRESÓ NINGUNA LETRA EN EL TROCEN
+                                self._turno.fin_de_turno(self._window)
                             self._parametros.borrar_palabra()   # POR CADA TURNO LA BORRA (EN _palabra SOLO SE UBICAN LAS LETRAS POR TURNO)
                             self._parametros.set_letra_ficha('')
                         else:

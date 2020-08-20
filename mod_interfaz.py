@@ -18,7 +18,11 @@ class Interfaz(Puntaje):
         _window = Window(title='ScrabbleAR',
                          font=font_size,
                          margins=margins_size,
-                         background_color=window_color).Layout(deepcopy(ppl))
+                         background_color=window_color).Layout(deepcopy(ppl)).Finalize()
+        bolsa = self._parametros.get_bolsa()    # TOMA LA BOLSA PARA EL JUEGO
+        for i in bolsa.keys():
+
+             _window['letter_'+i.upper()].Update(bolsa[i.upper()]['cantidad']) 
         while True:
             _event, _values = _window.Read()     # timeout NOS PERMITE LEER LAS 2
                    # VENTANAS AL MISMO TIEMPO
@@ -26,8 +30,7 @@ class Interfaz(Puntaje):
             if _event is None:      # SI ELIGIÓ SALIR DEL MENÚ DE MODIFICACIÓN DE PUNTAJES
                 _window.Close()
                 return True         # SI DEVOLVEMOS TRUE, SOLO CERRAMOS LA VENTANA LOCAL
-            if _event in ('puntos_personalizados','cantidad_letras'):       # SI CLICKEÓ EN ACEPTAR, SE SETEAN MEDIANTE PUNTEROS LOS PUNTAJES MODIFICADOS
-                bolsa = self._parametros.get_bolsa()    # TOMA LA BOLSA PARA EL JUEGO
+            if _event in ('puntos_personalizados','cantidad_letras'):       # SI CLICKEÓ EN ACEPTAR, SE SETEAN MEDIANTE PUNTEROS LOS PUNTAJES MODIFICADOSr               
                 i=0
                 for letras in list(_values.items()):    # EXTRACCIÓN DE LOS
                     i+=1
@@ -39,6 +42,7 @@ class Interfaz(Puntaje):
                 for letra in _values['input_letras']:
                     if letra and ord(letra) in const.minus or ord(letra) in const.mayus:
                         bolsa[letra.upper()]['cantidad']=int(_values['spin'])
+                        _window['letter_'+letra.upper()].Update(bolsa[letra.upper()]['cantidad'])
                 if _event is 'puntos_personalizados':
                     _window.Close()
                     return True         # SI DEVOLVEMOS TRUE, SOLO CERRAMOS LA VENTANA LOCAL

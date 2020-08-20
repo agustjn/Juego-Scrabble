@@ -93,7 +93,55 @@ puntos_por_letra = [[Text('       INGRESE LAS LETRAS EN LOS\n       CAMPOS DE PU
                     [Text('       INGRESE LAS LETRAS Y SU \n       CANTIDAD PARA LA BOLSA', size=(32, 2), font=font_size, background_color=window_color,text_color='white')],
                     [Text('Letras:',size=(6,1), font=font_size, background_color=window_color,text_color='white'),InputText(default_text='', size=size_text_letras, font=font_size, key='input_letras'),Text('Cantidad:',size=(8,1), font=font_size, background_color=window_color,text_color='white'),InputText(default_text='', size=(3,1), font=font_size, key='spin')],
                     [Button(button_text='ACEPTAR', key='puntos_personalizados', image_data=boton_opcion),Button(button_text='APLICAR', key='cantidad_letras', image_data=boton_opcion)]]
-layout_puntos_por_letra = [[Column(layout=puntos_por_letra, background_color=window_color)]]
+columna_letras_bolsa_1 = [
+        [Text('A',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('9',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_A')],
+        [Text('B',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_B')],
+        [Text('C',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('4',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_C')],
+        [Text('D',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('4',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_D')],
+        [Text('E',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_E')],
+        [Text('F',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_F')],
+        [Text('G',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_G')]        
+
+
+]
+
+columna_letras_bolsa_2 = [
+
+        [Text('H',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_H')],
+        [Text('I',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('6',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_I')],
+        [Text('J',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_J')],
+        [Text('K',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('1',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_K')],
+        [Text('L',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('4',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_L')],
+        [Text('M',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('3',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_M')],
+        [Text('N',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('5',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_N')]
+]
+
+
+columna_letras_bolsa_3= [
+        [Text('Ñ',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('1',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_Ñ')],
+        [Text('O',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('8',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_O')],
+        [Text('P',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_P')],
+        [Text('Q',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('1',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_Q')],
+        [Text('R',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('4',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_R')],
+        [Text('S',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('7',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_S')],
+        [Text('T',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('4',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_T')]
+
+]
+
+columna_letras_bolsa_4 = [
+        [Text('U',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('6',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_U')],
+        [Text('V',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_V')],
+        [Text('W',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_W')],
+        [Text('X',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_X')],
+        [Text('Y',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_Y')],
+        [Text('Z',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white'),Text('2',size=size_text_puntos, font=font_size, background_color=window_color,text_color='white',key='letter_Z')]
+]
+
+columna_aux = [
+        [Text(' CANTIDAD DE LETRAS\n EN LA BOLSA',size=(32,2), font=font_size, background_color=window_color,text_color='white')],
+        [Column(layout=columna_letras_bolsa_1,background_color=window_color),Column(layout=columna_letras_bolsa_2,background_color=window_color),Column(layout=columna_letras_bolsa_3,background_color=window_color),Column(layout=columna_letras_bolsa_4,background_color=window_color)]
+]
+layout_puntos_por_letra = [[Column(layout=puntos_por_letra, background_color=window_color),Column(columna_aux,background_color=window_color)]]
 
 
 # ~~~~~~~~~~~~~~~ Elementos del juego ~~~~~~~~~~~~~~~

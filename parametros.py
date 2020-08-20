@@ -277,9 +277,12 @@ class Parametros:
     def actualizar_atril(self, window, player): #player='jugador' o 'bot'
         ''' GENERA LETRAS NUEVAS PARA EL ATRIL EN CASO QUE LOS BOTONES
             DE LA INTERFAZ ESTEN VACIOS'''
-        for boton in getattr(const, 'atril_'+player):
+        keys_atril = getattr(const, 'atril_'+player)
+        atril = getattr(self,'_a_'+player)
+        for boton in keys_atril:
             if window.Element(boton).GetText() == '':
                 letra_nueva = self.letra_random()
+                atril[boton] = letra_nueva
                 const.const_Update(window, {boton: letra_nueva})
 
     def pop_ficha_matriz(self, *fichas):
