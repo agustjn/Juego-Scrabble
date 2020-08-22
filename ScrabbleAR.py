@@ -57,15 +57,20 @@ class Main(Interfaz):
         else:   # SI NO HAY PARTIDA GUARDADA, SOLO CARGA NUEVOS ATRILES
             self.repartir_fichas(self._parametros.get_atril_jugador(), self._window)
             self.repartir_fichas(self._parametros.get_atril_bot(), self._window)
+        cant_letras_total, bolsa = 0, self._parametros.get_bolsa()
+        for i in bolsa:
+            cant_letras_total += bolsa[i]['cantidad']
+        self._parametros.set_fichas(cant_letras_total)
         const_Update(self._window, # HAYA O NO PARTIDA GUARDADA, CARGA LOS PARÁMETROS GENÉRICOS COMO LAS REGLAS
                      {'reglas': reglas(self._parametros.get_dificultad(),
                                        self._parametros.get_tiempo_por_turno(),
                                        self._parametros.get_tiempo_total()),
-                      'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())},
+                      'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(cant_letras_total)},
                      color_botones[self._parametros.get_dificultad()],
                      puntos_botones[self._parametros.get_dificultad()]['jugador'])
         Interfaz.set_dificultad(self)   # SETEA LA DIFICULTAD A LA CLASE PUNTAJE (PADRE DE INTERFAZ)
         const_Update(self._window, {'tiempo': 'TIEMPO DE RONDA: '+str(self._parametros.get_segundos()), 'tiempo_total': 'TIEMPO TOTAL: '+str(self._parametros.get_contador_total()['minutos'])+':'+str(self._parametros.get_contador_total()['segundos']), 'turno': 'JUGADOR' if self._parametros.get_turno() else '       BOT'})
+
 
     def fin(self):
         if (self._parametros.get_puntos_jugador() > self._parametros.get_puntos_bot()): # GUARDA EL PUNTAJE COMO RECORD SI LOS PUNTOS FUERON MAYORES A LOS DEL BOT
@@ -114,6 +119,8 @@ class Main(Interfaz):
                     else:
                         self._turno.fin_de_turno(self._window)
                         self._parametros.set_letra_ficha('')
+                    print('aca llega', self._parametros.get_fichas())
+                    const_Update({'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())})
                 if event in atril_jugador:
                     self._parametros.set_ficha({event: self._window.Element(event).GetText()})  # GUARDA LA FICHA SELECCIONADA, LA SETEA EN _ficha
                 if event in matriz and self._parametros.get_letra_ficha() != '' and self._window.Element(event).GetText() == '' and self.evaluar_posicion(self._window, event, self._parametros.get_palabra()):    # SI EL EVENTO ESTÁ EN LA MATRIZ Y SE SETEÓ ALGUNA FICHA (ES DECIR, NO ESTÁ VACÍA)
@@ -150,6 +157,8 @@ class Main(Interfaz):
                     self._popups.popup('EL BOT NO PUDO REPONER FICHAS, GANASTE')
                     self.fin()
                     break
+                print('aca llega', self._parametros.get_fichas())
+                const_Update({'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())})
 
     def run(self):
         if self.menu():
