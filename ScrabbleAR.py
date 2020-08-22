@@ -122,7 +122,6 @@ class Main(Interfaz):
                         self._turno.fin_de_turno(self._window)
                         self._parametros.set_letra_ficha('')
                     #print('aca llega', self._parametros.get_fichas())
-                    const_Update({'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())})
                 if event in atril_jugador:
                     self._parametros.set_ficha({event: self._window.Element(event).GetText()})  # GUARDA LA FICHA SELECCIONADA, LA SETEA EN _ficha
                 if event in matriz and self._parametros.get_letra_ficha() != '' and self._window.Element(event).GetText() == '' and self.evaluar_posicion(self._window, event, self._parametros.get_palabra()):    # SI EL EVENTO ESTÁ EN LA MATRIZ Y SE SETEÓ ALGUNA FICHA (ES DECIR, NO ESTÁ VACÍA)
@@ -160,7 +159,6 @@ class Main(Interfaz):
                     self.fin()
                     break
                 #print('aca llega', self._parametros.get_fichas())
-                const_Update({'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())})
 
     def run(self):
         if self.menu():

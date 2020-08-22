@@ -104,7 +104,7 @@ class Interfaz(Puntaje):
                 self._parametros.agregar_ficha_atril_bot(letra)
                 self._parametros.dec_letra_bolsa(list(letra.values())[0])
                 const.const_Update(window, letra)
-        const.const_Update(window, {'fichas_jugador': 'MIS FICHAS -- TOTAL DE FICHAS '+str(self._parametros.get_fichas())})    # ACTUALIZA LA CANTIDAD TOTAL DE FICHAS EN LA VENTANA
+        const.const_Update(window, {'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())})    # ACTUALIZA LA CANTIDAD TOTAL DE FICHAS EN LA VENTANA
 
     def _validar_palabra(self):
         ''' TRADUCE LAS FICHAS Y LAS ORDENA HORIZONTAL Y VERTICALMENTE. SI DE

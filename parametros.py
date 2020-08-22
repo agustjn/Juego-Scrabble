@@ -284,6 +284,7 @@ class Parametros:
                 letra_nueva = self.letra_random()
                 atril[boton] = letra_nueva
                 const.const_Update(window, {boton: letra_nueva})
+        const.const_Update(window, {'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._fichas)})
 
     def pop_ficha_matriz(self, *fichas):
         for ficha in fichas:
