@@ -44,6 +44,7 @@ def create_word(atril_cpu,nivel,parametros):
                             ok=False
                             break
                     if ok==True:
+                        print('TIPO DE PALABRA DEL BOT: ',datos_palabra[1])
                         palabra_cpu=str().join(palabra_aux)
                         break
     parametros._palabra_bot=palabra_cpu.upper()

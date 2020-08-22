@@ -33,12 +33,14 @@ class Main(Interfaz):
                 else:
                     self._parametros.set_dificultad(event)
                 break
+            #print(self._parametros.get_bolsa())
             if event is 'puntos_por_letra' and not self.puntos_por_letra(self._window):
                 return False
+            #print(self._parametros.get_bolsa())
             if event is 'cargar_partida':
                 partida = self._archivos.leer_json(partida_json)
                 if not partida:
-                    self._popups.popuRp('NO HAY PARTIDA GUARDADA')
+                    self._popups.popup('NO HAY PARTIDA GUARDADA')
                 else:
                     self._parametros.cargar_parametros(partida)
                     break
@@ -106,7 +108,7 @@ class Main(Interfaz):
                                     self._popups.popup('PALABRA INVALIDA')
                                     self.devolver_fichas(self._window, 'jugador')
                                 self._turno.fin_de_turno(self._window)  # CAMBIA EL TURNO Y BORRA LAS LETRAS USADAS DE LA BOLSA
-                            else: # SI ESTAMOS EN EL PRIMER TURNO                               
+                            else: # SI ESTAMOS EN EL PRIMER TURNO
                                 self.devolver_fichas(self._window, 'jugador')   # DEVUELVE LAS FICHAS PUESTAS EN LA MATRIZ HACIA EL ATRIL PORQUE SE UBICARON INCORRECTAMENTE
                                 self._popups.popup('TURNO PERDIDO. NO INGRESÓ NINGUNA LETRA\nDE LA PALABRA EN EL CENTRO DEL TABLERO')   # NO SE INGRESÓ NINGUNA LETRA EN EL TROCEN
                                 self._turno.fin_de_turno(self._window)
@@ -119,7 +121,7 @@ class Main(Interfaz):
                     else:
                         self._turno.fin_de_turno(self._window)
                         self._parametros.set_letra_ficha('')
-                    print('aca llega', self._parametros.get_fichas())
+                    #print('aca llega', self._parametros.get_fichas())
                     const_Update({'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())})
                 if event in atril_jugador:
                     self._parametros.set_ficha({event: self._window.Element(event).GetText()})  # GUARDA LA FICHA SELECCIONADA, LA SETEA EN _ficha
@@ -157,7 +159,7 @@ class Main(Interfaz):
                     self._popups.popup('EL BOT NO PUDO REPONER FICHAS, GANASTE')
                     self.fin()
                     break
-                print('aca llega', self._parametros.get_fichas())
+                #print('aca llega', self._parametros.get_fichas())
                 const_Update({'fichas_jugador': 'MIS FICHAS ~~~~~~ TOTAL DE FICHAS: '+str(self._parametros.get_fichas())})
 
     def run(self):

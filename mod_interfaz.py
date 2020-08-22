@@ -22,7 +22,7 @@ class Interfaz(Puntaje):
         bolsa = self._parametros.get_bolsa()    # TOMA LA BOLSA PARA EL JUEGO
         for i in bolsa.keys():
 
-             _window['letter_'+i.upper()].Update(bolsa[i.upper()]['cantidad']) 
+             _window.Element('letter_'+i.upper()).Update(bolsa[i.upper()]['cantidad'])
         while True:
             _event, _values = _window.Read()     # timeout NOS PERMITE LEER LAS 2
                    # VENTANAS AL MISMO TIEMPO
@@ -30,7 +30,7 @@ class Interfaz(Puntaje):
             if _event is None:      # SI ELIGIÓ SALIR DEL MENÚ DE MODIFICACIÓN DE PUNTAJES
                 _window.Close()
                 return True         # SI DEVOLVEMOS TRUE, SOLO CERRAMOS LA VENTANA LOCAL
-            if _event in ('puntos_personalizados','cantidad_letras'):       # SI CLICKEÓ EN ACEPTAR, SE SETEAN MEDIANTE PUNTEROS LOS PUNTAJES MODIFICADOSr               
+            if _event in ('puntos_personalizados','cantidad_letras'):       # SI CLICKEÓ EN ACEPTAR, SE SETEAN MEDIANTE PUNTEROS LOS PUNTAJES MODIFICADOSr
                 i=0
                 for letras in list(_values.items()):    # EXTRACCIÓN DE LOS
                     i+=1
@@ -42,7 +42,7 @@ class Interfaz(Puntaje):
                 for letra in _values['input_letras']:
                     if letra and ord(letra) in const.minus or ord(letra) in const.mayus:
                         bolsa[letra.upper()]['cantidad']=int(_values['spin'])
-                        _window['letter_'+letra.upper()].Update(bolsa[letra.upper()]['cantidad'])
+                        _window.Element('letter_'+letra.upper()).Update(bolsa[letra.upper()]['cantidad'])
                 if _event is 'puntos_personalizados':
                     _window.Close()
                     return True         # SI DEVOLVEMOS TRUE, SOLO CERRAMOS LA VENTANA LOCAL
@@ -130,7 +130,7 @@ class Interfaz(Puntaje):
                 return palabra # SI LA PALABRA EXISTE, INDEPENDIENTEMENTE DEL TIPO QUE SEA (YA QUE ESTAMOS EN DIFICULTAD FÁCIL), LA DEVUELVE, SINO, UN DICT VACÍO (DE ESTA MANERA SE PUEDE CORROVORAR SI LA PALABRA EXISTE PREGUNTANDO POR EL DICT VACIÓ O NO 'if not palabra' - 'if palabra')
             else:
                 tipo = parse(str().join(list(self._parametros.get_palabra().values()))).split('/')[1]  # TIPO DE LA PALABRA. SI LA PALABRA ES UN VERBO, EL TIPO ES 'VB', SI ES UN ADJETIVO, 'JJ'. SOLO ESOS 2 TIPOS DE PALABRAS VALEN PARA 'MEDIO' O 'DIFICIL'. NO ES NECESARIO CORROVORAR SI LA PALABRA EXISTE EN SPELLING O LEXICON, PORQUE CUALFUERA ELA PALABRA, SI NO LA RECONOCE COMO VERBO 'VB' O ADJETIVO 'JJ', NO ES VÁLIDA. SOLAMENTE LAS RECONOCE COMO VERBO O ADJETIVO SI SE ENCUENTRA DENTRO DE SPELLING O LEXICON
-                #print(tipo)
+                print('TIPO PALABRA JUGADOR:',tipo)
                 #print(palabra)
                 return palabra if tipo == 'VB' or tipo == 'JJ' else {}   # SI LA DIFICULTAD NO ES FÁCIL, INDEPENDIENTEMENTE DE LA PALABRA QUE SE HAYA ESCRITO, SI ES UN VERBO O UN ADJETIVO, LA DEVUELVE, SINO DEVUELVE UN DICT VACÍO (AL IGUAL QUE EN FÁCIL)
         else:
